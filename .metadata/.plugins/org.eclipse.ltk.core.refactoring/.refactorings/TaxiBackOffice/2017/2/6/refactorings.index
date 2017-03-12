@@ -1,0 +1,15 @@
+1486640814431	Rename package 'shashi.uomtrust.ac.mu.entuty'
+1486640837665	Rename package 'shashi.uomtrust.ac.mu.entity'
+1486640988668	Move compilation unit
+1486643062413	Rename type 'Accounts'
+1486643104322	Delete elements
+1486643387025	Rename package 'shashi.uomtrust.ac.mu.dao'
+1486643401756	Rename type 'AccountDAO'
+1486643518385	Rename method 'findByUsername'
+1486644032111	Copy compilation unit
+1486644066751	Copy compilation unit
+1486644095307	Copy compilation unit
+1486644543836	Delete element
+1486645747131	Delete elements
+1486645858721	Rename local variable 'client'
+1486646673309	Rename package 'shashi.uomtrust.ac.mu.dto'
