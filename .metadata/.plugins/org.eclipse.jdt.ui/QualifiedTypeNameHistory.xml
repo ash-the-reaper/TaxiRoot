@@ -19,9 +19,11 @@
 <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.EnableAutoConfiguration"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.AccountService"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
+<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
+<fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
 </qualifiedTypeNameHistroy>

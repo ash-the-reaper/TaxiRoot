@@ -1,0 +1,34 @@
+var checkLogin = CONTEXT_PATH+ "account/checkLogin";
+
+var app = angular.module("ngApp", []);
+app.controller("ngCtrl", function($scope,$http) {
+
+
+	$scope.showApple = false;
+    $scope.showOrange = false;
+    $scope.showBanana = false;
+	  
+    $scope.changeView = function(val){
+		  if(val == 'apple'){
+			  $scope.content = "apple content";
+
+			$scope.showApple = true;
+				$scope.showOrange = false;
+				$scope.showBanana = false;
+				  } else if (val == 'banana') {
+				 $scope.content = "banana content";
+				
+				$scope.showApple = false;
+				$scope.showOrange = true;
+				$scope.showBanana = false;
+				  } else if (val == 'orange') {
+				 $scope.content = "orange content";
+				
+				    $scope.showApple = false;
+				    $scope.showOrange = false;
+				    $scope.showBanana = true;
+	  }
+	
+}
+	
+});

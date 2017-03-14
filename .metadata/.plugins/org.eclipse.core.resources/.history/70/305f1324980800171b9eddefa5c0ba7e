@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	
+	<script src="js/angular.min.js"></script>
+	<script id="script" src="js/main.js"></script>
+	<script id="script" src="js/dashboard.js"></script>
+	
+	
+	<link rel="stylesheet" type="text/css" href="css/adminMenu.css">
+	
+	<title>Dashboard Form</title>
+	 	
+</head>
+
+<body ng-app="ngApp" ng-controller="ngCtrl">
+	
+	<ul class="sidenav">
+	  <li><a class="active"  ng-click="changeView('home')">Home</a></li>
+	  <li><a  ng-click="changeView('taxi')" >Taxi Drivers</a></li>
+	  <li><a  ng-click="changeView('client')" >Clients</a></li>
+	  <li><a  ng-click="changeView('setting')" >Settings</a></li>
+	</ul>
+	
+	<div class="content">
+	    <div ng-show="showHome">{{content}}</div>
+    	<div ng-show="showTaxi">{{content}}</div>
+    	<div ng-show="showClients">{{content}}</div>
+  	</div>
+  	
+  	
+</body>
+  
+	
+</html>

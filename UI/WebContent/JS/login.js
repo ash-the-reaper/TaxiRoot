@@ -1,14 +1,14 @@
 var checkLogin = CONTEXT_PATH+ "account/checkLogin";
 
 var app = angular.module("ngApp", []);
-app.controller("ngCtrl", function($scope,$http) {
+app.controller("ngCtrl", function($scope,$http,$window) {
     $scope.submit = function () {        
         $http.post(checkLogin, $scope.account).success(function (response) {
-			if (response != "") {
-				console.log(response);
+			if (response == true) {
+				$window.location.href = '/dashboard.html';
 	 		}
 			else{
-				console.log("Else "+response);
+				alert("Wrong username or password");
 			}
 		});
     }
