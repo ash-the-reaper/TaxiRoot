@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	
+	<script src="js/angular.min.js"></script>
+	<script id="script" src="js/login.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
+	<title>Login Form</title>
+	 	
+</head>
+<body ng-app="ngApp" ng-controller="ngCtrl">
+
+
+<body ng-app="ngApp" ng-controller="ngCtrl">
+	<div class="login" >
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Login</h1>
+			</div>
+	
+			<form ng-submit="submit()">
+				<div class="login-form">
+					<div class="control-group">
+					<input type="text" class="login-field" value="" placeholder="username" id="login-name" ng-model = "account.email">
+					<label class="login-field-icon fui-user" for="login-name"></label>
+					</div>
+		
+					<div class="control-group">
+					<input type="password" class="login-field" value="" placeholder="password" id="login-pass" ng-model = "account.password">
+					<label class="login-field-icon fui-lock" for="login-pass"></label>
+					</div>
+		
+					<input type="submit" class="btn btn-primary btn-large btn-block">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+  
+	
+</html>

@@ -7,4 +7,5 @@ public interface AccountService {
 	public Account findById(Long id);
 	public Account findByEmail(String email);
 	public Account saveAccount(Account account);
+	public boolean checkAdminLogin(Account account);
 }

@@ -1,11 +1,9 @@
-var url = "http://localhost/api/account/createAdmin"
+var checkLogin = CONTEXT_PATH+ "account/checkLogin";
 
 var app = angular.module("ngApp", []);
 app.controller("ngCtrl", function($scope,$http) {
-    $scope.submit = function () {
-        console.log("You clicked submit!");
-        
-        $http.post(url, $scope.account).success(function (response) {
+    $scope.submit = function () {        
+        $http.post(checkLogin, $scope.account).success(function (response) {
 			if (response != "") {
 				console.log(response);
 	 		}
@@ -13,7 +11,5 @@ app.controller("ngCtrl", function($scope,$http) {
 				console.log("Else "+response);
 			}
 		});
-        
-        
     }
 });

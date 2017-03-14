@@ -61,13 +61,13 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				})
 				.and()
 				.authorizeRequests()
-					.antMatchers("/api/account/createAdmin")
+					.antMatchers("/api/account/checkLogin")
 						.permitAll()
 					.anyRequest()
 						.authenticated()
 						.and()
 						.rememberMe()
-							.key("backOfficeKeyPocketGuide")
+							.key("backOfficeKeyTaxi")
 							.rememberMeServices(rememberMeServices());;
 			
 			http
@@ -82,9 +82,9 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		@Bean
 		public RememberMeServices rememberMeServices() {
 			// Key must be equal to rememberMe().key()
-			TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices("backOfficeKeyPocketGuide", userDetailsService);
+			TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices("backOfficeKeyTaxi", userDetailsService);
 			rememberMeServices.setTokenValiditySeconds(31536000); // 1 year
-			rememberMeServices.setCookieName("remember_me_back_office_pocket_guide");
+			rememberMeServices.setCookieName("remember_me_back_office_taxi");
 			rememberMeServices.setAlwaysRemember(true);
 			return rememberMeServices;
 		}

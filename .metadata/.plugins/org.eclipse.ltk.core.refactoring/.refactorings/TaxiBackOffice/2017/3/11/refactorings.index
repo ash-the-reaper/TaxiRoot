@@ -1,1 +1,5 @@
 1489301572688	Rename type 'PocketGuideBackOfficeApplication'
+1489477460213	Copy compilation unit
+1489477568292	Delete element
+1489478388901	Rename method 'findByUsernameAndPassword'
+1489478402493	Rename method 'findByEmailAndPassword'
