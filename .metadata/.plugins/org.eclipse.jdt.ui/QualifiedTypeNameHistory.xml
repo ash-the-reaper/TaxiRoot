@@ -20,15 +20,18 @@
 <fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.AccountService"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
 <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
 <fullyQualifiedTypeName name="io.undertow.security.idm.Account"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.ClientService"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.UserRole"/>
 <fullyQualifiedTypeName name="org.springframework.security.access.prepost.PreAuthorize"/>
 <fullyQualifiedTypeName name="java.security.Principal"/>
+<fullyQualifiedTypeName name="org.springframework.security.authentication.AccountStatusUserDetailsChecker"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.UserStatus"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 </qualifiedTypeNameHistroy>

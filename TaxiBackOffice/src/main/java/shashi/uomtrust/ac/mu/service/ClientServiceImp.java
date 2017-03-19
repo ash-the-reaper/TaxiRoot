@@ -20,4 +20,10 @@ public class ClientServiceImp implements ClientService{
 		// TODO Auto-generated method stub
 		return accountRepository.getAllUserDetails(UserRole.CLIENT);
 	}
+
+	@Override
+	public void disableClient(List<Long> id) {
+		// TODO Auto-generated method stub
+		accountRepository.disableClient(id);
+	}
 }

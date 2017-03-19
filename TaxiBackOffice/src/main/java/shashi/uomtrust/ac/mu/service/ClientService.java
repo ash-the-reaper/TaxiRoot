@@ -7,4 +7,5 @@ import shashi.uomtrust.ac.mu.entity.Account;
 public interface ClientService {
 
 	public List<Account> getAllClient();
+	public void disableClient(List<Long> id);
 }

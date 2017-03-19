@@ -1,4 +1,5 @@
 var urlGetAllClients = CONTEXT_PATH+ "client/getAllClients";
+var urlDisableClients = CONTEXT_PATH+ "client/disableClient";
 
 var app = angular.module("ngApp", []);
 app.controller("ngCtrl", function($scope,$http,$window) {
@@ -21,7 +22,25 @@ app.controller("ngCtrl", function($scope,$http,$window) {
     $http.post(urlGetAllClients).success(function (response) {
 		
     	$scope.userDetails = response;
-    	console.log(response);
 	});
+    
+    
+    $scope.disable = function () { 
+    	
+    	$scope.id = [];
+    	
+    	for (var k = 0; k < $scope.userDetails.length; k++){
+    	     if($scope.userDetails[k].selected==true) {  	    	 
+    	    	 $scope.id.push($scope.userDetails[k].id);
+       	      }
+    	 }
+    	
+    	console.log(JSON.stringify($scope.id));
+    	
+    	$http.post(urlDisableClients, {params:{ "id": JSON.stringify($scope.id)}}).success(function (response) {
+			
+    	});
+      
+    }
     
 });

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import shashi.uomtrust.ac.mu.enums.Gender;
 import shashi.uomtrust.ac.mu.enums.UserRole;
+import shashi.uomtrust.ac.mu.enums.UserStatus;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -41,6 +42,9 @@ public class Account {
 	
 	@Column(nullable = false)
 	private UserRole role;
+	
+	@Column(nullable = false)
+	private UserStatus userStatus;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated;

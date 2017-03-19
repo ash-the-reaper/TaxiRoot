@@ -22,5 +22,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 		public List<Account> getAllUserDetails(@Param("userRole") UserRole userRole);
 		
 		@Query("select count(a.email) from Account a where a.email =:email and a.password =:password")
-		public int checkAdminLogin(@Param("email")String email, @Param("password")String password);		
+		public int checkAdminLogin(@Param("email")String email, @Param("password")String password);
+		
+		@Query("update Account a set a.userStatus = 1 where a.id in :id")
+		public void disableClient(@Param("id") List<Long> id) ;
+		
 }
