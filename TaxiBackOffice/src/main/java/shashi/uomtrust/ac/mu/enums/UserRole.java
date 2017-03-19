@@ -2,5 +2,6 @@ package shashi.uomtrust.ac.mu.enums;
 
 public enum UserRole {
 	ADMIN,
-	OTHER
+	TAXI_DRIVER,
+	CLIENT
 }

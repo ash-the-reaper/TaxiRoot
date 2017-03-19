@@ -1,0 +1,42 @@
+package shashi.uomtrust.ac.mu.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+@Entity
+public class UserRole {
+
+	@Column(length = 100, nullable = false)
+	private String roleDescription;
+	
+	@Id
+	@Column(nullable = false)
+	private Role userRole;
+	
+
+	public String getRoleDescription() {
+		return roleDescription;
+	}
+
+
+	public void setRoleDescription(String roleDescription) {
+		this.roleDescription = roleDescription;
+	}
+
+
+	public Role getUserRole() {
+		return userRole;
+	}
+
+
+	public void setUserRole(Role userRole) {
+		this.userRole = userRole;
+	}	
+
+	public UserRole() {
+		
+	}
+
+}

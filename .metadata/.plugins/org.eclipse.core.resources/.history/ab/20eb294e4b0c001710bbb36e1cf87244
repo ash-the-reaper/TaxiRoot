@@ -1,0 +1,41 @@
+package shashi.uomtrust.ac.mu.entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import shashi.uomtrust.ac.mu.enums.Gender;
+import shashi.uomtrust.ac.mu.enums.UserRole;
+
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+public class Role {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Column(length = 100, nullable = false)
+	private String roleDescription;
+	
+	@Column(nullable = false)
+	private UserRole role;
+	
+
+	public Role() {
+	}
+
+	
+}

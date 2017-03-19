@@ -17,8 +17,18 @@
 </head>
 
 <body ng-app="ngApp" ng-controller="ngCtrl">
+
+	<ul class="sidenav">
+	  <li><a class="active"  id='home' ng-click="changeView('home')">Home</a></li>
+	  <li><a id='taxi' ng-click="changeView('taxi')" >Taxi Drivers</a></li>
+	  <li><a  id='clients' ng-click="changeView('clients')" >Clients</a></li>
+	  <li><a  ng-click="changeView('setting')" >Settings</a></li>
+	</ul>
 	
-	<div id ="rcorners"> </div>
+	
+	<div class="content" id ="content">
+		<div id ="rcorners" style="float:left;" > Taxi Drivers </div>  <div id ="rcorners" style="float:right;"> Clients </div>
+	</div>
 	
 </body>
   

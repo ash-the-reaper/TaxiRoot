@@ -1,0 +1,15 @@
+var urlGetAllClients = CONTEXT_PATH+ "client/getAllClients";
+
+var app = angular.module("ngAppUser", []);
+app.controller("ngCtrlUser", function($scope,$http) {
+       
+	console.log("test");
+	
+	
+    $http.post(urlGetAllClients).success(function (response) {
+		
+    	$scope.userDetails = response;
+    	console.log(response);
+	});
+    
+});

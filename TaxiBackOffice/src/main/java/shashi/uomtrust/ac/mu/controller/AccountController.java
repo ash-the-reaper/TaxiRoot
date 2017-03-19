@@ -20,6 +20,7 @@ public class AccountController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	//admin root
 	@RequestMapping(value = "/createAdmin", method = RequestMethod.POST)
 	public Account createAdmin(@RequestBody Account account) {
 		if(account != null && account.getEmail() !=null )

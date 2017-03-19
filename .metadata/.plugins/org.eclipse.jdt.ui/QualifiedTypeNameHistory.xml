@@ -10,7 +10,6 @@
 <fullyQualifiedTypeName name="javax.persistence.Temporal"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.ClientRepository"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.UserRole"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.backoffice.PocketGuideBackOfficeApplication"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Client"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Result"/>
@@ -24,6 +23,12 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
 <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
+<fullyQualifiedTypeName name="io.undertow.security.idm.Account"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.ClientService"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.UserRole"/>
+<fullyQualifiedTypeName name="org.springframework.security.access.prepost.PreAuthorize"/>
+<fullyQualifiedTypeName name="java.security.Principal"/>
 </qualifiedTypeNameHistroy>

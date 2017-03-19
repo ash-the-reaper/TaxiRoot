@@ -61,7 +61,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				})
 				.and()
 				.authorizeRequests()
-					.antMatchers("/api/account/checkLogin")
+					.antMatchers("/api/**")
 						.permitAll()
 					.anyRequest()
 						.authenticated()
