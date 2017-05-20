@@ -31,7 +31,13 @@
 <fullyQualifiedTypeName name="java.security.Principal"/>
 <fullyQualifiedTypeName name="org.springframework.security.authentication.AccountStatusUserDetailsChecker"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.UserStatus"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Array"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestAttribute"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 </qualifiedTypeNameHistroy>

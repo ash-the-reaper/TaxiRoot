@@ -45,7 +45,7 @@ public class Account {
 	
 	@Column(nullable = false)
 	private UserStatus userStatus;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated;
 	
@@ -126,6 +126,13 @@ public class Account {
 		this.gender = gender;
 	}
 	
+	public UserStatus getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(UserStatus userStatus) {
+		this.userStatus = userStatus;
+	}
 	
 	@Override
 	public String toString() {

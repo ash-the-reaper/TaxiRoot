@@ -1,9 +1,13 @@
 package shashi.uomtrust.ac.mu.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +34,9 @@ public class ClientController {
 	
 	
 	@RequestMapping(value = "/disableClient", method = RequestMethod.POST)
-	public void disableClient(@RequestParam List<Long> id) {
-		clientService.disableClient(id);
-	}
-	
+	public void disableClient(@RequestBody List<Long> listId) {
+		
+		System.out.println("ok");
+		//clientService.disableClient(listId);
+	}	
 }

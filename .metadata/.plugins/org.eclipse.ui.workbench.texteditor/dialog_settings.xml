@@ -2,16 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="car" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="vehicle"/>
+			<item value="taxi"/>
+			<item value="car"/>
+			<item value="fa-edit"/>
+			<item value="edit"/>
+			<item value="user-image-back"/>
 			<item value="hibernate"/>
 			<item value="mysql"/>
-			<item value="org.apache.maven.plugins"/>
-			<item value="userDetailsService"/>
 		</list>
 		<list key="replacehistory">
 		</list>

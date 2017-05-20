@@ -1,0 +1,47 @@
+var urlGetAllClients = CONTEXT_PATH+ "client/getAllClients";
+var urlDisableClients = CONTEXT_PATH+ "client/disableClient";
+
+var app = angular.module("ngApp", []);
+app.controller("ngCtrl", function($scope,$http) {
+	
+    $http.post(urlGetAllClients).success(function (response) {
+		
+    	$scope.userDetails = response;
+	});
+    
+    
+    $scope.disable = function () { 
+    	
+    	$scope.userId = [];
+    	
+    	for (var k = 0; k < $scope.userDetails.length; k++){
+    	     if($scope.userDetails[k].selected==true) {  	    	 
+    	    	 $scope.userId.push($scope.userDetails[k].id);
+    	    	 //$scope.userId = $scope.userDetails[k].id;
+       	      }
+    	}
+    	
+    	var data = {'id': $scope.userId};
+    	
+    	console.log(JSON.stringify(data));
+    	console.log(angular.toJson(data));
+
+    	$http.post(urlDisableClients, serializeObj(data) ).success(function (response) {
+			
+    	});
+      
+    }
+       
+});
+
+function serializeObj(obj) {
+    var result = [];
+
+    for (var property in obj)
+        result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+    
+    console.log(obj);
+	console.log(angular.toJson(obj));
+
+    return result.join("&");
+}

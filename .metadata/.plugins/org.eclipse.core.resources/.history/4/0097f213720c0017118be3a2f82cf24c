@@ -1,7 +1,0 @@
-package shashi.uomtrust.ac.mu.enums;
-
-public enum UserStatus {
-	ADMIN,
-	TAXI_DRIVER,
-	CLIENT
-}

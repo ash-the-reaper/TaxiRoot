@@ -1,8 +1,0 @@
-var checkLogin = CONTEXT_PATH+ "account/checkLogin";
-
-var app = angular.module("ngApp", []);
-app.controller("ngCtrl", function($scope,$http) {
-    $scope.changeView = function (val) {        
-    	$("#regTitle").html("Hello World");
-    }
-});
