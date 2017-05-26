@@ -41,7 +41,7 @@ public class Account {
 	private String password;
 	
 	@Column(nullable = false)
-	private UserRole role;
+	private UserRole userRole;
 	
 	@Column(nullable = false)
 	private UserStatus userStatus;
@@ -103,11 +103,11 @@ public class Account {
 	}
 
 	public UserRole getRole() {
-		return role;
+		return userRole;
 	}
 
 	public void setRole(UserRole role) {
-		this.role = role;
+		this.userRole = role;
 	}
 	
 	public Date getDateCreated() {
@@ -136,6 +136,6 @@ public class Account {
 	
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", email=" + email + ", role=" + role +"]";
+		return "Account [id=" + id + ", email=" + email + ", role=" + userRole +"]";
 	}
 }
