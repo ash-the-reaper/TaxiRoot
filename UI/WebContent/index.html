@@ -45,19 +45,19 @@
 
 
                     <li>
-                        <a href="index.html" ><i class="fa fa-desktop"></i>Dashboard</a>
+                        <a href="#" ng-click="showDivDashboard=true"><i class="fa fa-desktop"></i>Dashboard</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-user"></i>Users<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">All</a>
+                                <a href="#" ng-click="showDivAllUser=true;  getAllClient('ALL','USER')">All</a>
                             </li>
                             <li>
-                                <a href="#">Active</a>
+                                <a href="#" ng-click="showDivAllUser=true; getAllClient('ACTIVE', 'USER')">Active</a>
                             </li>
                             <li>
-                                <a href="#">Blocked</a>
+                                <a href="#" ng-click="showDivAllUser=true; getAllClient('DESACTIVE', 'USER')">Blocked</a>
                             </li>
                         </ul>
                     </li>
@@ -66,18 +66,16 @@
                         <a href="#"><i class="fa fa-truck"></i>Taxi Drivers<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#" ng-click="showDiv=true">All</a>
+                                <a href="#" ng-click="showDivAllTaxi=true; getAllClient('ALL','TAXI_DRIVER')">All</a>
                             </li>
                             <li>
-                                <a href="#">Active</a>
+                                <a href="#" ng-click="showDivAllTaxi=true; getAllClient('ACTIVE', 'TAXI_DRIVER')">Active</a>
                             </li>
                             <li>
-                                <a href="#">Blocked</a>
+                                <a href="#" ng-click="showDivAllTaxi=true; getAllClient('DESACTIVE', 'TAXI_DRIVER')">Blocked</a>
                             </li>
                         </ul>
-                    </li>
-
-                    
+                    </li> 
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
@@ -90,10 +88,9 @@
 
                 <hr />
                 
-                <div id="container">
-                
-                	<div ng-include="showDiv ? 'client.html': ''">
-                
+                <div id="container">             
+                	<div ng-include="showDivAllTaxi=true ? 'client.html': ''" >
+                	<div ng-include="showDivDashboard=true ? 'dashboard.html': ''" >                         
                 </div>
                 
             </div>

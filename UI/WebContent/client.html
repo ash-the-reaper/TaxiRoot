@@ -7,11 +7,13 @@
 <body>
   
   <div class="col-md-12 table-responsive">
+  		<p><input type="text" ng-model="filteruser"></p>
+  
 	   <table id="table" class="table table-striped table-bordered table-hover">
 			<thead>
 			<tr class="success">
 				<th>
-					First Name
+					First Name &nbsp; <a ng-click="sort_by('firstName')"><i class="icon-sort"></i></a>
 				</th>
 				
 				<th>
@@ -26,28 +28,33 @@
 					Date Join
 				</th>
 				
-				<th style="text-align:center">
-					<button ng-click="enable()"> Enable </button>
+				<th>
+					Status
 				</th>
 				
 				<th style="text-align:center">
-					<button ng-click="disable()"> Disable </button>
+					<button ng-click="enable('client')"> Enable </button>
 				</th>
 				
 				<th style="text-align:center">
-					<button ng-click="delete()"> Delete </button>
+					<button ng-click="disable('client')"> Disable </button>
+				</th>
+				
+				<th style="text-align:center">
+					<button ng-click="remove('client')"> Delete </button>
 				</th>
 				
 			</thead>
 			<tbody>
-				<tr ng-repeat="c in userDetails">
+				<tr ng-repeat="c in userDetails | filter : filteruser">
 					<td class="info"> {{c.firstName}}</td>
 					<td class="info"> {{c.lastName}}</td>	
 					<td class="info"> {{c.email}}</td>
 					<td class="info" > {{c.dateCreated | date:'MM/dd/yyyy'}}</td>
-					<td class="warning" align="center"> <input type="checkbox" ng-check="c.selected" ng-model="c.active" " ng-if="c.userStatus == 'ACTIVE'"> </td>
-					<td class="warning" align="center"> <input type="checkbox" ng-check="c.selected"  ng-model="c.desactive" ng-if="c.userStatus == 'DESACTIVE'"></td>
-					<td class="danger" align="center"> <input type="checkbox" ng-model="c.delete" ></td>
+					<td class="info" > {{c.userStatus}}</td>
+					<td class="warning" align="center"> <input type="checkbox" ng-model="c.active" ng-if="c.userStatus=='DESACTIVE'"> </td>
+					<td class="warning" align="center"> <input type="checkbox" ng-model="c.desactive" ng-if="c.userStatus=='ACTIVE'" ></td>
+					<td class="danger" align="center"> <input type="checkbox" ng-model="c.remove"  ></td>
 				</tr>
 			</tbody>
 		</table>
