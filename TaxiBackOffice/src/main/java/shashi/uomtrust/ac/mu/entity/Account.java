@@ -106,8 +106,8 @@ public class Account {
 		return userRole;
 	}
 
-	public void setRole(UserRole role) {
-		this.userRole = role;
+	public void setRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 	
 	public Date getDateCreated() {
@@ -136,6 +136,6 @@ public class Account {
 	
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", email=" + email + ", role=" + userRole +"]";
+		return "Account [id=" + id + ", email=" + email + ", userRole=" + userRole +"]";
 	}
 }

@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><i class="fa fa-square-o "></i>&nbsp;Admin Dashboard</a>
+	                    <a class="navbar-brand" id="ADMIN" href="#"><i class="fa fa-square-o "></i>&nbsp;Admin Dashboard</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -44,14 +44,14 @@
                     </li>
 
 
-                    <li>
+                    <li ng-click="toggleHeader('ADMIN')">
                         <a href="#" ng-click="showDivDashboard=true"><i class="fa fa-desktop"></i>Dashboard</a>
                     </li>
-                    <li>
+                    <li ng-click="toggleHeader('USER')">
                         <a href="#"><i class="fa fa-user"></i>Users<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#" ng-click="showDivAllUser=true;  getAllClient('ALL','USER')">All</a>
+                                <a href="#" ng-click="showDivAdmin=false;showDivTaxi=false;showDivAllUser=true;  getAllClient('ALL','USER')">All</a>
                             </li>
                             <li>
                                 <a href="#" ng-click="showDivAllUser=true; getAllClient('ACTIVE', 'USER')">Active</a>
@@ -62,7 +62,7 @@
                         </ul>
                     </li>
 					
-					<li>
+					<li ng-click="toggleHeader('TAXI_DRIVER')">
                         <a href="#"><i class="fa fa-truck"></i>Taxi Drivers<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -81,8 +81,10 @@
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h2>Admin Dashboard</h2>
+                    <div class="col-md-12" ng-init="showAdmin=true">
+                        <h2 ng-show="showAdmin">Admin Dashboard</h2>
+                        <h2 ng-show="showUser">Users</h2>
+                        <h2 ng-show="showTaxi">Taxi Drivers</h2>
                     </div>
                 </div>
 

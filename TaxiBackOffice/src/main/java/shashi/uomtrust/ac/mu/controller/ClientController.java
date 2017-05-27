@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import shashi.uomtrust.ac.mu.dto.UserStatusAndUserTypeDTO;
+import shashi.uomtrust.ac.mu.dto.UsersDetails;
 import shashi.uomtrust.ac.mu.entity.Account;
 import shashi.uomtrust.ac.mu.enums.UserRole;
 import shashi.uomtrust.ac.mu.service.ClientService;
@@ -33,26 +33,26 @@ public class ClientController {
 	
     @CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/disableClient", method = RequestMethod.POST)
-	public void disableClient(@RequestBody List<Long> listId, @RequestBody UserRole userRole) {
-		clientService.disableClient(listId, userRole);
+	public void disableClient(@RequestBody UsersDetails usersDetails) {
+		clientService.disableClient(usersDetails.getListId(), usersDetails.getUserRole());
 	}	
     
     @CrossOrigin(origins = "http://localhost:8081")
    	@RequestMapping(value = "/enableClient", method = RequestMethod.POST)
-   	public void enableClient(@RequestBody List<Long> listId, @RequestBody UserRole userRole) {
-   		clientService.enableClient(listId, userRole);
+   	public void enableClient(@RequestBody UsersDetails usersDetails) {
+   		clientService.enableClient(usersDetails.getListId(), usersDetails.getUserRole());
    	}	
     
     
     @CrossOrigin(origins = "http://localhost:8081")
    	@RequestMapping(value = "/deleteClient", method = RequestMethod.POST)
-   	public void deleteClient(@RequestBody List<Long> listId, @RequestBody UserRole userRole) {
-    	//clientService.deleteClient(listId, userRole);
+   	public void deleteClient(@RequestBody UsersDetails usersDetails) {
+    	//clientService.deleteClient(usersDetails.getListId(), usersDetails.getUserRole());
    	}	
     
     @CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/getAllClientByStatus", method = RequestMethod.POST)
-	public List<Account> getAllClientByStatus(@RequestBody UserStatusAndUserTypeDTO userStatusAndUserTypeDTO) {
-		return clientService.getAllClientByStatus(userStatusAndUserTypeDTO.getUserStatus(), userStatusAndUserTypeDTO.getUserRole());
+	public List<Account> getAllClientByStatus(@RequestBody UsersDetails usersDetails) {
+		return clientService.getAllClientByStatus(usersDetails.getUserStatus(), usersDetails.getUserRole());
 	}
 }

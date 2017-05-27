@@ -31,7 +31,7 @@ public class AccountController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8081")
+	//@CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
 	public Boolean checkLogin(@RequestBody Account account) {
 		if(account != null && account.getEmail() !=null )
