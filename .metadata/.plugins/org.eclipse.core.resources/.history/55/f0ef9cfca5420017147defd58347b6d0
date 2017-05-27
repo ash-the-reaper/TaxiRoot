@@ -1,0 +1,24 @@
+package shashi.uomtrust.ac.mu.dto;
+
+import shashi.uomtrust.ac.mu.enums.UserRole;
+import shashi.uomtrust.ac.mu.enums.UserStatus;
+
+public class UsersDetails {
+	
+	UserStatus userStatus;
+	UserRole userRole;	
+	
+	public UserStatus getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(UserStatus userStatus) {
+		this.userStatus = userStatus;
+	}
+	public UserRole getUserRole() {
+		return userRole;
+	}
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
+}
