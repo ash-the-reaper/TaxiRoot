@@ -81,12 +81,12 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onCancel() {
-
+                Utils.disconnectFromFacebook();
             }
 
             @Override
             public void onError(FacebookException error) {
-
+                Utils.disconnectFromFacebook();
             }
             //...
         });
