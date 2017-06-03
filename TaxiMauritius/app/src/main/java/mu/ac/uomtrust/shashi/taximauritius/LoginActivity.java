@@ -20,11 +20,15 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.Gender;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.UserStatus;
 
 public class LoginActivity extends Activity {
 
@@ -118,6 +122,10 @@ public class LoginActivity extends Activity {
                 }
             }
 
+            if(object.has("email")){
+                accountDTO.setEmail(object.getString("email"));
+            }
+
             if (object.has("id")) {
                 accountDTO.setFacebookUserId(object.getString("id"));
             }
@@ -143,6 +151,12 @@ public class LoginActivity extends Activity {
                 c.set(Integer.parseInt(dob[2]), Integer.parseInt(dob[0]), Integer.parseInt(dob[1]));
                 accountDTO.setDateOfBirth(c.getTime());
             }
+
+            accountDTO.setRole(UserRole.USER);
+            accountDTO.setUserStatus(UserStatus.ACTIVE);
+            accountDTO.setDateCreated(new Date());
+
+            new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
 
         } catch (Exception ex) {
             ex.printStackTrace();

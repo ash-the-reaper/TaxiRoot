@@ -1,5 +1,7 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -75,5 +77,15 @@ public class Utils {
         } finally {
             output.close();
         }
+    }
+
+    public static ProgressDialog progressDialogue(Context context, String message){
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+        return progressDialog;
     }
 }

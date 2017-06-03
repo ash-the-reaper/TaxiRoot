@@ -23,7 +23,7 @@ public class AccountDTO implements Serializable {
     private String lastName;
     private Gender gender;
     private String facebookUserId;
-    private UserRole userRole;
+    private UserRole role;
     private UserStatus userStatus;
     private Date dateCreated;
     private Date dateOfBirth;
@@ -93,12 +93,12 @@ public class AccountDTO implements Serializable {
         this.facebookUserId = facebookUserId;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public UserStatus getUserStatus() {
