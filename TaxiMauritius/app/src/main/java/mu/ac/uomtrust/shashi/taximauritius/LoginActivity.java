@@ -3,7 +3,8 @@ package mu.ac.uomtrust.shashi.taximauritius;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.StrictMode;
+import android.text.TextUtils;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -14,10 +15,16 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.Arrays;
+import java.util.Calendar;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.Gender;
 
 public class LoginActivity extends Activity {
 
@@ -62,19 +69,13 @@ public class LoginActivity extends Activity {
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                Log.v("LoginActivity", response.toString());
-
-                                // Application code
-                                try {
-                                    String email = object.getString("email");
-                                    String birthday = object.getString("birthday"); // 01/31/1980 format
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                               /* String email = object.getString("email");
+                                String birthday = object.getString("birthday"); // 01/31/1980 format*/
+                                getFbData(object);
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
+                parameters.putString("fields", "id, picture.type(large), first_name, last_name, email,gender, birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -98,4 +99,53 @@ public class LoginActivity extends Activity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    private void getFbData(JSONObject object){
+        AccountDTO accountDTO = new AccountDTO();
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            if (object.has("picture")) {
+                String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+
+                if (!TextUtils.isEmpty(profilePicUrl) && !profilePicUrl.equalsIgnoreCase("null")) {
+                    URL fb_url = new URL(profilePicUrl);
+                    HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
+                    HttpsURLConnection.setFollowRedirects(true);
+                    conn1.setInstanceFollowRedirects(true);
+
+                    accountDTO.setProfilePicture(Utils.toByteArray(conn1.getInputStream()));
+                }
+            }
+
+            if (object.has("id")) {
+                accountDTO.setFacebookUserId(object.getString("id"));
+            }
+
+            if (object.has("first_name")) {
+                accountDTO.setFirstName(object.getString("first_name"));
+            }
+            if (object.has("last_name")) {
+                accountDTO.setLastName(object.getString("last_name"));
+            }
+
+            Gender gender;
+            if (object.has("gender")) {
+                gender = object.getString("gender").equalsIgnoreCase("female") ? Gender.FEMALE : Gender.MALE;
+                accountDTO.setGender(gender);
+            } else {
+                accountDTO.setGender(Gender.MALE);
+            }
+
+            if (object.has("birthday")) {
+                String[] dob = object.getString("birthday").split("/");
+                Calendar c = Calendar.getInstance();
+                c.set(Integer.parseInt(dob[2]), Integer.parseInt(dob[0]), Integer.parseInt(dob[1]));
+                accountDTO.setDateOfBirth(c.getTime());
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

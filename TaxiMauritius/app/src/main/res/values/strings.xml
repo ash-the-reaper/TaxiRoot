@@ -6,12 +6,23 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="fb_app_id">737299563117197</string>
-    <string name="fb_login_protocol_scheme">fb737299563117197</string>
+
+    <!--test account-->
+  <!--  <string name="fb_app_id">737299563117197</string>
+    <string name="fb_login_protocol_scheme">fb737299563117197</string>-->
+
+    <!--personal account-->
+    <string name="fb_app_id">115404675713417</string>
+    <string name="fb_login_protocol_scheme">fb115404675713417</string>
 
     <string name="title_activity_login">Login</string>
     <string name="activity_login_copyright">\u00A9 Shashi Raghoo</string>
 
     <string name="loginActivity_welcome_message">Welcome to Taxi Mauritius</string>
     <string name="google_map_api_key">AIzaSyDA2oi_ADIg4aMsoNhl2AhoSPQCC9A5vAI</string>
+
+    <string name="menu_google_map">Map</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_history">History</string>
+
 </resources>
