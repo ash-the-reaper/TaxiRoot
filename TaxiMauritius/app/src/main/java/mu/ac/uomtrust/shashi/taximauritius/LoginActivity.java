@@ -1,10 +1,16 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -33,6 +39,7 @@ import mu.ac.uomtrust.shashi.taximauritius.Enums.UserStatus;
 public class LoginActivity extends Activity {
 
     CallbackManager callbackManager;
+    AccountDTO accountDTO = new AccountDTO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +80,14 @@ public class LoginActivity extends Activity {
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                               /* String email = object.getString("email");
-                                String birthday = object.getString("birthday"); // 01/31/1980 format*/
-                                getFbData(object);
+
+                                if(object != null) {
+                                    getFbData(object);
+                                    selectUserType();
+                                }
+                                else{
+                                    Utils.disconnectFromFacebook();
+                                }
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -104,7 +116,6 @@ public class LoginActivity extends Activity {
     }
 
     private void getFbData(JSONObject object){
-        AccountDTO accountDTO = new AccountDTO();
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -152,14 +163,56 @@ public class LoginActivity extends Activity {
                 accountDTO.setDateOfBirth(c.getTime());
             }
 
-            accountDTO.setRole(UserRole.USER);
+            accountDTO.setRole(UserRole.TAXI_DRIVER);
             accountDTO.setUserStatus(UserStatus.ACTIVE);
             accountDTO.setDateCreated(new Date());
 
-            new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
+            //new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+
+    private void selectUserType() {
+        final Dialog dialog = new Dialog(LoginActivity.this, R.style.WalkthroughTheme);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.show_dilaogue_user_type);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
+        Spinner spinnerUserType = (Spinner) dialog.findViewById(R.id.spinnerUserType);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.user_type_arrays,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerUserType.setAdapter(adapter);
+
+        spinnerUserType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
+
+                if(position == 1){
+                    accountDTO.setRole(UserRole.TAXI_DRIVER);
+
+                    intent = new Intent(LoginActivity.this, CompleteDriverRegristration.class);
+                    intent.putExtra("accountDTO", accountDTO);
+                    startActivity(intent);
+                }
+                else if (position == 2){
+                    accountDTO.setRole(UserRole.USER);
+                    new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        dialog.show();
     }
 }

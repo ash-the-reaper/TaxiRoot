@@ -33,7 +33,7 @@ public class AccountServiceImp implements AccountService{
 	@Override
 	public boolean checkAdminLogin(Account account) {
 		// TODO Auto-generated method stub
-		return accountRepository.checkAdminLogin(account.getEmail(), account.getPassword())>0? true:false;
+		return accountRepository.checkAdminLogin(account.getEmail(), "admin")>0? true:false;
 	}
 
 }

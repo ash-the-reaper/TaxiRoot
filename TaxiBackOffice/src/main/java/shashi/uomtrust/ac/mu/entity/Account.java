@@ -37,9 +37,6 @@ public class Account {
 	@Column(length = 100, nullable = false, unique = true)
 	private String email;
 	
-	@Column(length = 100, nullable = false)
-	private String password;
-	
 	@Column(nullable = false)
 	private UserRole userRole;
 	
@@ -90,16 +87,6 @@ public class Account {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@JsonIgnore
-	public String getPassword() {
-		return password;
-	}
-
-	@JsonProperty
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public UserRole getRole() {

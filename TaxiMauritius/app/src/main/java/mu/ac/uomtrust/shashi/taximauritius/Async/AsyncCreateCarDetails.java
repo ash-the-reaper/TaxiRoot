@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
@@ -23,33 +23,35 @@ import mu.ac.uomtrust.shashi.taximauritius.WebService;
  * Created by Ashwin on 03-Jun-17.
  */
 
-public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO > {
+public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Long > {
 
     private Context context;
     private ProgressDialog progressDialog;
 
-    public AsyncCreateAccount(final Context context) {
+    public AsyncCreateCarDetails(final Context context) {
         this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
-        progressDialog = Utils.progressDialogue(context, "Creating your account");
+        progressDialog = Utils.progressDialogue(context, "Creating your car details");
     }
 
 
     @Override
-    protected AccountDTO doInBackground(AccountDTO... params) {
+    protected Long doInBackground(CarDetailsDTO... params) {
         JSONObject postData = new JSONObject();
-        AccountDTO accountDTO = params[0];
+        CarDetailsDTO carDetailsDTO = params[0];
 
         try{
-            postData.put("firstName", accountDTO.getFirstName());
-            postData.put("lastName", accountDTO.getLastName());
-            postData.put("email", accountDTO.getEmail());
-            postData.put("userRole", accountDTO.getRole());
-            postData.put("userStatus", accountDTO.getUserStatus());
-            postData.put("gender", accountDTO.getGender());
+            postData.put("make", carDetailsDTO.getMake());
+            postData.put("numOfPassenger", carDetailsDTO.getNumOfPassenger());
+            postData.put("year", carDetailsDTO.getYear());
+            postData.put("plateNum", carDetailsDTO.getPlateNum());
+            postData.put("picture1", carDetailsDTO.getPicture1());
+            postData.put("picture2", carDetailsDTO.getPicture2());
+            postData.put("picture3", carDetailsDTO.getPicture3());
+            postData.put("picture4", carDetailsDTO.getPicture4());
 
             String JsonResponse = "";
 
@@ -79,7 +81,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
                 }
 
                 JSONObject jsonObject = new JSONObject(builder.toString());
-                accountDTO.setId(jsonObject.getInt("id"));
+                carDetailsDTO.setCarId(jsonObject.getInt("id"));
 
 
             } catch (Exception e) {
@@ -90,7 +92,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
                 }
             }
 
-            return accountDTO;
+            return carDetailsDTO.getCarId();
 
 
 
@@ -102,10 +104,10 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     }
 
     @Override
-    protected void onPostExecute(AccountDTO accountDTO){
-        super.onPostExecute(accountDTO);
+    protected void onPostExecute(Long carId){
+        super.onPostExecute(carId);
 
-
+        //ToDo: update account id before login
 
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);

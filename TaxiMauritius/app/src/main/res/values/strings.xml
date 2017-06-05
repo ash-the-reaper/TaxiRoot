@@ -25,4 +25,35 @@
     <string name="menu_search">Search</string>
     <string name="menu_history">History</string>
 
+    <string name="login_activity_select_user_type">What type of user are you?</string>
+
+    <string name="login_activity_prompt_user_type">Choose a user type</string>
+
+    <string-array name="user_type_arrays">
+        <item>Select user type</item>
+        <item>Taxi Driver</item>
+        <item>Other</item>
+    </string-array>
+
+
+    <string name="complete_registration_make">Make:</string>
+    <string name="complete_registration_plate_num">Plate Num:</string>
+    <string name="complete_registration_comment">Comment:</string>
+    <string name="complete_registration_year">Year:</string>
+    <string name="complete_registration_number_of_passenger">Passengers:</string>
+    <string name="complete_registration_take_picture">Add Image</string>
+    <string name="complete_registration_next">Next</string>
+
+
+    <string name="complete_registration_validation_make">Make cannot be null</string>
+    <string name="complete_registration_validation_plate_num">Plate Number cannot be null</string>
+    <string name="complete_registration_validation_comment">Comment:</string>
+    <string name="complete_registration_validation_year">Year cannot be null</string>
+    <string name="complete_registration_validation_number_of_passenger">Number of passengers cannot be null</string>
+    <string name="complete_registration_validation_image">There should be at least 1 image</string>
+
+
+    <string name="complete_registration_gallery">Gallery</string>
+    <string name="complete_registration_camera">Camera</string>
+
 </resources>

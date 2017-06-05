@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import shashi.uomtrust.ac.mu.entity.Account;
+import shashi.uomtrust.ac.mu.enums.UserRole;
 import shashi.uomtrust.ac.mu.service.AccountService;
 
 @RestController
@@ -39,4 +40,13 @@ public class AccountController {
 		return false;
 	}
 
+	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
+	public Account createAccount(@RequestBody Account account) {
+		if(account != null && account.getEmail() !=null ){
+			account.setRole(UserRole.USER);
+			return accountService.saveAccount(account);
+		}
+		return null;
+	}
+	
 }

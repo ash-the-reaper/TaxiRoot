@@ -101,7 +101,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		    		
 		    		List<GrantedAuthority> auth = AuthorityUtils.createAuthorityList(account.getEmail().toString());
 		    		
-		    		return new BackOfficeUser(account.getId(), email, account.getPassword(), true, auth);
+		    		return new BackOfficeUser(account.getId(), email, "admin", true, auth);
 		    	}
 		    };
 		}

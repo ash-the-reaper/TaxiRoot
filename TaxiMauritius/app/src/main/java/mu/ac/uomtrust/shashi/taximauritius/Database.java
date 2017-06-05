@@ -1,6 +1,7 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -47,14 +48,13 @@ public class Database extends SQLiteOpenHelper {
     private void createTables(SQLiteDatabase db) {
         createTableAccount(db);
         createTableTransaction(db);
-        createTableTaxi(db);
+        createTableCarDetails(db);
     }
 
     private void createTableAccount(SQLiteDatabase db){
         String qb = "CREATE TABLE IF NOT EXISTS account (" +
                 " id INTEGER PRIMARY KEY NOT NULL, " +
                 " email TEXT UNIQUE NOT NULL, " +
-                " password TEXT, " +
                 " address TEXT, " +
                 " profile_picture BLOB, " +
                 " first_name TEXT NOT NULL, " +
@@ -62,34 +62,49 @@ public class Database extends SQLiteOpenHelper {
                 " facebook_user_id TEXT, " +
                 " role INTEGER NOT NULL, " +
                 " status INTEGER NOT NULL, " +
-                " date_created NUMERIC DEFAULT NULL, " +
-                " date_updated NUMERIC DEFAULT NULL ); ";
+                " date_created NUMERIC DEFAULT NULL ); ";
         db.execSQL(qb);
     }
 
     private void createTableTransaction(SQLiteDatabase db){
-        String qb = "CREATE TABLE IF NOT EXISTS cab (" +
+        String qb = "CREATE TABLE IF NOT EXISTS transaction (" +
                 " id INTEGER PRIMARY KEY NOT NULL, " +
+                " transaction_id INTEGER PRIMARY KEY NOT NULL, " +
                 " account_id INTEGER NOT NULL, " +
-                " driver_id INTEGER NOT NULL, " +
                 " ad_status INTEGER, " +
                 " payment_status INTEGER, " +
                 " price real, "+
                 " from TEXT, "+
                 " to TEXT, "+
+                " date_updated NUMERIC DEFAULT NULL, "+
                 " date_created NUMERIC DEFAULT NULL ); ";
         db.execSQL(qb);
     }
 
-    private void createTableTaxi(SQLiteDatabase db){
-        String qb = "CREATE TABLE IF NOT EXISTS cab (" +
-                " id INTEGER PRIMARY KEY NOT NULL, " +
+    private void createTableCarDetails(SQLiteDatabase db){
+        String qb = "CREATE TABLE IF NOT EXISTS car_details (" +
+                " car_id INTEGER , " +
                 " account_id INTEGER NOT NULL, " +
                 " make TEXT NOT NULL, " +
                 " year INTEGER, " +
                 " num_of_passenger INTEGER, "+
-                " plate_num UNIQUE TEXT, "+
-                " comments TEXT ); ";
+                " picture1 BLOB, " +
+                " picture2 BLOB, " +
+                " picture3 BLOB, " +
+                " picture4 BLOB, " +
+                " plate_num TEXT PRIMARY KEY NOT NULL); ";
         db.execSQL(qb);
+    }
+
+    public Cursor executeQuery(String query, String[] selectionArgs) {
+
+        Cursor mCursor = db.rawQuery(query, selectionArgs);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+
+        return mCursor;
+
     }
 }

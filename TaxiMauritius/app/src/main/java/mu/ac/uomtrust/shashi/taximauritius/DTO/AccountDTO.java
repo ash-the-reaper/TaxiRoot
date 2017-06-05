@@ -21,6 +21,7 @@ public class AccountDTO implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
+    private String address;
     private Gender gender;
     private String facebookUserId;
     private UserRole role;
@@ -28,6 +29,14 @@ public class AccountDTO implements Serializable {
     private Date dateCreated;
     private Date dateOfBirth;
 
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Date getDateOfBirth() {
         return dateOfBirth;
