@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class CarDetailsDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private long carId;
+    private int carId;
     private String make;
     private int year;
     private int numOfPassenger;
@@ -18,7 +18,16 @@ public class CarDetailsDTO implements Serializable {
     private byte[] picture2;
     private byte[] picture3;
     private byte[] picture4;
+    private int accounId;
 
+
+    public int getAccounId() {
+        return accounId;
+    }
+
+    public void setAccounId(int accounId) {
+        this.accounId = accounId;
+    }
 
     public byte[] getPicture1() {
         return picture1;
@@ -52,11 +61,11 @@ public class CarDetailsDTO implements Serializable {
         this.picture4 = picture4;
     }
 
-    public long getCarId() {
+    public int getCarId() {
         return carId;
     }
 
-    public void setCarId(long carId) {
+    public void setCarId(int carId) {
         this.carId = carId;
     }
 

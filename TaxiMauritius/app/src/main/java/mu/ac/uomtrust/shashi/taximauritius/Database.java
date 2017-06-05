@@ -67,15 +67,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
     private void createTableTransaction(SQLiteDatabase db){
-        String qb = "CREATE TABLE IF NOT EXISTS transaction (" +
+        String qb = "CREATE TABLE IF NOT EXISTS transaction_table (" +
                 " id INTEGER PRIMARY KEY NOT NULL, " +
-                " transaction_id INTEGER PRIMARY KEY NOT NULL, " +
+                " transaction_id INTEGER NOT NULL, " +
                 " account_id INTEGER NOT NULL, " +
                 " ad_status INTEGER, " +
                 " payment_status INTEGER, " +
-                " price real, "+
-                " from TEXT, "+
-                " to TEXT, "+
+                " price INTEGER, "+
+                " place_from TEXT DEFAULT NULL, "+
+                " place_to TEXT DEFAULT NULL, "+
                 " date_updated NUMERIC DEFAULT NULL, "+
                 " date_created NUMERIC DEFAULT NULL ); ";
         db.execSQL(qb);

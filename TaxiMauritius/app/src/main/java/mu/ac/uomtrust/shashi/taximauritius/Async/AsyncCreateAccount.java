@@ -14,7 +14,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
@@ -35,6 +39,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     @Override
     protected void onPreExecute() {
         progressDialog = Utils.progressDialogue(context, "Creating your account");
+        progressDialog.show();
     }
 
 
@@ -96,6 +101,8 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
 
         }catch (Exception e){
             e.printStackTrace();
+        } finally {
+            progressDialog.dismiss();
         }
 
         return null;
@@ -105,9 +112,17 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     protected void onPostExecute(AccountDTO accountDTO){
         super.onPostExecute(accountDTO);
 
+        new AccountDAO(context).updateAccountIdFromWS(accountDTO.getId());
 
-
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
+        if(accountDTO.getRole() == UserRole.TAXI_DRIVER){
+            CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
+            carDetailsDTO.setAccounId(accountDTO.getId());
+            new CarDetailsDAO(context).saveCarDetails(carDetailsDTO);
+            new AsyncCreateCarDetails(context).execute(carDetailsDTO);
+        }
+        else {
+            Intent intent = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
+        }
     }
 }

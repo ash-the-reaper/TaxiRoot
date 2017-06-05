@@ -31,6 +31,7 @@ import java.util.Date;
 import javax.net.ssl.HttpsURLConnection;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.Gender;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
@@ -163,11 +164,9 @@ public class LoginActivity extends Activity {
                 accountDTO.setDateOfBirth(c.getTime());
             }
 
-            accountDTO.setRole(UserRole.TAXI_DRIVER);
+            accountDTO.setId(-1);
             accountDTO.setUserStatus(UserStatus.ACTIVE);
             accountDTO.setDateCreated(new Date());
-
-            //new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -184,24 +183,29 @@ public class LoginActivity extends Activity {
 
         Spinner spinnerUserType = (Spinner) dialog.findViewById(R.id.spinnerUserType);
 
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.user_type_arrays,android.R.layout.simple_spinner_item);
+        final ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.user_type_arrays,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUserType.setAdapter(adapter);
 
         spinnerUserType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = null;
-
                 if(position == 1){
                     accountDTO.setRole(UserRole.TAXI_DRIVER);
 
-                    intent = new Intent(LoginActivity.this, CompleteDriverRegristration.class);
-                    intent.putExtra("accountDTO", accountDTO);
+                    new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
+
+                    Intent intent = new Intent(LoginActivity.this, CompleteDriverRegristration.class);
                     startActivity(intent);
+
+                    dialog.dismiss();
                 }
                 else if (position == 2){
                     accountDTO.setRole(UserRole.USER);
+                    dialog.dismiss();
+
+                    new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
+
                     new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
                 }
             }

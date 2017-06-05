@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import shashi.uomtrust.ac.mu.dto.CarDetailsDTO;
 import shashi.uomtrust.ac.mu.entity.Account;
+import shashi.uomtrust.ac.mu.entity.CarDetails;
 import shashi.uomtrust.ac.mu.enums.UserRole;
 import shashi.uomtrust.ac.mu.service.AccountService;
+import shashi.uomtrust.ac.mu.service.CarDetailsService;
+import shashi.uomtrust.ac.mu.service.ClientService;
 
 @RestController
 @RequestMapping("/api/account")
@@ -18,6 +22,12 @@ public class AccountController {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private ClientService ClientService;
+	
+	@Autowired
+	private CarDetailsService carDetailsService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -49,4 +59,11 @@ public class AccountController {
 		return null;
 	}
 	
+	@RequestMapping(value = "/createCarDetails", method = RequestMethod.POST)
+	public Integer createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
+		if(carDetailsDTO != null && carDetailsDTO.getAccounId() != null ){			
+			return carDetailsService.saveCardetails(carDetailsDTO);
+		}
+		return null;
+	}
 }

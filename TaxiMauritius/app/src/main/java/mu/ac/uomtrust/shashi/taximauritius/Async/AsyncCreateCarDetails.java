@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
@@ -23,7 +24,7 @@ import mu.ac.uomtrust.shashi.taximauritius.WebService;
  * Created by Ashwin on 03-Jun-17.
  */
 
-public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Long > {
+public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Integer > {
 
     private Context context;
     private ProgressDialog progressDialog;
@@ -39,7 +40,7 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Long >
 
 
     @Override
-    protected Long doInBackground(CarDetailsDTO... params) {
+    protected Integer doInBackground(CarDetailsDTO... params) {
         JSONObject postData = new JSONObject();
         CarDetailsDTO carDetailsDTO = params[0];
 
@@ -53,12 +54,10 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Long >
             postData.put("picture3", carDetailsDTO.getPicture3());
             postData.put("picture4", carDetailsDTO.getPicture4());
 
-            String JsonResponse = "";
-
             HttpURLConnection httpURLConnection = null;
             try {
 
-                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_ACCOUNT).openConnection();
+                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_CAR_DETAILS).openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
                 httpURLConnection.setRequestProperty("Accept", "application/json");
@@ -104,10 +103,10 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Long >
     }
 
     @Override
-    protected void onPostExecute(Long carId){
+    protected void onPostExecute(Integer carId){
         super.onPostExecute(carId);
 
-        //ToDo: update account id before login
+        new CarDetailsDAO(context).updateCarDetailsIdFromWS(carId);
 
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);

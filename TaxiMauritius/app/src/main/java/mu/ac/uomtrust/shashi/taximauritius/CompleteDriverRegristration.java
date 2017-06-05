@@ -18,7 +18,8 @@ import android.widget.ImageView;
 import java.io.IOException;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 
 /**
@@ -156,20 +157,28 @@ public class CompleteDriverRegristration extends Activity {
     }
 
     private void setData(){
-        AccountDTO accountDTO = (AccountDTO) getIntent().getSerializableExtra("accountDTO");
 
         CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
         carDetailsDTO.setMake(editTextMake.getText().toString());
         carDetailsDTO.setNumOfPassenger(Integer.parseInt(editTextPassenger.getText().toString()));
         carDetailsDTO.setYear(Integer.parseInt(editTextYear.getText().toString()));
         carDetailsDTO.setPlateNum(editTextPlateNum.getText().toString());
+        carDetailsDTO.setAccounId(-1);
 
         carDetailsDTO.setPicture1(Utils.convertBitmapToBlob(((BitmapDrawable)img1.getDrawable()).getBitmap()));
-        carDetailsDTO.setPicture2(Utils.convertBitmapToBlob(((BitmapDrawable)img2.getDrawable()).getBitmap()));
-        carDetailsDTO.setPicture3(Utils.convertBitmapToBlob(((BitmapDrawable)img3.getDrawable()).getBitmap()));
-        carDetailsDTO.setPicture4(Utils.convertBitmapToBlob(((BitmapDrawable)img4.getDrawable()).getBitmap()));
 
-        new AsyncCreateAccount(CompleteDriverRegristration.this).execute(accountDTO);
+        if(img2.getDrawable() != null)
+            carDetailsDTO.setPicture2(Utils.convertBitmapToBlob(((BitmapDrawable)img2.getDrawable()).getBitmap()));
+
+        if(img3.getDrawable() != null)
+            carDetailsDTO.setPicture3(Utils.convertBitmapToBlob(((BitmapDrawable)img3.getDrawable()).getBitmap()));
+
+        if(img4.getDrawable() != null)
+            carDetailsDTO.setPicture4(Utils.convertBitmapToBlob(((BitmapDrawable)img4.getDrawable()).getBitmap()));
+
+        new CarDetailsDAO(CompleteDriverRegristration.this).saveCarDetails(carDetailsDTO);
+
+        new AsyncCreateAccount(CompleteDriverRegristration.this).execute( new AccountDAO(CompleteDriverRegristration.this).getAccountById(-1));
 
     }
 
