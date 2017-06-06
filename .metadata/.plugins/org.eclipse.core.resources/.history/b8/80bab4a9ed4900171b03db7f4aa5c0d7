@@ -1,0 +1,74 @@
+package shashi.uomtrust.ac.mu.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class CarDetails{
+	
+	private Long carId;
+    private String make;
+    private int year;
+    private int numOfPassenger;
+    private String plateNum;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id", nullable = true)
+	private Account account;
+    
+    
+
+    public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public void setCarId(Long carId) {
+		this.carId = carId;
+	}
+
+	public long getCarId() {
+        return carId;
+    }
+
+    public void setCarId(long carId) {
+        this.carId = carId;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getNumOfPassenger() {
+        return numOfPassenger;
+    }
+
+    public void setNumOfPassenger(int numOfPassenger) {
+        this.numOfPassenger = numOfPassenger;
+    }
+
+    public String getPlateNum() {
+        return plateNum;
+    }
+
+    public void setPlateNum(String plateNum) {
+        this.plateNum = plateNum;
+    }
+}
