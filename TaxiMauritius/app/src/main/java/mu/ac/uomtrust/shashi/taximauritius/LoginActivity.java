@@ -164,7 +164,7 @@ public class LoginActivity extends Activity {
                 accountDTO.setDateOfBirth(c.getTime());
             }
 
-            accountDTO.setId(-1);
+            accountDTO.setAccountId(-1);
             accountDTO.setUserStatus(UserStatus.ACTIVE);
             accountDTO.setDateCreated(new Date());
 
@@ -191,19 +191,18 @@ public class LoginActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 1){
-                    accountDTO.setRole(UserRole.TAXI_DRIVER);
+                    dialog.dismiss();
 
+                    accountDTO.setRole(UserRole.TAXI_DRIVER);
                     new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
 
                     Intent intent = new Intent(LoginActivity.this, CompleteDriverRegristration.class);
                     startActivity(intent);
-
-                    dialog.dismiss();
                 }
                 else if (position == 2){
-                    accountDTO.setRole(UserRole.USER);
                     dialog.dismiss();
 
+                    accountDTO.setRole(UserRole.USER);
                     new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
 
                     new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);

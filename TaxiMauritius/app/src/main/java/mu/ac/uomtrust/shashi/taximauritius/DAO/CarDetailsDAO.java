@@ -37,7 +37,7 @@ public class CarDetailsDAO {
         while (!res.isAfterLast()) {
 
             dto.setCarId(res.getInt(res.getColumnIndex("car_id")));
-            dto.setAccounId(res.getInt(res.getColumnIndex("account_id")));
+            dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
             dto.setMake(res.getString(res.getColumnIndex("make")));
             dto.setYear(res.getInt(res.getColumnIndex("year")));
             dto.setNumOfPassenger(res.getInt(res.getColumnIndex("num_of_passenger")));
@@ -56,7 +56,7 @@ public class CarDetailsDAO {
         return dto;
     }
 
-    public CarDetailsDTO getCarDetailsByID(int carId) {
+    public CarDetailsDTO getCarDetailsByCarID(int carId) {
         final StringBuilder sql = new StringBuilder();
         sql.append(" SELECT * ");
         sql.append(" FROM "+ TABLE_NAME);
@@ -73,7 +73,7 @@ public class CarDetailsDAO {
         while (!res.isAfterLast()) {
 
             dto.setCarId(res.getInt(res.getColumnIndex("car_id")));
-            dto.setAccounId(res.getInt(res.getColumnIndex("account_id")));
+            dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
             dto.setMake(res.getString(res.getColumnIndex("make")));
             dto.setYear(res.getInt(res.getColumnIndex("year")));
             dto.setNumOfPassenger(res.getInt(res.getColumnIndex("num_of_passenger")));
@@ -96,7 +96,7 @@ public class CarDetailsDAO {
         ContentValues values = new ContentValues();
 
         values.put("car_id", carDetailsDTO.getCarId());
-        values.put("account_id", carDetailsDTO.getAccounId());
+        values.put("account_id", carDetailsDTO.getAccountId());
         values.put("make", carDetailsDTO.getMake());
         values.put("year", carDetailsDTO.getYear());
         values.put("num_of_passenger", carDetailsDTO.getNumOfPassenger());
@@ -120,11 +120,11 @@ public class CarDetailsDAO {
     public long updateCarDetailsIdFromWS(int carId){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        CarDetailsDTO carDetailsDTO = getCarDetailsByID(-1);
+        CarDetailsDTO carDetailsDTO = getCarDetailsByCarID(-1);
         carDetailsDTO.setCarId(carId);
 
         ContentValues contentValues = setContentValues(carDetailsDTO);
 
-        return db.update(TABLE_NAME, contentValues, " account_id = \"" + carDetailsDTO.getAccounId() + "\"" ,null);
+        return db.update(TABLE_NAME, contentValues, " car_id = \"" + -1 + "\"" ,null);
     }
 }

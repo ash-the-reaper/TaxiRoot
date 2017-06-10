@@ -53,7 +53,6 @@ public class AccountController {
 	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
 	public Account createAccount(@RequestBody Account account) {
 		if(account != null && account.getEmail() !=null ){
-			account.setRole(UserRole.USER);
 			return accountService.saveAccount(account);
 		}
 		return null;
@@ -61,7 +60,7 @@ public class AccountController {
 	
 	@RequestMapping(value = "/createCarDetails", method = RequestMethod.POST)
 	public Integer createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
-		if(carDetailsDTO != null && carDetailsDTO.getAccounId() != null ){			
+		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){			
 			return carDetailsService.saveCardetails(carDetailsDTO);
 		}
 		return null;

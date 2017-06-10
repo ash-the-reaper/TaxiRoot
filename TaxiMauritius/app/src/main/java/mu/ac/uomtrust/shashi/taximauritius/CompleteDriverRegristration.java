@@ -16,10 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 
 /**
@@ -35,6 +38,8 @@ public class CompleteDriverRegristration extends Activity {
     ImageView img1, img2, img3, img4;
 
     Button btnAddImage, btnNext;
+
+    List<Boolean> listPhoto = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,15 +88,19 @@ public class CompleteDriverRegristration extends Activity {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     switch (x) {
                         case 0:
+                            listPhoto.add(true);
                             img1.setImageBitmap(bitmap);
                             break;
                         case 1:
+                            listPhoto.add(true);
                             img2.setImageBitmap(bitmap);
                             break;
                         case 2:
+                            listPhoto.add(true);
                             img3.setImageBitmap(bitmap);
                             break;
                         case 3:
+                            listPhoto.add(true);
                             img4.setImageBitmap(bitmap);
                             break;
                     }
@@ -111,10 +120,6 @@ public class CompleteDriverRegristration extends Activity {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_make));
             validForm = false;
         }
-        else if(TextUtils.isEmpty(editTextPassenger.getText().toString())){
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
-            validForm = false;
-        }
         else if(TextUtils.isEmpty(editTextYear.getText().toString())) {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year));
             validForm = false;
@@ -123,7 +128,11 @@ public class CompleteDriverRegristration extends Activity {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
             validForm = false;
         }
-        else if(img1.getBackground() == null) {
+        else if(TextUtils.isEmpty(editTextPassenger.getText().toString())){
+            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
+            validForm = false;
+        }
+        else if(listPhoto == null || listPhoto.size() <2 || listPhoto.get(0) == false || listPhoto.get(1) == false) {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_image));
             validForm = false;
         }
@@ -159,16 +168,15 @@ public class CompleteDriverRegristration extends Activity {
     private void setData(){
 
         CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
+        carDetailsDTO.setCarId(-1);
         carDetailsDTO.setMake(editTextMake.getText().toString());
         carDetailsDTO.setNumOfPassenger(Integer.parseInt(editTextPassenger.getText().toString()));
         carDetailsDTO.setYear(Integer.parseInt(editTextYear.getText().toString()));
         carDetailsDTO.setPlateNum(editTextPlateNum.getText().toString());
-        carDetailsDTO.setAccounId(-1);
+        carDetailsDTO.setAccountId(-1);
 
         carDetailsDTO.setPicture1(Utils.convertBitmapToBlob(((BitmapDrawable)img1.getDrawable()).getBitmap()));
-
-        if(img2.getDrawable() != null)
-            carDetailsDTO.setPicture2(Utils.convertBitmapToBlob(((BitmapDrawable)img2.getDrawable()).getBitmap()));
+        carDetailsDTO.setPicture2(Utils.convertBitmapToBlob(((BitmapDrawable)img2.getDrawable()).getBitmap()));
 
         if(img3.getDrawable() != null)
             carDetailsDTO.setPicture3(Utils.convertBitmapToBlob(((BitmapDrawable)img3.getDrawable()).getBitmap()));
@@ -178,7 +186,8 @@ public class CompleteDriverRegristration extends Activity {
 
         new CarDetailsDAO(CompleteDriverRegristration.this).saveCarDetails(carDetailsDTO);
 
-        new AsyncCreateAccount(CompleteDriverRegristration.this).execute( new AccountDAO(CompleteDriverRegristration.this).getAccountById(-1));
+        AccountDTO accountDTO = new AccountDAO(CompleteDriverRegristration.this).getAccountById(-1);
+        new AsyncCreateAccount(CompleteDriverRegristration.this).execute(accountDTO);
 
     }
 

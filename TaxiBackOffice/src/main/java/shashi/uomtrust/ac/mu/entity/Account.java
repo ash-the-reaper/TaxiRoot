@@ -26,7 +26,7 @@ public class Account {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long accountId;
 	
 	@Column(length = 100, nullable = false)
 	private String firstName;
@@ -77,12 +77,12 @@ public class Account {
 		setDateCreated(new Date());
 	}
 
-	public Long getId() {
-		return id;
+	public Long getAccountId() {
+		return accountId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
 	}
 
 	public String getFirstName() {
@@ -143,6 +143,6 @@ public class Account {
 	
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", email=" + email + ", userRole=" + userRole +"]";
+		return "Account [id=" + accountId + ", email=" + email + ", userRole=" + userRole +"]";
 	}
 }

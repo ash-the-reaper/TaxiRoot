@@ -53,7 +53,7 @@ public class Database extends SQLiteOpenHelper {
 
     private void createTableAccount(SQLiteDatabase db){
         String qb = "CREATE TABLE IF NOT EXISTS account (" +
-                " id INTEGER PRIMARY KEY NOT NULL, " +
+                " account_id INTEGER PRIMARY KEY NOT NULL, " +
                 " email TEXT UNIQUE NOT NULL, " +
                 " address TEXT, " +
                 " profile_picture BLOB, " +
@@ -61,6 +61,7 @@ public class Database extends SQLiteOpenHelper {
                 " last_name TEXT NOT NULL, " +
                 " facebook_user_id TEXT, " +
                 " role INTEGER NOT NULL, " +
+                " gender INTEGER NOT NULL, " +
                 " status INTEGER NOT NULL, " +
                 " date_created NUMERIC DEFAULT NULL ); ";
         db.execSQL(qb);
@@ -68,8 +69,7 @@ public class Database extends SQLiteOpenHelper {
 
     private void createTableTransaction(SQLiteDatabase db){
         String qb = "CREATE TABLE IF NOT EXISTS transaction_table (" +
-                " id INTEGER PRIMARY KEY NOT NULL, " +
-                " transaction_id INTEGER NOT NULL, " +
+                " transac_id INTEGER PRIMARY KEY NOT NULL, " +
                 " account_id INTEGER NOT NULL, " +
                 " ad_status INTEGER, " +
                 " payment_status INTEGER, " +

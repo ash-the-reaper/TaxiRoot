@@ -27,7 +27,7 @@ public class CarDetails{
     
     
     @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id", nullable = true)
+	@JoinColumn(name = "account_id", nullable = true)
 	private Account account;
 
     public Account getAccount() {

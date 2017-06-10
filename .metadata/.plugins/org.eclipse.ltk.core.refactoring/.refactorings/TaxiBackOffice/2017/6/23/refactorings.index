@@ -6,3 +6,9 @@
 1496681004946	Copy compilation unit
 1496681074275	Copy compilation unit
 1496681109837	Copy compilation unit
+1497123430204	Rename field 'accounId'
+1497123580196	Rename field 'id'
+1497123624216	Rename method 'getId'
+1497123665610	Rename method 'setId'
+1497123679143	Rename local variable 'id'
+1497123696234	Rename field 'account_id'

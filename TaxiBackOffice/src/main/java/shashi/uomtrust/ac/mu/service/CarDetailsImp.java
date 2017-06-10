@@ -1,16 +1,12 @@
 package shashi.uomtrust.ac.mu.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import shashi.uomtrust.ac.mu.dto.CarDetailsDTO;
 import shashi.uomtrust.ac.mu.entity.Account;
 import shashi.uomtrust.ac.mu.entity.CarDetails;
 import shashi.uomtrust.ac.mu.enums.UserRole;
-import shashi.uomtrust.ac.mu.enums.UserStatus;
 import shashi.uomtrust.ac.mu.repository.AccountRepository;
 import shashi.uomtrust.ac.mu.repository.CarDetailsRepository;
 
@@ -27,7 +23,7 @@ public class CarDetailsImp implements CarDetailsService{
 	@Override
 	public Integer saveCardetails(CarDetailsDTO carDetailsDTO) {
 		
-		Account account = accountRepository.findById(carDetailsDTO.getAccounId());
+		Account account = accountRepository.findByAccountId(carDetailsDTO.getAccountId());
 		account.setRole(UserRole.TAXI_DRIVER);
 		accountRepository.save(account);
 		

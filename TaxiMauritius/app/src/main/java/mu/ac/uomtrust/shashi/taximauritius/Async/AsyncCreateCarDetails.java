@@ -53,6 +53,7 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
             postData.put("picture2", carDetailsDTO.getPicture2());
             postData.put("picture3", carDetailsDTO.getPicture3());
             postData.put("picture4", carDetailsDTO.getPicture4());
+            postData.put("accountId", carDetailsDTO.getAccountId());
 
             HttpURLConnection httpURLConnection = null;
             try {
@@ -80,7 +81,7 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
                 }
 
                 JSONObject jsonObject = new JSONObject(builder.toString());
-                carDetailsDTO.setCarId(jsonObject.getInt("id"));
+                carDetailsDTO.setCarId(jsonObject.getInt("carId"));
 
 
             } catch (Exception e) {

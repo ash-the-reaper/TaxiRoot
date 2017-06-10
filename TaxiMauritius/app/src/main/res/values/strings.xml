@@ -50,7 +50,7 @@
     <string name="complete_registration_validation_comment">Comment:</string>
     <string name="complete_registration_validation_year">Year cannot be null</string>
     <string name="complete_registration_validation_number_of_passenger">Number of passengers cannot be null</string>
-    <string name="complete_registration_validation_image">There should be at least 1 image</string>
+    <string name="complete_registration_validation_image">There should be at least 2 images</string>
 
 
     <string name="complete_registration_gallery">Gallery</string>

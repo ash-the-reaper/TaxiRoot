@@ -20,7 +20,7 @@ import shashi.uomtrust.ac.mu.enums.UserStatus;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 		
-		public Account findById(Long id);
+		public Account findByAccountId(Long account_id);
 		public Account findByEmail(String email);
 		
 		@Query("select a from Account a where a.userRole =:userRole")
@@ -33,17 +33,17 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 		public int checkAdminLogin(@Param("email")String email, @Param("password")String password);
 		
 		@Modifying
-		@Query("update Account a set a.userStatus = 1 where a.id in (:listId) and a.userRole =:userRole")
+		@Query("update Account a set a.userStatus = 1 where a.accountId in (:listAccountId) and a.userRole =:userRole")
 		@Transactional
-		public void disableClient(@Param("listId") List<Long> listId, @Param("userRole")UserRole userRole);
+		public void disableClient(@Param("listAccountId") List<Long> listAccountId, @Param("userRole")UserRole userRole);
 		
 		@Modifying
-		@Query("update Account a set a.userStatus = 0 where a.id in :listId and a.userRole =:userRole")
+		@Query("update Account a set a.userStatus = 0 where a.accountId in (:listAccountId) and a.userRole =:userRole")
 		@Transactional
-		public void enableClient(@Param("listId") List<Long> listId, @Param("userRole")UserRole userRole);
+		public void enableClient(@Param("listAccountId") List<Long> listAccountId, @Param("userRole")UserRole userRole);
 		
 		@Modifying
-		@Query("delete from Account a where a.id in (:listId) and a.userRole =:userRole")
-		public void deleteClient(@Param("listId") List<Long> listId, @Param("userRole")UserRole userRole);
+		@Query("delete from Account a where a.accountId in (:listAccountId) and a.userRole =:userRole")
+		public void deleteClient(@Param("listAccountId") List<Long> listAccountId, @Param("userRole")UserRole userRole);
 		
 }

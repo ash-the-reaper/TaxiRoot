@@ -56,8 +56,6 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
             postData.put("userStatus", accountDTO.getUserStatus());
             postData.put("gender", accountDTO.getGender());
 
-            String JsonResponse = "";
-
             HttpURLConnection httpURLConnection = null;
             try {
 
@@ -84,7 +82,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
                 }
 
                 JSONObject jsonObject = new JSONObject(builder.toString());
-                accountDTO.setId(jsonObject.getInt("id"));
+                accountDTO.setAccountId(jsonObject.getInt("accountId"));
 
 
             } catch (Exception e) {
@@ -112,11 +110,11 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     protected void onPostExecute(AccountDTO accountDTO){
         super.onPostExecute(accountDTO);
 
-        new AccountDAO(context).updateAccountIdFromWS(accountDTO.getId());
+        new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
 
         if(accountDTO.getRole() == UserRole.TAXI_DRIVER){
             CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
-            carDetailsDTO.setAccounId(accountDTO.getId());
+            carDetailsDTO.setAccountId(accountDTO.getAccountId());
             new CarDetailsDAO(context).saveCarDetails(carDetailsDTO);
             new AsyncCreateCarDetails(context).execute(carDetailsDTO);
         }

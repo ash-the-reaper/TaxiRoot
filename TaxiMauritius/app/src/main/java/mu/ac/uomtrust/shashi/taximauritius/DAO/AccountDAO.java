@@ -9,6 +9,7 @@ import java.util.Date;
 
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Database;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.Gender;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserStatus;
 
@@ -25,11 +26,11 @@ public class AccountDAO {
         dbHelper = Database.getInstance(context);
     }
 
-    public AccountDTO getAccountById(final int id) {
+    public AccountDTO getAccountById(final int accountId) {
         final StringBuilder sql = new StringBuilder();
         sql.append(" SELECT * ");
         sql.append(" FROM account  ");
-        sql.append(" WHERE id = " + id);
+        sql.append(" WHERE account_id = " + accountId);
 
         dbHelper.open();
         Cursor res = dbHelper.executeQuery(sql.toString(), null);
@@ -41,7 +42,7 @@ public class AccountDAO {
 
         while (!res.isAfterLast()) {
 
-            dto.setId(res.getInt(res.getColumnIndex("id")));
+            dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
             dto.setEmail(res.getString(res.getColumnIndex("email")));
             dto.setAddress(res.getString(res.getColumnIndex("address")));
             dto.setProfilePicture(res.getBlob(res.getColumnIndex("profile_picture")));
@@ -49,6 +50,7 @@ public class AccountDAO {
             dto.setLastName(res.getString(res.getColumnIndex("last_name")));
             dto.setFacebookUserId(res.getString(res.getColumnIndex("facebook_user_id")));
             dto.setRole(res.getInt(res.getColumnIndex("role")) != 0? UserRole.USER:UserRole.TAXI_DRIVER);
+            dto.setGender(res.getInt(res.getColumnIndex("gender")) != 0? Gender.FEMALE:Gender.MALE);
             dto.setUserStatus(res.getInt(res.getColumnIndex("status")) == 0? UserStatus.ACTIVE:UserStatus.DESACTIVE);
             dto.setDateCreated(new Date(Long.parseLong(res.getString(res.getColumnIndexOrThrow("date_created")))));
 
@@ -63,10 +65,11 @@ public class AccountDAO {
     private ContentValues setContentValues(AccountDTO accountDTO){
         ContentValues values = new ContentValues();
 
-        values.put("id", accountDTO.getId());
+        values.put("account_id", accountDTO.getAccountId());
         values.put("email", accountDTO.getEmail());
         values.put("address", accountDTO.getAddress());
         values.put("profile_picture", accountDTO.getProfilePicture());
+        values.put("gender", accountDTO.getGender().ordinal());
         values.put("first_name", accountDTO.getFirstName());
         values.put("last_name", accountDTO.getLastName());
         values.put("facebook_user_id", accountDTO.getFacebookUserId());
@@ -85,14 +88,14 @@ public class AccountDAO {
         return db.insert(TABLE_NAME, null, contentValues);
     }
 
-    public long updateAccountIdFromWS(int id){
+    public long updateAccountIdFromWS(int accountId){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         AccountDTO accountDTO = getAccountById(-1);
-        accountDTO.setId(id);
+        accountDTO.setAccountId(accountId);
 
         ContentValues contentValues = setContentValues(accountDTO);
 
-        return db.update(TABLE_NAME, contentValues, " id = \"" + -1+ "\"" ,null);
+        return db.update(TABLE_NAME, contentValues, " account_id = \"" + -1+ "\"" ,null);
     }
 }

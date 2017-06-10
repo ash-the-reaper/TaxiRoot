@@ -18,15 +18,15 @@ public class CarDetailsDTO implements Serializable {
     private byte[] picture2;
     private byte[] picture3;
     private byte[] picture4;
-    private int accounId;
+    private int accountId;
 
 
-    public int getAccounId() {
-        return accounId;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setAccounId(int accounId) {
-        this.accounId = accounId;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public byte[] getPicture1() {

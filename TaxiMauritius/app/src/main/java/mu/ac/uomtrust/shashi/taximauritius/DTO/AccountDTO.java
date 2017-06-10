@@ -16,7 +16,7 @@ public class AccountDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private Integer accountId;
     private String email;
     private String password;
     private String firstName;
@@ -54,12 +54,12 @@ public class AccountDTO implements Serializable {
         this.gender = gender;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getEmail() {
