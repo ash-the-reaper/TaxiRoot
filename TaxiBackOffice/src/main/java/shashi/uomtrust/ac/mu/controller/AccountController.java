@@ -57,6 +57,15 @@ public class AccountController {
 		return null;
 	}
 	
+	@RequestMapping(value = "/checkAccountViaEmail", method = RequestMethod.POST)
+	public Account checkAccountViaEmail(@RequestBody Account account) {
+		if(account != null && account.getEmail() !=null ){
+			return accountService.findByEmail(account.getEmail());
+		}
+		return null;
+	}
+	
+	
 	@RequestMapping(value = "/createCarDetails", method = RequestMethod.POST)
 	public CarDetailsDTO createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
 		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){	

@@ -61,4 +61,9 @@
     <string name="complete_registration_gallery">Gallery</string>
     <string name="complete_registration_camera">Camera</string>
 
+    <string name="activity_logout_header">Logout</string>
+    <string name="activity_logout_content">Are you sure you want to logout?</string>
+
+
+
 </resources>

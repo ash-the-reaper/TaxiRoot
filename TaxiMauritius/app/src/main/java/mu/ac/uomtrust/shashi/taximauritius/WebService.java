@@ -12,5 +12,5 @@ public class WebService {
 
     public static final String API_CREATE_ACCOUNT = API_ACCOUNT +"createAccount";
     public static final String API_CREATE_CAR_DETAILS = API_ACCOUNT +"createCarDetails";
-    public static final String API_CHECK_ACCOUNT = API_ACCOUNT +"checkAccount";
+    public static final String API_CHECK_ACCOUNT_VIA_EMAIL = API_ACCOUNT +"checkAccountViaEmail";
 }

@@ -2,8 +2,6 @@ package mu.ac.uomtrust.shashi.taximauritius.Async;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -15,17 +13,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
-import mu.ac.uomtrust.shashi.taximauritius.Enums.Gender;
-import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
-import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ashwin on 03-Jun-17.
@@ -50,15 +40,16 @@ public class AsyncCheckAccount extends AsyncTask<String, Void ,Integer > {
     @Override
     protected Integer doInBackground(String... params) {
         JSONObject postData = new JSONObject();
-        Integer accountId = null;
+        AccountDTO accountDTO  = new AccountDTO();
+        accountDTO.setEmail(params[0]);
 
         try{
-            postData.put("email", params[0]);
+            postData.put("email", accountDTO.getEmail());
 
             HttpURLConnection httpURLConnection = null;
             try {
 
-                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CHECK_ACCOUNT).openConnection();
+                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CHECK_ACCOUNT_VIA_EMAIL).openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setRequestProperty("Content-Type", "application/json");
                 httpURLConnection.setRequestProperty("Accept", "application/json");
@@ -81,8 +72,7 @@ public class AsyncCheckAccount extends AsyncTask<String, Void ,Integer > {
                 }
 
                 JSONObject jsonObject = new JSONObject(builder.toString());
-                accountId = jsonObject.getInt("accountId");
-
+                accountDTO.setAccountId(jsonObject.getInt("accountId"));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -92,9 +82,7 @@ public class AsyncCheckAccount extends AsyncTask<String, Void ,Integer > {
                 }
             }
 
-            return accountId;
-
-
+            return accountDTO.getAccountId();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -108,6 +96,5 @@ public class AsyncCheckAccount extends AsyncTask<String, Void ,Integer > {
     @Override
     protected void onPostExecute(Integer result){
         super.onPostExecute(result);
-
     }
 }

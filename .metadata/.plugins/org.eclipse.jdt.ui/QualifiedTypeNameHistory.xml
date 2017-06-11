@@ -41,11 +41,15 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.ClientService"/>
 <fullyQualifiedTypeName name="org.springframework.security.web.context.SaveContextOnUpdateOrErrorResponseWrapper"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.CarDetailsDTO"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.CarDetailsRepository"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.CarDetailsService"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
+<fullyQualifiedTypeName name="java.util.Base64"/>
+<fullyQualifiedTypeName name="java.util.Base64.Decoder"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.CarDetailsImp"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.CarDetailsDTO"/>
+<fullyQualifiedTypeName name="org.apache.tomcat.util.codec.binary.Base64"/>
 </qualifiedTypeNameHistroy>

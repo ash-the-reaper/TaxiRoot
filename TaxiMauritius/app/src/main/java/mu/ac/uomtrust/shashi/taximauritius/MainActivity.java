@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,12 +113,30 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if(id == R.id.navLogOut){
-            popUpLogout();
+           /* Logout logout = new Logout();
+            changeFragment(logout);*/
+            //popUpLogout();
+            Intent intent = new Intent(MainActivity.this, LogOut.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void changeFragment(Fragment fragment){
+        // Create new fragment and transaction
+        Fragment newFragment = fragment;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack if needed
+        transaction.replace(R.id.details, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
     }
 
     private void popUpLogout(){
@@ -133,13 +154,14 @@ public class MainActivity extends AppCompatActivity
         // Setting Positive "Yes" Button
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
-
                 SharedPreferences.Editor editor = getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
-                editor.putBoolean("login", false);
+                editor.remove("login");
+                editor.remove("accountId");
                 editor.commit();
 
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                //getActivity().finish();
             }
         });
 
@@ -152,18 +174,5 @@ public class MainActivity extends AppCompatActivity
 
         // Showing Alert Message
         alertDialog.show();
-    }
-    private void changeFragment(Fragment fragment){
-        // Create new fragment and transaction
-        Fragment newFragment = fragment;
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack if needed
-        transaction.replace(R.id.details, newFragment);
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
     }
 }

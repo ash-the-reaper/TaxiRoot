@@ -45,46 +45,24 @@ public class LoginActivity extends Activity {
     CallbackManager callbackManager;
     AccountDTO accountDTO = new AccountDTO();
 
-    private Integer accountId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         SharedPreferences prefs = getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
         Boolean login = prefs.getBoolean("login", false);
         if(login){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         }
         else {
 
-
-            FacebookSdk.sdkInitialize(getApplicationContext());
-
             setContentView(R.layout.activity_login);
 
             callbackManager = CallbackManager.Factory.create();
-
-       /* LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("success", loginResult.toString());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });*/
-
 
             LoginButton loginButton = (LoginButton) findViewById(R.id.btnFbLogin);
             loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
@@ -99,7 +77,8 @@ public class LoginActivity extends Activity {
 
                                     if (object != null) {
                                         getFbData(object);
-                                        selectUserType();
+                                        if(accountDTO == null || accountDTO.getAccountId() == null || accountDTO.getAccountId() <1)
+                                            selectUserType();
                                     } else {
                                         Utils.disconnectFromFacebook();
                                     }
@@ -122,6 +101,7 @@ public class LoginActivity extends Activity {
                 }
                 //...
             });
+
         }
     }
 
@@ -137,13 +117,13 @@ public class LoginActivity extends Activity {
             StrictMode.setThreadPolicy(policy);
 
             if(checkIfAccountExist(object.getString("email"))) {
-
                 SharedPreferences.Editor editor = getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
                 editor.putBoolean("login", true);
-                editor.putInt("accountId", accountId);
+                editor.putInt("accountId", accountDTO.getAccountId());
                 editor.commit();
 
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
             else {
@@ -205,8 +185,8 @@ public class LoginActivity extends Activity {
     private boolean checkIfAccountExist(String email){
         Boolean exist = false;
         try {
-            accountId = new AsyncCheckAccount(LoginActivity.this).execute(email).get();
-            exist = accountId == null? false: true;
+            accountDTO.setAccountId(new AsyncCheckAccount(LoginActivity.this).execute(email).get());
+            exist = accountDTO.getAccountId() == null? false: true;
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
