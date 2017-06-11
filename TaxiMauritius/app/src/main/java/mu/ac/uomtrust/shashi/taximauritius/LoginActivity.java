@@ -28,9 +28,11 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCheckAccount;
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
@@ -42,6 +44,8 @@ public class LoginActivity extends Activity {
 
     CallbackManager callbackManager;
     AccountDTO accountDTO = new AccountDTO();
+
+    private Integer accountId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,52 +136,65 @@ public class LoginActivity extends Activity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            if (object.has("picture")) {
-                String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+            if(checkIfAccountExist(object.getString("email"))) {
 
-                if (!TextUtils.isEmpty(profilePicUrl) && !profilePicUrl.equalsIgnoreCase("null")) {
-                    URL fb_url = new URL(profilePicUrl);
-                    HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
-                    HttpsURLConnection.setFollowRedirects(true);
-                    conn1.setInstanceFollowRedirects(true);
+                SharedPreferences.Editor editor = getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
+                editor.putBoolean("login", true);
+                editor.putInt("accountId", accountId);
+                editor.commit();
 
-                    accountDTO.setProfilePicture(Utils.toByteArray(conn1.getInputStream()));
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
+            else {
+
+                if (object.has("picture")) {
+                    String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+
+                    if (!TextUtils.isEmpty(profilePicUrl) && !profilePicUrl.equalsIgnoreCase("null")) {
+                        URL fb_url = new URL(profilePicUrl);
+                        HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
+                        HttpsURLConnection.setFollowRedirects(true);
+                        conn1.setInstanceFollowRedirects(true);
+
+                        accountDTO.setProfilePicture(Utils.toByteArray(conn1.getInputStream()));
+                    }
                 }
-            }
 
-            if(object.has("email")){
-                accountDTO.setEmail(object.getString("email"));
-            }
+                if (object.has("email")) {
+                    accountDTO.setEmail(object.getString("email"));
+                }
 
-            if (object.has("id")) {
-                accountDTO.setFacebookUserId(object.getString("id"));
-            }
+                if (object.has("id")) {
+                    accountDTO.setFacebookUserId(object.getString("id"));
+                }
 
-            if (object.has("first_name")) {
-                accountDTO.setFirstName(object.getString("first_name"));
-            }
-            if (object.has("last_name")) {
-                accountDTO.setLastName(object.getString("last_name"));
-            }
+                if (object.has("first_name")) {
+                    accountDTO.setFirstName(object.getString("first_name"));
+                }
+                if (object.has("last_name")) {
+                    accountDTO.setLastName(object.getString("last_name"));
+                }
 
-            Gender gender;
-            if (object.has("gender")) {
-                gender = object.getString("gender").equalsIgnoreCase("female") ? Gender.FEMALE : Gender.MALE;
-                accountDTO.setGender(gender);
-            } else {
-                accountDTO.setGender(Gender.MALE);
-            }
+                Gender gender;
+                if (object.has("gender")) {
+                    gender = object.getString("gender").equalsIgnoreCase("female") ? Gender.FEMALE : Gender.MALE;
+                    accountDTO.setGender(gender);
+                } else {
+                    accountDTO.setGender(Gender.MALE);
+                }
 
-            if (object.has("birthday")) {
-                String[] dob = object.getString("birthday").split("/");
-                Calendar c = Calendar.getInstance();
-                c.set(Integer.parseInt(dob[2]), Integer.parseInt(dob[0]), Integer.parseInt(dob[1]));
-                accountDTO.setDateOfBirth(c.getTime());
-            }
+                if (object.has("birthday")) {
+                    String[] dob = object.getString("birthday").split("/");
+                    Calendar c = Calendar.getInstance();
+                    c.set(Integer.parseInt(dob[2]), Integer.parseInt(dob[0]), Integer.parseInt(dob[1]));
+                    accountDTO.setDateOfBirth(c.getTime());
+                }
 
-            accountDTO.setAccountId(-1);
-            accountDTO.setUserStatus(UserStatus.ACTIVE);
-            accountDTO.setDateCreated(new Date());
+                accountDTO.setAccountId(-1);
+                accountDTO.setUserStatus(UserStatus.ACTIVE);
+                accountDTO.setDateCreated(new Date());
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -185,6 +202,18 @@ public class LoginActivity extends Activity {
     }
 
 
+    private boolean checkIfAccountExist(String email){
+        Boolean exist = false;
+        try {
+            accountId = new AsyncCheckAccount(LoginActivity.this).execute(email).get();
+            exist = accountId == null? false: true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return exist;
+    }
     private void selectUserType() {
         final Dialog dialog = new Dialog(LoginActivity.this, R.style.WalkthroughTheme);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

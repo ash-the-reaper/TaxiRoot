@@ -2,17 +2,19 @@ package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -107,12 +109,50 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.navHistory) {
 
         }
+        else if(id == R.id.navLogOut){
+            popUpLogout();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    private void popUpLogout(){
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+
+        // Setting Dialog Title
+        alertDialog.setTitle("Log out");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Are you sure you want to log out?");
+
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.drawable.taxi_logo);
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+
+                SharedPreferences.Editor editor = getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
+                editor.putBoolean("login", false);
+                editor.commit();
+
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+            }
+        });
+
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
     private void changeFragment(Fragment fragment){
         // Create new fragment and transaction
         Fragment newFragment = fragment;

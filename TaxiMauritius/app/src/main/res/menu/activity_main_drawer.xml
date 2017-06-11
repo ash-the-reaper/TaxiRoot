@@ -15,6 +15,11 @@
             android:icon="@drawable/logo_history"
             android:title="@string/menu_history" />
 
+        <item
+            android:id="@+id/navLogOut"
+            android:icon="@drawable/logo_logout"
+            android:title="@string/menu_logout" />
+
     </group>
 
    <!-- <item android:title="Communicate">

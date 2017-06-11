@@ -24,6 +24,7 @@
     <string name="menu_google_map">Map</string>
     <string name="menu_search">Search</string>
     <string name="menu_history">History</string>
+    <string name="menu_logout">Logout</string>
 
     <string name="login_activity_select_user_type">What type of user are you?</string>
 
