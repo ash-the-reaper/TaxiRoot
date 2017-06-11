@@ -2,6 +2,7 @@ package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.TextureView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +38,27 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View view =  navigationView.getHeaderView(0);
+
+
+        SharedPreferences prefs = getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
+        Integer accountId = prefs.getInt("accountId", 1);
+
+        AccountDTO accountDTO = new AccountDAO(this).getAccountById(accountId);
+
+        ImageView imgProfilePic = (ImageView) view.findViewById(R.id.imgProfilePic);
+        imgProfilePic.setImageBitmap(Utils.convertBlobToBitmap(accountDTO.getProfilePicture()));
+
+        TextView txtFirstName = (TextView) view.findViewById(R.id.txtFirstName);
+        txtFirstName.setText(accountDTO.getFirstName());
+
+        TextView txtLastName = (TextView) view.findViewById(R.id.txtLastName);
+        txtLastName.setText(accountDTO.getLastName());
+
+
+        MapActivity mapActivity = new MapActivity();
+        changeFragment(mapActivity);
     }
 
     @Override
@@ -54,12 +83,12 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+       /* int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

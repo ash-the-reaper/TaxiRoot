@@ -3,6 +3,7 @@ package mu.ac.uomtrust.shashi.taximauritius;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
@@ -45,11 +46,21 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
 
-        setContentView(R.layout.activity_login);
+        SharedPreferences prefs = getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
+        Boolean login = prefs.getBoolean("login", false);
+        if(login){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+        else {
 
-        callbackManager = CallbackManager.Factory.create();
+
+            FacebookSdk.sdkInitialize(getApplicationContext());
+
+            setContentView(R.layout.activity_login);
+
+            callbackManager = CallbackManager.Factory.create();
 
        /* LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -71,43 +82,43 @@ public class LoginActivity extends Activity {
         });*/
 
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.btnFbLogin);
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
+            LoginButton loginButton = (LoginButton) findViewById(R.id.btnFbLogin);
+            loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
 
-                                if(object != null) {
-                                    getFbData(object);
-                                    selectUserType();
+                                    if (object != null) {
+                                        getFbData(object);
+                                        selectUserType();
+                                    } else {
+                                        Utils.disconnectFromFacebook();
+                                    }
                                 }
-                                else{
-                                    Utils.disconnectFromFacebook();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, picture.type(large), first_name, last_name, email,gender, birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id, picture.type(large), first_name, last_name, email,gender, birthday");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
 
-            @Override
-            public void onCancel() {
-                Utils.disconnectFromFacebook();
-            }
+                @Override
+                public void onCancel() {
+                    Utils.disconnectFromFacebook();
+                }
 
-            @Override
-            public void onError(FacebookException error) {
-                Utils.disconnectFromFacebook();
-            }
-            //...
-        });
+                @Override
+                public void onError(FacebookException error) {
+                    Utils.disconnectFromFacebook();
+                }
+                //...
+            });
+        }
     }
 
     @Override
@@ -198,6 +209,7 @@ public class LoginActivity extends Activity {
 
                     Intent intent = new Intent(LoginActivity.this, CompleteDriverRegristration.class);
                     startActivity(intent);
+                    finish();
                 }
                 else if (position == 2){
                     dialog.dismiss();

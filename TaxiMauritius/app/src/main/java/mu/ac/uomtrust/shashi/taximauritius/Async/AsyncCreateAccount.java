@@ -3,6 +3,7 @@ package mu.ac.uomtrust.shashi.taximauritius.Async;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -22,6 +23,8 @@ import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ashwin on 03-Jun-17.
@@ -111,6 +114,12 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
         super.onPostExecute(accountDTO);
 
         new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
+
+        SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
+        editor.putBoolean("login", true);
+        editor.putInt("accountId", accountDTO.getAccountId());
+        editor.commit();
+
 
         if(accountDTO.getRole() == UserRole.TAXI_DRIVER){
             CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
