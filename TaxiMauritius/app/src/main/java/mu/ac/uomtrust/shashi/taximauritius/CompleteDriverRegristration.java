@@ -17,9 +17,12 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateCarDetails;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
@@ -124,12 +127,28 @@ public class CompleteDriverRegristration extends Activity {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year));
             validForm = false;
         }
+        else if(Integer.parseInt(editTextYear.getText().toString()) > Calendar.getInstance().get(Calendar.YEAR)) {
+            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year_above));
+            validForm = false;
+        }
+        else if((Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(editTextYear.getText().toString())) > 15) {
+            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year_below));
+            validForm = false;
+        }
         else if(TextUtils.isEmpty(editTextPlateNum.getText().toString())) {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
             validForm = false;
         }
         else if(TextUtils.isEmpty(editTextPassenger.getText().toString())){
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
+            validForm = false;
+        }
+        else if(Integer.parseInt(editTextPassenger.getText().toString()) > 4){
+            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_above));
+            validForm = false;
+        }
+        else if(Integer.parseInt(editTextPassenger.getText().toString()) <1){
+            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_below));
             validForm = false;
         }
         else if(listPhoto == null || listPhoto.size() <2 || listPhoto.get(0) == false || listPhoto.get(1) == false) {
@@ -188,6 +207,10 @@ public class CompleteDriverRegristration extends Activity {
 
         AccountDTO accountDTO = new AccountDAO(CompleteDriverRegristration.this).getAccountById(-1);
         new AsyncCreateAccount(CompleteDriverRegristration.this).execute(accountDTO);
+
+       /* //to delete
+        carDetailsDTO.setAccountId(1);
+        new AsyncCreateCarDetails(CompleteDriverRegristration.this).execute(carDetailsDTO);*/
 
     }
 

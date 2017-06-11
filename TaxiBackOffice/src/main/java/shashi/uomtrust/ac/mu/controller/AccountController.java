@@ -1,5 +1,6 @@
 package shashi.uomtrust.ac.mu.controller;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shashi.uomtrust.ac.mu.dto.CarDetailsDTO;
 import shashi.uomtrust.ac.mu.entity.Account;
-import shashi.uomtrust.ac.mu.entity.CarDetails;
-import shashi.uomtrust.ac.mu.enums.UserRole;
 import shashi.uomtrust.ac.mu.service.AccountService;
 import shashi.uomtrust.ac.mu.service.CarDetailsService;
 import shashi.uomtrust.ac.mu.service.ClientService;
@@ -59,8 +58,26 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/createCarDetails", method = RequestMethod.POST)
-	public Integer createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
-		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){			
+	public CarDetailsDTO createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
+		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){	
+			
+			if(carDetailsDTO.getPicture1() != null){
+				carDetailsDTO.setPicture1(Base64.decodeBase64(carDetailsDTO.getPicture1()));
+			}
+			
+			if(carDetailsDTO.getPicture2() != null){
+				carDetailsDTO.setPicture2(Base64.decodeBase64(carDetailsDTO.getPicture2()));
+			}
+			
+			if(carDetailsDTO.getPicture3() != null){
+				carDetailsDTO.setPicture3(Base64.decodeBase64(carDetailsDTO.getPicture3()));
+			}
+			
+			if(carDetailsDTO.getPicture4() != null){
+				carDetailsDTO.setPicture4(Base64.decodeBase64(carDetailsDTO.getPicture4()));
+			}
+			
+			
 			return carDetailsService.saveCardetails(carDetailsDTO);
 		}
 		return null;

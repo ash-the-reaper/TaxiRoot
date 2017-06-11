@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Base64;
 
 import org.json.JSONObject;
 
@@ -49,10 +50,19 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
             postData.put("numOfPassenger", carDetailsDTO.getNumOfPassenger());
             postData.put("year", carDetailsDTO.getYear());
             postData.put("plateNum", carDetailsDTO.getPlateNum());
-            postData.put("picture1", carDetailsDTO.getPicture1());
-            postData.put("picture2", carDetailsDTO.getPicture2());
-            postData.put("picture3", carDetailsDTO.getPicture3());
-            postData.put("picture4", carDetailsDTO.getPicture4());
+
+            if(carDetailsDTO.getPicture1() != null)
+                postData.put("picture1", Base64.encodeToString(carDetailsDTO.getPicture1(), Base64.DEFAULT));
+
+            if(carDetailsDTO.getPicture2() != null)
+                postData.put("picture2", Base64.encodeToString(carDetailsDTO.getPicture2(), Base64.DEFAULT));
+
+            if(carDetailsDTO.getPicture3() != null)
+                postData.put("picture3", Base64.encodeToString(carDetailsDTO.getPicture3(), Base64.DEFAULT));
+
+            if(carDetailsDTO.getPicture4() != null)
+                postData.put("picture4", Base64.encodeToString(carDetailsDTO.getPicture4(), Base64.DEFAULT));
+
             postData.put("accountId", carDetailsDTO.getAccountId());
 
             HttpURLConnection httpURLConnection = null;

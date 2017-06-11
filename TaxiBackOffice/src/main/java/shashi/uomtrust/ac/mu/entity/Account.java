@@ -26,7 +26,7 @@ public class Account {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long accountId;
+	private Integer accountId;
 	
 	@Column(length = 100, nullable = false)
 	private String firstName;
@@ -77,11 +77,11 @@ public class Account {
 		setDateCreated(new Date());
 	}
 
-	public Long getAccountId() {
+	public Integer getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(Long accountId) {
+	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
 	}
 

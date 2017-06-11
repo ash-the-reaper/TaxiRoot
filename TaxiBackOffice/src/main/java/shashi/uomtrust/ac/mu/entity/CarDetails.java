@@ -13,7 +13,7 @@ public class CarDetails{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long carId;
+	private Integer carId;
 	
     private String make;
     private int year;
@@ -38,16 +38,12 @@ public class CarDetails{
 		this.account = account;
 	}
 
-	public void setCarId(Long carId) {
+	public void setCarId(Integer carId) {
 		this.carId = carId;
 	}
 
-	public long getCarId() {
+	public Integer getCarId() {
         return carId;
-    }
-
-    public void setCarId(long carId) {
-        this.carId = carId;
     }
 
     public String getMake() {

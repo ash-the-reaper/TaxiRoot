@@ -13,7 +13,7 @@ public class AccountServiceImp implements AccountService{
 	private AccountRepository accountRepository;
 
 	@Override
-	public Account findByAccountId(Long accountId) {
+	public Account findByAccountId(Integer accountId) {
 		// TODO Auto-generated method stub
 		return accountRepository.findByAccountId(accountId);
 	}

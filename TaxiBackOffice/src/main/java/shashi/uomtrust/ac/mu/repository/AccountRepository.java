@@ -20,7 +20,7 @@ import shashi.uomtrust.ac.mu.enums.UserStatus;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 		
-		public Account findByAccountId(Long account_id);
+		public Account findByAccountId(Integer account_id);
 		public Account findByEmail(String email);
 		
 		@Query("select a from Account a where a.userRole =:userRole")

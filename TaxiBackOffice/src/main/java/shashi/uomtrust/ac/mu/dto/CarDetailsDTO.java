@@ -16,14 +16,14 @@ public class CarDetailsDTO {
     private byte[] picture2;
     private byte[] picture3;
     private byte[] picture4;
-    private Long accountId;
+    private Integer accountId;
 
 
-    public Long getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Long accounId) {
+    public void setAccountId(Integer accounId) {
         this.accountId = accounId;
     }
 
