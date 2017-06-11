@@ -1,25 +1,37 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateCarDetails;
@@ -28,6 +40,10 @@ import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 
+import static android.R.attr.bitmap;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+
 /**
  * Created by Ashwin on 05-Jun-17.
  */
@@ -35,6 +51,11 @@ import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 public class CompleteDriverRegristration extends Activity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PERMISSION_CAMERA = 2;
+    private static final int CAMERA = 3;
+    private static final String IMAGE_DIRECTORY_NAME = "Chombo";
+    private int nextImage = -1;
+
     Dialog dialog;
 
     EditText editTextMake, editTextPassenger, editTextYear ,editTextPlateNum;
@@ -42,7 +63,7 @@ public class CompleteDriverRegristration extends Activity {
 
     Button btnAddImage, btnNext;
 
-    List<Boolean> listPhoto = new ArrayList<>();
+    private Uri fileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,30 +103,25 @@ public class CompleteDriverRegristration extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            // getData for single -- getClipData returns null
 
+            //if single image()
             try {
-                int size = data.getClipData().getItemCount() >4?4:data.getClipData().getItemCount();
-                for(int x = 0; x<size; x++) {
-                    Uri uri = data.getClipData().getItemAt(x).getUri();
+                if(data.getData() != null){
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    ImageView imageView = checkAvailability();
+                    imageView.setImageBitmap(bitmap);
+                }
+                // multiple images
+                else if(data.getData() == null && data.getClipData() != null){
+                    int size = data.getClipData().getItemCount() > 4 ? 4 : data.getClipData().getItemCount();
+                    for (int x = 0; x < size; x++) {
+                        Uri uri = data.getClipData().getItemAt(x).getUri();
 
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    switch (x) {
-                        case 0:
-                            listPhoto.add(true);
-                            img1.setImageBitmap(bitmap);
-                            break;
-                        case 1:
-                            listPhoto.add(true);
-                            img2.setImageBitmap(bitmap);
-                            break;
-                        case 2:
-                            listPhoto.add(true);
-                            img3.setImageBitmap(bitmap);
-                            break;
-                        case 3:
-                            listPhoto.add(true);
-                            img4.setImageBitmap(bitmap);
-                            break;
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
+                        ImageView imageView = checkAvailability();
+                        imageView.setImageBitmap(bitmap);
                     }
                 }
             } catch (IOException e) {
@@ -113,9 +129,40 @@ public class CompleteDriverRegristration extends Activity {
             }
         }
 
-        dialog.dismiss();
+        else if(requestCode == CAMERA && resultCode == RESULT_OK) {
+            try {
+                // bimatp factory
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                // downsizing image as it throws OutOfMemory Exception for larger
+                // images
+                options.inSampleSize = 8;
+                Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
+
+                ImageView imageView = checkAvailability();
+                imageView.setImageBitmap(bitmap);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if(dialog != null)
+            dialog.dismiss();
     }
 
+    private ImageView checkAvailability(){
+
+        ImageView imgArr [] = {img1 ,img2, img3, img4};
+
+        if(nextImage == 3)
+            nextImage = 0;
+        else
+            nextImage++;
+        return imgArr[nextImage];
+
+    }
 
     private boolean validateForm(){
         boolean validForm = true;
@@ -143,7 +190,7 @@ public class CompleteDriverRegristration extends Activity {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
             validForm = false;
         }
-        else if(Integer.parseInt(editTextPassenger.getText().toString()) > 4){
+        else if(Integer.parseInt(editTextPassenger.getText().toString()) > 6){
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_above));
             validForm = false;
         }
@@ -151,7 +198,7 @@ public class CompleteDriverRegristration extends Activity {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_below));
             validForm = false;
         }
-        else if(listPhoto == null || listPhoto.size() <2 || listPhoto.get(0) == false || listPhoto.get(1) == false) {
+        else if(img1.getDrawable() == null || img2.getDrawable() == null) {
             Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_image));
             validForm = false;
         }
@@ -165,10 +212,17 @@ public class CompleteDriverRegristration extends Activity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.show_dilaogue_camera);
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         Button btnGallery = (Button)dialog.findViewById(R.id.btnGallery);
         Button btnCamera = (Button)dialog.findViewById(R.id.btnCamera);
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera();
+            }
+        });
 
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +236,102 @@ public class CompleteDriverRegristration extends Activity {
         });
 
         dialog.show();
+    }
+
+    private void openCamera(){
+        if (
+                ActivityCompat.checkSelfPermission(CompleteDriverRegristration.this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED
+            ||  ActivityCompat.checkSelfPermission(CompleteDriverRegristration.this,Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
+            ||  ActivityCompat.checkSelfPermission(CompleteDriverRegristration.this, Manifest.permission.READ_EXTERNAL_STORAGE )!= PackageManager.PERMISSION_GRANTED ) {
+
+            ActivityCompat.requestPermissions(CompleteDriverRegristration.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CAMERA);
+        }
+        else {
+           /* Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivityForResult(intent, CAMERA);*/
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            startActivityForResult(intent, CAMERA);
+
+        }
+    }
+
+    /**
+     * Here we store the file url as it will be null after returning from camera
+     * app
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save file url in bundle as it will be null on scren orientation
+        // changes
+        outState.putParcelable("file_uri", fileUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // get the file url
+        fileUri = savedInstanceState.getParcelable("file_uri");
+    }
+
+
+
+    /**
+     * Creating file uri to store image/video
+     */
+    public Uri getOutputMediaFileUri(int type) {
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /*
+ * returning image / video
+ */
+    private static File getOutputMediaFile(int type) {
+
+        // External sdcard location
+        File mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                IMAGE_DIRECTORY_NAME);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                    + "IMG_" + timeStamp + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                    + "VID_" + timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_CAMERA:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED )
+                    openCamera();
+                break;
+        }
     }
 
     private void setData(){

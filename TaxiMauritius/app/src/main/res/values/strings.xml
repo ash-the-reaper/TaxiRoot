@@ -53,7 +53,7 @@
     <string name="complete_registration_validation_year_below">Car must be of maximum 15 years</string>
     <string name="complete_registration_validation_number_of_passenger">Number of passengers cannot be null</string>
     <string name="complete_registration_validation_number_of_passenger_below">Number of passengers cannot be less than 1</string>
-    <string name="complete_registration_validation_number_of_passenger_above">Number of passengers cannot be above than 4</string>
+    <string name="complete_registration_validation_number_of_passenger_above">Number of passengers cannot be above than 6</string>
     <string name="complete_registration_validation_image">There should be at least 2 images</string>
 
 
