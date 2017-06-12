@@ -8,7 +8,7 @@
 
 
     <!--test account-->
-  <!--  <string name="fb_app_id">737299563117197</string>
+    <!--  <string name="fb_app_id">737299563117197</string>
     <string name="fb_login_protocol_scheme">fb737299563117197</string>-->
 
     <!--personal account-->
@@ -22,7 +22,7 @@
     <string name="google_map_api_key">AIzaSyDA2oi_ADIg4aMsoNhl2AhoSPQCC9A5vAI</string>
 
     <string name="menu_google_map">Map</string>
-    <string name="menu_search">Search</string>
+    <string name="menu_create_request">Create Request</string>
     <string name="menu_history">History</string>
     <string name="menu_logout">Logout</string>
 
@@ -42,6 +42,7 @@
     <string name="complete_registration_comment">Comment:</string>
     <string name="complete_registration_year">Year:</string>
     <string name="complete_registration_number_of_passenger">Passengers:</string>
+    <string name="complete_registration_address">Address:</string>
     <string name="complete_registration_take_picture">Add Image</string>
     <string name="complete_registration_next">Next</string>
 
@@ -55,7 +56,9 @@
     <string name="complete_registration_validation_number_of_passenger">Number of passengers cannot be null</string>
     <string name="complete_registration_validation_number_of_passenger_below">Number of passengers cannot be less than 1</string>
     <string name="complete_registration_validation_number_of_passenger_above">Number of passengers cannot be above than 6</string>
-    <string name="complete_registration_validation_image">There should be at least 2 images</string>
+    <string name="complete_registration_validation_image">There should be at least 1 image</string>
+    <string name="complete_registration_validation_autocomplete_address">Address can not be null</string>
+    <string name="complete_registration_validation_autocomplete_address_no_match">Please select address from autocomplete list</string>
 
 
     <string name="complete_registration_gallery">Gallery</string>
@@ -64,6 +67,159 @@
     <string name="activity_logout_header">Logout</string>
     <string name="activity_logout_content">Are you sure you want to logout?</string>
 
+    <string name="fragment_create_request_to">To:</string>
+    <string name="fragment_create_request_from">From:</string>
+    <string name="fragment_create_request_time">Time:</string>
+    <string name="fragment_create_request_date">Date:</string>
+
+    <string-array name="address_arrays">
+        <item>Select user type</item>
+        <item>	Albion	</item>
+        <item>	Amaury	</item>
+        <item>	Amitié-Gokhoola	</item>
+        <item>	Anse La Raie	</item>
+        <item>	Arsenal	</item>
+        <item>	Baie du Cap	</item>
+        <item>	Baie du Tombeau	</item>
+        <item>	Bambous	</item>
+        <item>	Bambous Virieux	</item>
+        <item>	Bananes	</item>
+        <item>	Beau Bassin	</item>
+        <item>	Beau Vallon	</item>
+        <item>	Bel Air Rivière Sèche	</item>
+        <item>	Bel Ombre	</item>
+        <item>	Belle Vue Maurel	</item>
+        <item>	Bénarès	</item>
+        <item>	Bois Chéri	</item>
+        <item>	Bois des Amourettes	</item>
+        <item>	Bon Accueil	</item>
+        <item>	Bramsthan	</item>
+        <item>	Brisée Verdière	</item>
+        <item>	Britannia	</item>
+        <item>	Calebasses	</item>
+        <item>	Camp Carol	</item>
+        <item>	Camp de Masque	</item>
+        <item>	Camp de Masque Pavé	</item>
+        <item>	Camp Diable	</item>
+        <item>	Camp Ithier	</item>
+        <item>	Camp Thorel	</item>
+        <item>	Cap Malheureux	</item>
+        <item>	Cascavelle	</item>
+        <item>	Case Noyale	</item>
+        <item>	Centre de Flacq	</item>
+        <item>	Chamarel	</item>
+        <item>	Chamouny	</item>
+        <item>	Chemin Grenier	</item>
+        <item>	Clémencia	</item>
+        <item>	Cluny	</item>
+        <item>	Congomah	</item>
+        <item>	Cottage	</item>
+        <item>	Crève Coeur	</item>
+        <item>	Curepipe	</item>
+        <item>	D\'Épinay	</item>
+        <item>	Dagotière	</item>
+        <item>	Dubreuil	</item>
+        <item>	Écroignard	</item>
+        <item>	Espérance	</item>
+        <item>	Espérance Trébuchet	</item>
+        <item>	Flic en Flac	</item>
+        <item>	Fond du Sac	</item>
+        <item>	Goodlands	</item>
+        <item>	Grand Baie	</item>
+        <item>	Grand Bel Air	</item>
+        <item>	Grand Bois	</item>
+        <item>	Grand Gaube	</item>
+        <item>	Grand Sable	</item>
+        <item>	Grande Retraite	</item>
+        <item>	Grande Rivière Noire	</item>
+        <item>	Grande Rivière Sud Est	</item>
+        <item>	Gros Cailloux	</item>
+        <item>	L\'Avenir	</item>
+        <item>	L\'Escalier	</item>
+        <item>	La Flora	</item>
+        <item>	La Gaulette	</item>
+        <item>	La Laura-Malenga	</item>
+        <item>	Lalmatie	</item>
+        <item>	Laventure	</item>
+        <item>	Le Hochet	</item>
+        <item>	Le Morne	</item>
+        <item>	The Vale	</item>
+        <item>	Mahébourg	</item>
+        <item>	Mapou	</item>
+        <item>	Mare Chicose	</item>
+        <item>	Mare d\'Albert	</item>
+        <item>	Mare La Chaux	</item>
+        <item>	Mare Tabac	</item>
+        <item>	Médine Camp de Masque	</item>
+        <item>	Melrose	</item>
+        <item>	Midlands	</item>
+        <item>	Moka	</item>
+        <item>	Montagne Blanche	</item>
+        <item>	Montagne Longue	</item>
+        <item>	Morcellement Saint André	</item>
+        <item>	New Grove	</item>
+        <item>	Notre Dame	</item>
+        <item>	Nouvelle Découverte	</item>
+        <item>	Nouvelle France	</item>
+        <item>	Olivia	</item>
+        <item>	Pailles	</item>
+        <item>	Pamplemousses	</item>
+        <item>	Petit Bel Air	</item>
+        <item>	Petit Raffray	</item>
+        <item>	Petite Rivière	</item>
+        <item>	Phoenix	</item>
+        <item>	Piton	</item>
+        <item>	Plaine des Papayes	</item>
+        <item>	Plaine des Roches	</item>
+        <item>	Plaine Magnien	</item>
+        <item>	Pointe aux Piments	</item>
+        <item>	Port Louis	</item>
+        <item>	Poste de Flacq	</item>
+        <item>	Poudre d\'Or	</item>
+        <item>	Poudre d\'Or Hamlet	</item>
+        <item>	Providence	</item>
+        <item>	Quatre Bornes	</item>
+        <item>	Quartier Militaire	</item>
+        <item>	Quatre Cocos	</item>
+        <item>	Quatre Soeurs	</item>
+        <item>	Queen Victoria	</item>
+        <item>	Richelieu	</item>
+        <item>	Ripailles	</item>
+        <item>	Rivière des Anguilles	</item>
+        <item>	Rivière des Créoles	</item>
+        <item>	Rivière du Poste	</item>
+        <item>	Rivière du Rempart	</item>
+        <item>	Rivière Noire	</item>
+        <item>	Roche Terre	</item>
+        <item>	Roches Noires	</item>
+        <item>	Rose Belle	</item>
+        <item>	Rose Hill	</item>
+        <item>	Saint Aubin	</item>
+        <item>	Saint Hubert	</item>
+        <item>	Saint Julien Village	</item>
+        <item>	Saint Julien d\'Hotman	</item>
+        <item>	Saint Pierre	</item>
+        <item>	Sébastopol	</item>
+        <item>	Seizième Mille	</item>
+        <item>	Souillac	</item>
+        <item>	Surinam	</item>
+        <item>	Tamarin	</item>
+        <item>	Terre Rouge	</item>
+        <item>	Triolet	</item>
+        <item>	Trois Boutiques	</item>
+        <item>	Trou aux Biches	</item>
+        <item>	Trou d\'Eau Douce	</item>
+        <item>	Tyack	</item>
+        <item>	Union Park	</item>
+        <item>	Vacoas	</item>
+        <item>	Vale	</item>
+        <item>	Verdun	</item>
+        <item>	Vieux Grand Port	</item>
+        <item>	Ville Bague	</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

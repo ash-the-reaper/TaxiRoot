@@ -216,7 +216,7 @@ public class LoginActivity extends Activity {
                     accountDTO.setRole(UserRole.TAXI_DRIVER);
                     new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
 
-                    Intent intent = new Intent(LoginActivity.this, CompleteDriverRegristration.class);
+                    Intent intent = new Intent(LoginActivity.this, CompleteDriverRegistration.class);
                     startActivity(intent);
                     finish();
                 }

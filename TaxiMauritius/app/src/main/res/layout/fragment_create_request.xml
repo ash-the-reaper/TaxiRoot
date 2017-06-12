@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:layout_height="match_parent">
+
+   <TableLayout
+       android:layout_margin="5dp"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_from"/>
+
+           <AutoCompleteTextView
+               android:id="@+id/autoCompleteFrom"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_to"/>
+
+           <AutoCompleteTextView
+               android:id="@+id/autoCompleteTo"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_date"/>
+
+           <EditText
+               android:id="@+id/datePicker"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_time"/>
+
+           <EditText
+               android:id="@+id/timePicker"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+
+       <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <Button
+               android:text="CREATE"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+           <Button
+               android:text="CANCEL"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+   </TableLayout>
+
+</LinearLayout>

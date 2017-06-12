@@ -107,8 +107,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.navGoogleMap) {
             MapActivity mapActivity = new MapActivity();
             changeFragment(mapActivity);
-        } else if (id == R.id.navSearch) {
-
+        } else if (id == R.id.navCreateRequest) {
+            CreateRequestActivity createRequestActivity = new CreateRequestActivity();
+            changeFragment(createRequestActivity);
         } else if (id == R.id.navHistory) {
 
         }

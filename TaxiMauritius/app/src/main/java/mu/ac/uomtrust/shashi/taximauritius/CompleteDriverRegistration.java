@@ -1,6 +1,7 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -13,34 +14,28 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateAccount;
-import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateCarDetails;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 
-import static android.R.attr.bitmap;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
@@ -48,7 +43,7 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
  * Created by Ashwin on 05-Jun-17.
  */
 
-public class CompleteDriverRegristration extends Activity {
+public class CompleteDriverRegistration extends Activity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PERMISSION_CAMERA = 2;
@@ -56,14 +51,18 @@ public class CompleteDriverRegristration extends Activity {
     private static final String IMAGE_DIRECTORY_NAME = "Chombo";
     private int nextImage = -1;
 
-    Dialog dialog;
+    private Dialog dialog;
 
-    EditText editTextMake, editTextPassenger, editTextYear ,editTextPlateNum;
-    ImageView img1, img2, img3, img4;
+    private EditText editTextMake, editTextPassenger, editTextYear ,editTextPlateNum;
+    private ImageView img1, img2, img3, img4;
 
-    Button btnAddImage, btnNext;
+    private AutoCompleteTextView autoCompleteAddress;
+
+    private Button btnAddImage, btnNext;
 
     private Uri fileUri;
+
+    private String[] places;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +73,9 @@ public class CompleteDriverRegristration extends Activity {
         editTextPassenger = (EditText)findViewById(R.id.editTextNumOfPassenger);
         editTextYear = (EditText)findViewById(R.id.editTextYear);
         editTextPlateNum = (EditText)findViewById(R.id.editTextPlateNum);
+
+        autoCompleteAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteAddress);
+
 
         img1 = (ImageView) findViewById(R.id.img1);
         img2 = (ImageView) findViewById(R.id.img2);
@@ -96,6 +98,10 @@ public class CompleteDriverRegristration extends Activity {
                     setData();
             }
         });
+
+        places = getResources().getStringArray(R.array.address_arrays);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,places);
+        autoCompleteAddress.setAdapter(adapter);
     }
 
     @Override
@@ -167,48 +173,63 @@ public class CompleteDriverRegristration extends Activity {
     private boolean validateForm(){
         boolean validForm = true;
         if(TextUtils.isEmpty(editTextMake.getText().toString())) {
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_make));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_make));
             validForm = false;
         }
         else if(TextUtils.isEmpty(editTextYear.getText().toString())) {
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_year));
             validForm = false;
         }
         else if(Integer.parseInt(editTextYear.getText().toString()) > Calendar.getInstance().get(Calendar.YEAR)) {
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year_above));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_year_above));
             validForm = false;
         }
         else if((Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(editTextYear.getText().toString())) > 15) {
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_year_below));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_year_below));
             validForm = false;
         }
         else if(TextUtils.isEmpty(editTextPlateNum.getText().toString())) {
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
             validForm = false;
         }
         else if(TextUtils.isEmpty(editTextPassenger.getText().toString())){
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger));
             validForm = false;
         }
         else if(Integer.parseInt(editTextPassenger.getText().toString()) > 6){
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_above));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_above));
             validForm = false;
         }
         else if(Integer.parseInt(editTextPassenger.getText().toString()) <1){
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_below));
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_number_of_passenger_below));
             validForm = false;
         }
-        else if(img1.getDrawable() == null || img2.getDrawable() == null) {
-            Utils.showToast(CompleteDriverRegristration.this, getResources().getString(R.string.complete_registration_validation_image));
+        else if(TextUtils.isEmpty(autoCompleteAddress.getText().toString())){
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_autocomplete_address));
             validForm = false;
+        }
+        else if(img1.getDrawable() == null) {
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_image));
+            validForm = false;
+        }
+
+        String address = autoCompleteAddress.getText().toString();
+        boolean validAddress = false;
+        for(int x = 0; x < places.length; x++){
+            if(address == places[x]){
+                validAddress = true;
+            }
+        }
+        if(validForm && !validAddress){
+            Utils.showToast(CompleteDriverRegistration.this, getResources().getString(R.string.complete_registration_validation_autocomplete_address_no_match));
         }
         
-        return validForm;
+        return validForm&&validAddress;
     }
 
 
     private void addImage() {
-        dialog = new Dialog(CompleteDriverRegristration.this, R.style.WalkthroughTheme);
+        dialog = new Dialog(CompleteDriverRegistration.this, R.style.WalkthroughTheme);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.show_dilaogue_camera);
         dialog.setCanceledOnTouchOutside(false);
@@ -240,11 +261,11 @@ public class CompleteDriverRegristration extends Activity {
 
     private void openCamera(){
         if (
-                ActivityCompat.checkSelfPermission(CompleteDriverRegristration.this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED
-            ||  ActivityCompat.checkSelfPermission(CompleteDriverRegristration.this,Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
-            ||  ActivityCompat.checkSelfPermission(CompleteDriverRegristration.this, Manifest.permission.READ_EXTERNAL_STORAGE )!= PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.checkSelfPermission(CompleteDriverRegistration.this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED
+            ||  ActivityCompat.checkSelfPermission(CompleteDriverRegistration.this,Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
+            ||  ActivityCompat.checkSelfPermission(CompleteDriverRegistration.this, Manifest.permission.READ_EXTERNAL_STORAGE )!= PackageManager.PERMISSION_GRANTED ) {
 
-            ActivityCompat.requestPermissions(CompleteDriverRegristration.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CAMERA);
+            ActivityCompat.requestPermissions(CompleteDriverRegistration.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_CAMERA);
         }
         else {
            /* Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -335,6 +356,7 @@ public class CompleteDriverRegristration extends Activity {
     }
 
     private void setData(){
+        AccountDTO accountDTO = new AccountDAO(CompleteDriverRegistration.this).getAccountById(-1);
 
         CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
         carDetailsDTO.setCarId(-1);
@@ -342,10 +364,13 @@ public class CompleteDriverRegristration extends Activity {
         carDetailsDTO.setNumOfPassenger(Integer.parseInt(editTextPassenger.getText().toString()));
         carDetailsDTO.setYear(Integer.parseInt(editTextYear.getText().toString()));
         carDetailsDTO.setPlateNum(editTextPlateNum.getText().toString());
-        carDetailsDTO.setAccountId(-1);
+        carDetailsDTO.setAccountId(accountDTO.getAccountId());
 
+        if(img1.getDrawable() != null)
         carDetailsDTO.setPicture1(Utils.convertBitmapToBlob(((BitmapDrawable)img1.getDrawable()).getBitmap()));
-        carDetailsDTO.setPicture2(Utils.convertBitmapToBlob(((BitmapDrawable)img2.getDrawable()).getBitmap()));
+
+        if(img2.getDrawable() != null)
+            carDetailsDTO.setPicture2(Utils.convertBitmapToBlob(((BitmapDrawable)img2.getDrawable()).getBitmap()));
 
         if(img3.getDrawable() != null)
             carDetailsDTO.setPicture3(Utils.convertBitmapToBlob(((BitmapDrawable)img3.getDrawable()).getBitmap()));
@@ -353,15 +378,10 @@ public class CompleteDriverRegristration extends Activity {
         if(img4.getDrawable() != null)
             carDetailsDTO.setPicture4(Utils.convertBitmapToBlob(((BitmapDrawable)img4.getDrawable()).getBitmap()));
 
-        new CarDetailsDAO(CompleteDriverRegristration.this).saveCarDetails(carDetailsDTO);
+        new CarDetailsDAO(CompleteDriverRegistration.this).saveCarDetails(carDetailsDTO);
 
-        AccountDTO accountDTO = new AccountDAO(CompleteDriverRegristration.this).getAccountById(-1);
-        new AsyncCreateAccount(CompleteDriverRegristration.this).execute(accountDTO);
-
-       /* //to delete
-        carDetailsDTO.setAccountId(1);
-        new AsyncCreateCarDetails(CompleteDriverRegristration.this).execute(carDetailsDTO);*/
-
+        accountDTO.setAddress(autoCompleteAddress.getText().toString());
+        new AccountDAO(CompleteDriverRegistration.this).saveAccount(accountDTO);
+        new AsyncCreateAccount(CompleteDriverRegistration.this).execute(accountDTO);
     }
-
 }

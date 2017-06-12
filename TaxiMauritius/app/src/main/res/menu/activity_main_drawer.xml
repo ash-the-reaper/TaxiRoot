@@ -7,9 +7,9 @@
             android:icon="@drawable/logo_google_map"
             android:title="@string/menu_google_map" />
         <item
-            android:id="@+id/navSearch"
-            android:icon="@drawable/logo_search"
-            android:title="@string/menu_search" />
+            android:id="@+id/navCreateRequest"
+            android:icon="@drawable/icon_plus"
+            android:title="@string/menu_create_request" />
         <item
             android:id="@+id/navHistory"
             android:icon="@drawable/logo_history"

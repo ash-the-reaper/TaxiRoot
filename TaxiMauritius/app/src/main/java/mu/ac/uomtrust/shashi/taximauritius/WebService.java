@@ -6,7 +6,8 @@ package mu.ac.uomtrust.shashi.taximauritius;
 
 public class WebService {
 
-    private static final String SERVER_URL = "http://192.168.100.4/api/";
+    //private static final String SERVER_URL = "http://192.168.100.4/api/";
+    private static final String SERVER_URL = "http://192.168.20.59/api/";
     public static final String API_ACCOUNT = SERVER_URL + "account/";
     public static final String API_CLIENT = SERVER_URL + "client/";
 
