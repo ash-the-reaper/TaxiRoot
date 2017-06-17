@@ -4,18 +4,33 @@ package mu.ac.uomtrust.shashi.taximauritius;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.app.Fragment;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.android.gms.maps.MapFragment;
+
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
+import java.util.Date;
+
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateRequest;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -26,22 +41,20 @@ import java.util.Calendar;
 public class CreateRequestActivity extends Fragment {
 
     private AutoCompleteTextView autoCompleteFrom, autoCompleteTo;
-    private EditText timePicker, datePicker;
+    private EditText mTimePicker, datePicker;
     private String[] places;
 
-    private boolean currentDate = false;
-    private boolean validTime = false;
     private Calendar requestDateTime = Calendar.getInstance();
+    private RequestDTO requestDTO = new RequestDTO();
 
-    private int selectedYear, selectecMonth, selectedDayOfMonth, gHour,gMin;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_request, container, false);
 
-        timePicker = (EditText) view.findViewById(R.id.timePicker);
-        timePicker.setOnClickListener(new View.OnClickListener() {
+        mTimePicker = (EditText) view.findViewById(R.id.timePicker);
+        mTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar currentTime = Calendar.getInstance();
@@ -51,15 +64,16 @@ public class CreateRequestActivity extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
+                        mTimePicker.setText(String.valueOf(selectedHour)+" : "+String.valueOf(selectedMinute));
 
                     }
                 }, mHour, mMinute, false);
+
                 timePickerDialog.setTitle("Select Time");
                 timePickerDialog.show();
-
             }
         });
+
 
         datePicker = (EditText) view.findViewById(R.id.datePicker);
         datePicker.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +89,11 @@ public class CreateRequestActivity extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
 
-                        requestDateTime.set(selectedYear, Calendar.YEAR);
-                        requestDateTime.set(selectecMonth, Calendar.MONTH);
-                        requestDateTime.set(selectedDayOfMonth, Calendar.DAY_OF_MONTH);
+                        requestDateTime.set(Calendar.YEAR, year);
+                        requestDateTime.set(Calendar.MONTH, monthOfYear);
+                        requestDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        datePicker.setText(String.valueOf(dayOfMonth) +" "+ new DateFormatSymbols().getMonths()[monthOfYear-1]);
                     }
                 }, mYear, mMonth, mDay);
 
@@ -97,7 +113,114 @@ public class CreateRequestActivity extends Fragment {
         ArrayAdapter<String> adapterTo = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,places);
         autoCompleteTo.setAdapter(adapterTo);
 
+
+        Button btnCreateRequest = (Button)view.findViewById(R.id.btnCreateRequest);
+        btnCreateRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validForm()){
+                    new AsyncCreateRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+                }
+            }
+        });
+
+        Button btnCancelRequest = (Button)view.findViewById(R.id.btnCancelRequest);
+        btnCancelRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertCancel();
+            }
+        });
+
         return view;
+    }
+
+    private void alertCancel() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.getActivity());
+
+        // Setting Dialog Title
+        alertDialog.setTitle("Confirm Delete...");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Are you sure you want delete this?");
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.details, new MapFragment())
+                        .commit();
+                dialog.cancel();
+            }
+        });
+
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Write your code here to invoke NO event
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
+
+    private boolean validForm(){
+        boolean validForm = true;
+        boolean validAddressFrom = false;
+        boolean validAddressTo= false;
+
+        if(autoCompleteFrom.getText() == null){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_address));
+            validForm = false;
+        }
+        else if(autoCompleteTo.getText() == null ){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_address));
+            validForm = false;
+        }
+        else if(datePicker.getText() == null ){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_date));
+            validForm = false;
+        }
+        else if(mTimePicker.getText() == null ){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_time));
+            validForm = false;
+        }
+
+        String addressFrom = autoCompleteFrom.getText().toString();
+        for(int x = 0; x < places.length; x++){
+            if(addressFrom.equalsIgnoreCase(places[x])){
+                validAddressFrom = true;
+            }
+        }
+
+        String addressTo = autoCompleteTo.getText().toString();
+        for(int x = 0; x < places.length; x++){
+            if(addressTo.equalsIgnoreCase(places[x])){
+                validAddressTo = true;
+            }
+        }
+
+        if(validForm && !validAddressFrom){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_address_no_match));
+        }
+        else if(validForm && !validAddressTo){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_address_no_match));
+        }
+
+        if(validForm&&validAddressFrom&&validAddressTo){
+            SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
+            int accountId = prefs.getInt("accountId", 1);
+            requestDTO.setAccountId(accountId);
+
+            requestDTO.setPlaceFrom(autoCompleteFrom.getText().toString());
+            requestDTO.setPlaceTo(autoCompleteTo.getText().toString());
+        }
+
+        return validForm&&validAddressFrom&&validAddressTo;
     }
 
 }

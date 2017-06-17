@@ -1,10 +1,13 @@
 package mu.ac.uomtrust.shashi.taximauritius.Async;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+
+import com.google.android.gms.maps.MapFragment;
 
 import org.json.JSONObject;
 
@@ -14,13 +17,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.RequestDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
+import mu.ac.uomtrust.shashi.taximauritius.R;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
 
@@ -30,42 +39,43 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Ashwin on 03-Jun-17.
  */
 
-public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO > {
+public class AsyncCreateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO > {
 
     private Context context;
     private ProgressDialog progressDialog;
+    private FragmentManager fragmentManager;
 
-    public AsyncCreateAccount(final Context context) {
+    public AsyncCreateRequest(final Context context, FragmentManager fragmentManager) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
     protected void onPreExecute() {
-        progressDialog = Utils.progressDialogue(context, "Creating your account");
+        progressDialog = Utils.progressDialogue(context, "Creating your request");
         progressDialog.show();
     }
 
 
     @Override
-    protected AccountDTO doInBackground(AccountDTO... params) {
+    protected RequestDTO doInBackground(RequestDTO... params) {
         JSONObject postData = new JSONObject();
-        AccountDTO accountDTO = params[0];
+        RequestDTO requestDTO = params[0];
 
         try{
-            postData.put("firstName", accountDTO.getFirstName());
-            postData.put("lastName", accountDTO.getLastName());
-            postData.put("email", accountDTO.getEmail());
-            postData.put("userRole", accountDTO.getRole());
-            postData.put("userStatus", accountDTO.getUserStatus());
-            postData.put("gender", accountDTO.getGender());
+            postData.put("placeFrom", requestDTO.getPlaceFrom());
+            postData.put("placeTo", requestDTO.getPlaceTo());
+            postData.put("requestStatus", RequestStatus.REQUEST_PENDING);
+            postData.put("accountId", requestDTO.getAccountId());
 
             HttpURLConnection httpURLConnection = null;
             try {
 
-                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_ACCOUNT).openConnection();
+                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_REQUEST).openConnection();
                 httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json");
-                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
+                httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.connect();
 
@@ -85,8 +95,11 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
                 }
 
                 JSONObject jsonObject = new JSONObject(builder.toString());
-                accountDTO.setAccountId(jsonObject.getInt("accountId"));
+                requestDTO.setRequestId(jsonObject.getInt("requestId"));
 
+                Date date = new Date();
+                requestDTO.setDateCreated(date);
+                requestDTO.setDateUpdated(date);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -96,9 +109,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
                 }
             }
 
-            return accountDTO;
-
-
+            return requestDTO;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -110,26 +121,12 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     }
 
     @Override
-    protected void onPostExecute(AccountDTO accountDTO){
-        super.onPostExecute(accountDTO);
-
-        new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
-
-        SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
-        editor.putBoolean("login", true);
-        editor.putInt("accountId", accountDTO.getAccountId());
-        editor.commit();
-
-
-        if(accountDTO.getRole() == UserRole.TAXI_DRIVER){
-            CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
-            carDetailsDTO.setAccountId(accountDTO.getAccountId());
-            new CarDetailsDAO(context).saveCarDetails(carDetailsDTO);
-            new AsyncCreateCarDetails(context).execute(carDetailsDTO);
-        }
-        else {
-            Intent intent = new Intent(context, MainActivity.class);
-            context.startActivity(intent);
-        }
+    protected void onPostExecute(RequestDTO requestDTO){
+        super.onPostExecute(requestDTO);
+        new RequestDAO(context).saveRequest(requestDTO);
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.details, new MapFragment())
+                .commit();
     }
 }

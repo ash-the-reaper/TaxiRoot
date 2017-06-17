@@ -1,25 +1,65 @@
 package mu.ac.uomtrust.shashi.taximauritius.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 
 /**
  * Created by Ashwin on 05-Jun-17.
  */
 
-public class RequestDTO implements Serializable {
+public class ManageRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int carId;
-    private String make;
-    private int year;
-    private int numOfPassenger;
-    private String plateNum;
-    private byte[] picture1;
-    private byte[] picture2;
-    private byte[] picture3;
-    private byte[] picture4;
-    private int accountId;
 
+    private int manageRequestId;
+    private Date dateCreated;
+    private Date dateUpdated;
+    private int price;
+    private RequestStatus requestStatus;
+    private int accountId;
+    private int carId;
+
+    public int getManageRequestId() {
+        return manageRequestId;
+    }
+
+    public void setManageRequestId(int manageRequestId) {
+        this.manageRequestId = manageRequestId;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(Date dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public RequestStatus getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
+    }
 
     public int getAccountId() {
         return accountId;
@@ -27,38 +67,6 @@ public class RequestDTO implements Serializable {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
-    }
-
-    public byte[] getPicture1() {
-        return picture1;
-    }
-
-    public void setPicture1(byte[] picture1) {
-        this.picture1 = picture1;
-    }
-
-    public byte[] getPicture2() {
-        return picture2;
-    }
-
-    public void setPicture2(byte[] picture2) {
-        this.picture2 = picture2;
-    }
-
-    public byte[] getPicture3() {
-        return picture3;
-    }
-
-    public void setPicture3(byte[] picture3) {
-        this.picture3 = picture3;
-    }
-
-    public byte[] getPicture4() {
-        return picture4;
-    }
-
-    public void setPicture4(byte[] picture4) {
-        this.picture4 = picture4;
     }
 
     public int getCarId() {
@@ -69,35 +77,15 @@ public class RequestDTO implements Serializable {
         this.carId = carId;
     }
 
-    public String getMake() {
-        return make;
+    public int getRequestId() {
+        return requestId;
     }
 
-    public void setMake(String make) {
-        this.make = make;
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
     }
 
-    public int getYear() {
-        return year;
-    }
+    private int requestId;
 
-    public void setYear(int year) {
-        this.year = year;
-    }
 
-    public int getNumOfPassenger() {
-        return numOfPassenger;
-    }
-
-    public void setNumOfPassenger(int numOfPassenger) {
-        this.numOfPassenger = numOfPassenger;
-    }
-
-    public String getPlateNum() {
-        return plateNum;
-    }
-
-    public void setPlateNum(String plateNum) {
-        this.plateNum = plateNum;
-    }
 }

@@ -1,0 +1,35 @@
+package shashi.uomtrust.ac.mu.entity;
+
+import java.util.Date;
+
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+public class ManageRequest {
+
+	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer manage_request_id;
+	
+	@Id
+    private int request_status;
+    private int price;
+    private Date date_created;
+    private Date date_updated;
+	
+    @Id
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", nullable = true)
+	private Account userAccount;
+	
+    @Id
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", nullable = true)
+	private Account taxiAccount;
+
+
+}

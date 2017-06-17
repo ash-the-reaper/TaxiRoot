@@ -109,6 +109,7 @@
            android:layout_height="match_parent">
 
            <Button
+               android:id="@+id/btnCreateRequest"
                android:text="CREATE"
                android:textStyle="bold"
                android:textColor="@color/black"
@@ -118,6 +119,7 @@
                android:layout_height="match_parent"/>
 
            <Button
+               android:id="@+id/btnCancelRequest"
                android:text="CANCEL"
                android:textStyle="bold"
                android:textColor="@color/black"

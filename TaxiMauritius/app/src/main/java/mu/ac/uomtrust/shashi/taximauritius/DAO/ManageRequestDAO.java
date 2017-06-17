@@ -12,11 +12,11 @@ import mu.ac.uomtrust.shashi.taximauritius.Database;
  * Created by Ashwin on 05-Jun-17.
  */
 
-public class CarDetailsDAO {
+public class ManageRequestDAO {
     private final String TABLE_NAME = "car_details";
     private final Database dbHelper;
 
-    public CarDetailsDAO(final Context context) {
+    public ManageRequestDAO(final Context context) {
         dbHelper = Database.getInstance(context);
     }
 

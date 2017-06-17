@@ -1,0 +1,81 @@
+package shashi.uomtrust.ac.mu.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class ManageRequest {
+
+	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer manage_request_id;
+    
+    @Id
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "request_id", nullable = true)
+	private Request request;
+	
+    @Id
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", nullable = true)
+	private Account userAccount;
+	
+
+    
+    private int request_status;
+    private int price;
+    private Date date_created;
+    private Date date_updated;
+    
+	public Request getRequest() {
+		return request;
+	}
+	public void setRequest(Request request) {
+		this.request = request;
+	}
+	public Account getUserAccount() {
+		return userAccount;
+	}
+	public void setUserAccount(Account userAccount) {
+		this.userAccount = userAccount;
+	}
+	public Account getTaxiAccount() {
+		return taxiAccount;
+	}
+	public void setTaxiAccount(Account taxiAccount) {
+		this.taxiAccount = taxiAccount;
+	}
+	public int getRequest_status() {
+		return request_status;
+	}
+	public void setRequest_status(int request_status) {
+		this.request_status = request_status;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public Date getDate_created() {
+		return date_created;
+	}
+	public void setDate_created(Date date_created) {
+		this.date_created = date_created;
+	}
+	public Date getDate_updated() {
+		return date_updated;
+	}
+	public void setDate_updated(Date date_updated) {
+		this.date_updated = date_updated;
+	}
+}

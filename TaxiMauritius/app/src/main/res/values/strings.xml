@@ -61,6 +61,12 @@
     <string name="complete_registration_validation_autocomplete_address_no_match">Please select address from autocomplete list</string>
 
 
+    <string name="create_request_activity_validation_autocomplete_address">Address can not be null</string>
+    <string name="create_request_activity_validation_autocomplete_date">Date can not be null</string>
+    <string name="create_request_activity_validation_autocomplete_time">Time can not be null</string>
+    <string name="create_request_activity_validation_autocomplete_address_no_match">Please select address from autocomplete list</string>
+
+
     <string name="complete_registration_gallery">Gallery</string>
     <string name="complete_registration_camera">Camera</string>
 

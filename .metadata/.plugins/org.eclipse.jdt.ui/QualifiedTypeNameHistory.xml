@@ -8,7 +8,6 @@
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dao.AccountDAO"/>
 <fullyQualifiedTypeName name="org.springframework.http.client.ClientHttpResponse"/>
 <fullyQualifiedTypeName name="javax.persistence.Temporal"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.ClientRepository"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.backoffice.PocketGuideBackOfficeApplication"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Client"/>
@@ -16,7 +15,6 @@
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.backoffice.BackOfficeUser"/>
 <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.EnableAutoConfiguration"/>
 <fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.AccountService"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
@@ -45,11 +43,19 @@
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.CarDetailsService"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
 <fullyQualifiedTypeName name="java.util.Base64"/>
 <fullyQualifiedTypeName name="java.util.Base64.Decoder"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.CarDetailsImp"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.CarDetailsDTO"/>
 <fullyQualifiedTypeName name="org.apache.tomcat.util.codec.binary.Base64"/>
+<fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.RequestRepository"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.RequestService"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.AccountService"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Request"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.RequestDTO"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
 </qualifiedTypeNameHistroy>

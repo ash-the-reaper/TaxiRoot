@@ -47,8 +47,9 @@ public class Database extends SQLiteOpenHelper {
 
     private void createTables(SQLiteDatabase db) {
         createTableAccount(db);
-        createTableTransaction(db);
         createTableCarDetails(db);
+        createTableRequest(db);
+        createTableManageRequest(db);
     }
 
     private void createTableAccount(SQLiteDatabase db){
@@ -67,15 +68,27 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(qb);
     }
 
-    private void createTableTransaction(SQLiteDatabase db){
-        String qb = "CREATE TABLE IF NOT EXISTS transaction_table (" +
-                " transac_id INTEGER PRIMARY KEY NOT NULL, " +
+    private void createTableRequest(SQLiteDatabase db){
+        String qb = "CREATE TABLE IF NOT EXISTS request (" +
+                " request_id INTEGER PRIMARY KEY NOT NULL, " +
                 " account_id INTEGER NOT NULL, " +
-                " ad_status INTEGER, " +
-                " payment_status INTEGER, " +
+                " request_status INTEGER, " +
                 " price INTEGER, "+
                 " place_from TEXT DEFAULT NULL, "+
                 " place_to TEXT DEFAULT NULL, "+
+                " date_updated NUMERIC DEFAULT NULL, "+
+                " date_created NUMERIC DEFAULT NULL ); ";
+        db.execSQL(qb);
+    }
+
+    private void createTableManageRequest(SQLiteDatabase db){
+        String qb = "CREATE TABLE IF NOT EXISTS manage_request (" +
+                " manage_request_id INTEGER PRIMARY KEY NOT NULL, " +
+                " request_id INTEGER NOT NULL, " +
+                " account_id INTEGER  NOT NULL, " +
+                " car_id INTEGER NOT NULL, " +
+                " request_status INTEGER, " +
+                " price INTEGER, "+
                 " date_updated NUMERIC DEFAULT NULL, "+
                 " date_created NUMERIC DEFAULT NULL ); ";
         db.execSQL(qb);
@@ -97,14 +110,10 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public Cursor executeQuery(String query, String[] selectionArgs) {
-
         Cursor mCursor = db.rawQuery(query, selectionArgs);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
-
-
         return mCursor;
-
     }
 }

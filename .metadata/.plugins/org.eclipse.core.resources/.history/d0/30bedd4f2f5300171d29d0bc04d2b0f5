@@ -1,0 +1,5 @@
+package shashi.uomtrust.ac.mu.entity;
+
+public class TransactionTable {
+
+}
