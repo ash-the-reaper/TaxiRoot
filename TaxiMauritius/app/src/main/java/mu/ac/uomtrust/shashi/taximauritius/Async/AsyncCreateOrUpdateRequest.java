@@ -3,11 +3,7 @@ package mu.ac.uomtrust.shashi.taximauritius.Async;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-
-import com.google.android.gms.maps.MapFragment;
 
 import org.json.JSONObject;
 
@@ -17,36 +13,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.RequestDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
-import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
-import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
-import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
+import mu.ac.uomtrust.shashi.taximauritius.PendingRequestActivity;
 import mu.ac.uomtrust.shashi.taximauritius.R;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
-
-import static android.content.Context.MODE_PRIVATE;
-import static java.net.Proxy.Type.HTTP;
 
 /**
  * Created by Ashwin on 03-Jun-17.
  */
 
-public class AsyncCreateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO > {
+public class AsyncCreateOrUpdateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO > {
 
     private Context context;
     private ProgressDialog progressDialog;
     private FragmentManager fragmentManager;
 
-    public AsyncCreateRequest(final Context context, FragmentManager fragmentManager) {
+    public AsyncCreateOrUpdateRequest(final Context context, FragmentManager fragmentManager) {
         this.context = context;
         this.fragmentManager = fragmentManager;
     }
@@ -75,7 +60,7 @@ public class AsyncCreateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO >
             postData.put("eventDateTime", requestDTO.getEvenDateTime().getTime());
             postData.put("details", requestDTO.getDetails());
 
-            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_REQUEST).openConnection();
+            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_UPDATE_REQUEST).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             httpURLConnection.setRequestProperty("Accept", "application/json;charset=UTF-8");
@@ -120,10 +105,16 @@ public class AsyncCreateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO >
     @Override
     protected void onPostExecute(RequestDTO requestDTO){
         super.onPostExecute(requestDTO);
-        new RequestDAO(context).saveRequest(requestDTO);
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.details, new MapFragment())
-                .commit();
+
+        if(requestDTO != null && requestDTO.getRequestId() > 0) {
+            new RequestDAO(context).saveRequest(requestDTO);
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.details, new PendingRequestActivity())
+                    .commit();
+        }
+        else{
+            Utils.showToast(context, context.getString(R.string.error_server));
+        }
     }
 }

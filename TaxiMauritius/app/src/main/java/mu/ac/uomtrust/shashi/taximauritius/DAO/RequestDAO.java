@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
@@ -58,6 +60,45 @@ public class RequestDAO {
 
         return dto;
     }
+
+    public  List<RequestDTO> getRequestByStatus(RequestStatus requestStatus) {
+        final StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT * ");
+        sql.append(" FROM "+ TABLE_NAME);
+        sql.append(" WHERE request_status = " + requestStatus.getValue());
+        sql.append(" ORDER BY request_id DESC");
+
+        dbHelper.open();
+        Cursor res = dbHelper.executeQuery(sql.toString(), null);
+        if (res != null) {
+            res.moveToFirst();
+        }
+
+        List<RequestDTO> requestDTOList = new ArrayList<>();
+
+        while (!res.isAfterLast()) {
+
+            RequestDTO dto = new RequestDTO();
+            dto.setRequestId(res.getInt(res.getColumnIndex("request_id")));
+            dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
+            dto.setDateUpdated(new Date(res.getLong(res.getColumnIndex("date_updated"))));
+            dto.setDateCreated(new Date(res.getLong(res.getColumnIndex("date_created"))));
+            dto.setEvenDateTime(new Date(res.getLong(res.getColumnIndex("event_date_time"))));
+            dto.setPlaceFrom(res.getString(res.getColumnIndex("place_from")));
+            dto.setPlaceTo(res.getString(res.getColumnIndex("place_to")));
+            dto.setDetails(res.getString(res.getColumnIndex("details")));
+            dto.setPrice(res.getInt(res.getColumnIndex("price")));
+            dto.setRequestStatus(RequestStatus.valueFor(res.getInt(res.getColumnIndex("request_status"))));
+
+            requestDTOList.add(dto);
+            res.moveToNext();
+        }
+
+        res.close();
+
+        return requestDTOList;
+    }
+
 
     private ContentValues setContentValues(RequestDTO requestDTO){
         ContentValues values = new ContentValues();

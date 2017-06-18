@@ -2,6 +2,7 @@ package mu.ac.uomtrust.shashi.taximauritius;
 
 
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.app.Fragment;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,14 +20,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.gms.maps.MapFragment;
-
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateOrUpdateRequest;
+import mu.ac.uomtrust.shashi.taximauritius.DAO.RequestDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 
@@ -39,7 +38,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 
-public class CreateRequestActivity extends Fragment {
+public class ViewRequestActivity extends Fragment {
 
     private AutoCompleteTextView autoCompleteFrom, autoCompleteTo;
     private TextView mTimePicker, datePicker;
@@ -53,15 +52,15 @@ public class CreateRequestActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_create_request, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_request, container, false);
 
         mTimePicker = (TextView) view.findViewById(R.id.timePicker);
         mTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar currentTime = Calendar.getInstance();
-                final int mHour = currentTime.get(Calendar.HOUR_OF_DAY);
-                final int mMinute = currentTime.get(Calendar.MINUTE);
+
+                final int mHour = requestDateTime.get(Calendar.HOUR_OF_DAY);
+                final int mMinute = requestDateTime.get(Calendar.MINUTE);
                 final TimePickerDialog timePickerDialog;
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -89,10 +88,9 @@ public class CreateRequestActivity extends Fragment {
             @Override
             public void onClick(final View v) {
 
-                Calendar currentTime = Calendar.getInstance();
-                final int mMonth = currentTime.get(Calendar.MONTH);
-                final int mYear = currentTime.get(Calendar.YEAR);
-                final int mDay = currentTime.get(Calendar.DAY_OF_MONTH);
+                final int mMonth = requestDateTime.get(Calendar.MONTH);
+                final int mYear = requestDateTime.get(Calendar.YEAR);
+                final int mDay = requestDateTime.get(Calendar.DAY_OF_MONTH);
                 final DatePickerDialog datePickerDialogue;
                 datePickerDialogue = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -109,7 +107,7 @@ public class CreateRequestActivity extends Fragment {
                     }
                 }, mYear, mMonth, mDay);
 
-                datePickerDialogue.getDatePicker().setMinDate(currentTime.getTimeInMillis());
+                datePickerDialogue.getDatePicker().setMinDate(requestDateTime.getTimeInMillis());
                 datePickerDialogue.setTitle("Select Date");
                 datePickerDialogue.show();
             }
@@ -127,8 +125,8 @@ public class CreateRequestActivity extends Fragment {
 
         editTextDetails = (EditText)view.findViewById(R.id.editTextDetails);
 
-        Button btnCreateRequest = (Button)view.findViewById(R.id.btnCreateRequest);
-        btnCreateRequest.setOnClickListener(new View.OnClickListener() {
+        Button btnUpdateRequest = (Button)view.findViewById(R.id.btnUpdateRequest);
+        btnUpdateRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(validForm()){
@@ -137,19 +135,46 @@ public class CreateRequestActivity extends Fragment {
             }
         });
 
-        Button btnCancelRequest = (Button)view.findViewById(R.id.btnCancelRequest);
-        btnCancelRequest.setOnClickListener(new View.OnClickListener() {
+        Button btnDeleteRequest = (Button)view.findViewById(R.id.btnDeleteRequest);
+        btnDeleteRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertCancel();
+                alertDelete();
             }
         });
+
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
+        Integer requestId = prefs.getInt("requestId", 1);
+
+        RequestDTO requestDTO = new RequestDAO(getActivity()).getRequestByID(requestId);
+        autoCompleteFrom.setText(requestDTO.getPlaceFrom());
+        autoCompleteTo.setText(requestDTO.getPlaceTo());
+
+        String sDate = null, sTime = null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMMM");
+            sDate = simpleDateFormat.format(requestDTO.getEvenDateTime());
+
+            SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("H : mm");
+            sTime = simpleTimeFormat.format(requestDTO.getEvenDateTime());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        datePicker.setText(sDate);
+        mTimePicker.setText(sTime);
+
+        editTextDetails.setText(requestDTO.getDetails());
+
+        requestDateTime.setTime(requestDTO.getEvenDateTime());
 
 
         return view;
     }
 
-    private void alertCancel() {
+    private void alertDelete() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.getActivity());
 
         // Setting Dialog Title
@@ -164,7 +189,7 @@ public class CreateRequestActivity extends Fragment {
 
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.details, new MapFragment())
+                        .replace(R.id.details, new PendingRequestActivity())
                         .commit();
                 dialog.cancel();
             }

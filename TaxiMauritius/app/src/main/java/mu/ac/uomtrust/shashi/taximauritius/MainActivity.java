@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity
             CreateRequestActivity createRequestActivity = new CreateRequestActivity();
             changeFragment(createRequestActivity);
         } else if (id == R.id.navHistory) {
-
+            PendingRequestActivity pendingRequestActivity = new PendingRequestActivity();
+            changeFragment(pendingRequestActivity);
         }
         else if(id == R.id.navLogOut){
            /* Logout logout = new Logout();
@@ -138,42 +139,5 @@ public class MainActivity extends AppCompatActivity
 
         // Commit the transaction
         transaction.commit();
-    }
-
-    private void popUpLogout(){
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-
-        // Setting Dialog Title
-        alertDialog.setTitle("Log out");
-
-        // Setting Dialog Message
-        alertDialog.setMessage("Are you sure you want to log out?");
-
-        // Setting Icon to Dialog
-        alertDialog.setIcon(R.drawable.taxi_logo);
-
-        // Setting Positive "Yes" Button
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
-                SharedPreferences.Editor editor = getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
-                editor.remove("login");
-                editor.remove("accountId");
-                editor.commit();
-
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
-                //getActivity().finish();
-            }
-        });
-
-        // Setting Negative "NO" Button
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        // Showing Alert Message
-        alertDialog.show();
     }
 }

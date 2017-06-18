@@ -20,7 +20,9 @@ import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
+import mu.ac.uomtrust.shashi.taximauritius.LoginActivity;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
+import mu.ac.uomtrust.shashi.taximauritius.R;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
 
@@ -114,22 +116,28 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     protected void onPostExecute(AccountDTO accountDTO){
         super.onPostExecute(accountDTO);
 
-        new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
+        if(accountDTO != null && accountDTO.getAccountId() > 0) {
+            new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
 
-        SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
-        editor.putBoolean("login", true);
-        editor.putInt("accountId", accountDTO.getAccountId());
-        editor.commit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
+            editor.putBoolean("login", true);
+            editor.putInt("accountId", accountDTO.getAccountId());
+            editor.commit();
 
 
-        if(accountDTO.getRole() == UserRole.TAXI_DRIVER){
-            CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
-            carDetailsDTO.setAccountId(accountDTO.getAccountId());
-            new CarDetailsDAO(context).saveCarDetails(carDetailsDTO);
-            new AsyncCreateCarDetails(context).execute(carDetailsDTO);
+            if (accountDTO.getRole() == UserRole.TAXI_DRIVER) {
+                CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
+                carDetailsDTO.setAccountId(accountDTO.getAccountId());
+                new CarDetailsDAO(context).saveCarDetails(carDetailsDTO);
+                new AsyncCreateCarDetails(context).execute(carDetailsDTO);
+            } else {
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
         }
-        else {
-            Intent intent = new Intent(context, MainActivity.class);
+        else{
+            Utils.showToast(context, context.getString(R.string.error_server));
+            Intent intent = new Intent(context, LoginActivity.class);
             context.startActivity(intent);
         }
     }

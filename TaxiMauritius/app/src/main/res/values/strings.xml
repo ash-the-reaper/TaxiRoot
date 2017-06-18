@@ -80,6 +80,9 @@
     <string name="fragment_create_request_details">Details</string>
     <string name="fragment_create_request_date">Date:</string>
 
+
+    <string name="error_server">An error has occured please try again later</string>
+
     <string-array name="address_arrays">
         <item>Select user type</item>
         <item>	Albion	</item>

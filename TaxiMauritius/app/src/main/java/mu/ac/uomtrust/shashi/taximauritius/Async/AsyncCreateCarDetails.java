@@ -18,6 +18,7 @@ import java.net.URL;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.MainActivity;
+import mu.ac.uomtrust.shashi.taximauritius.R;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
 
@@ -118,9 +119,14 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
     protected void onPostExecute(Integer carId){
         super.onPostExecute(carId);
 
-        new CarDetailsDAO(context).updateCarDetailsIdFromWS(carId);
+        if(carId > 0) {
+            new CarDetailsDAO(context).updateCarDetailsIdFromWS(carId);
 
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
+            Intent intent = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
+        }
+        else{
+            Utils.showToast(context, context.getString(R.string.error_server));
+        }
     }
 }
