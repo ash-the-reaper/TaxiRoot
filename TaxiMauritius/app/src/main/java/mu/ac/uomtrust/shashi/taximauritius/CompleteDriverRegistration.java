@@ -216,7 +216,7 @@ public class CompleteDriverRegistration extends Activity {
         String address = autoCompleteAddress.getText().toString();
         boolean validAddress = false;
         for(int x = 0; x < places.length; x++){
-            if(address == places[x]){
+            if(address.equalsIgnoreCase(places[x])){
                 validAddress = true;
             }
         }

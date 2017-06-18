@@ -13,19 +13,19 @@ public class ManageRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private int manageRequestId;
+    private Integer manageRequestId;
     private Date dateCreated;
     private Date dateUpdated;
-    private int price;
+    private Integer price;
     private RequestStatus requestStatus;
-    private int accountId;
-    private int carId;
+    private Integer accountId;
+    private Integer carId;
 
-    public int getManageRequestId() {
+    public Integer getManageRequestId() {
         return manageRequestId;
     }
 
-    public void setManageRequestId(int manageRequestId) {
+    public void setManageRequestId(Integer manageRequestId) {
         this.manageRequestId = manageRequestId;
     }
 
@@ -45,11 +45,11 @@ public class ManageRequestDTO implements Serializable {
         this.dateUpdated = dateUpdated;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -61,31 +61,31 @@ public class ManageRequestDTO implements Serializable {
         this.requestStatus = requestStatus;
     }
 
-    public int getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
 
-    public int getCarId() {
+    public Integer getCarId() {
         return carId;
     }
 
-    public void setCarId(int carId) {
+    public void setCarId(Integer carId) {
         this.carId = carId;
     }
 
-    public int getRequestId() {
+    public Integer getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(int requestId) {
+    public void setRequestId(Integer requestId) {
         this.requestId = requestId;
     }
 
-    private int requestId;
+    private Integer requestId;
 
 
 }

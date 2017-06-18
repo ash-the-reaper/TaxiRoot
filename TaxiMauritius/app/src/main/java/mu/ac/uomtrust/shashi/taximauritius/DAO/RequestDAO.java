@@ -44,8 +44,10 @@ public class RequestDAO {
             dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
             dto.setDateUpdated(new Date(res.getLong(res.getColumnIndex("date_updated"))));
             dto.setDateCreated(new Date(res.getLong(res.getColumnIndex("date_created"))));
+            dto.setEvenDateTime(new Date(res.getLong(res.getColumnIndex("event_date_time"))));
             dto.setPlaceFrom(res.getString(res.getColumnIndex("place_from")));
             dto.setPlaceTo(res.getString(res.getColumnIndex("place_to")));
+            dto.setDetails(res.getString(res.getColumnIndex("details")));
             dto.setPrice(res.getInt(res.getColumnIndex("price")));
             dto.setRequestStatus(RequestStatus.valueFor(res.getInt(res.getColumnIndex("request_status"))));
 
@@ -64,10 +66,15 @@ public class RequestDAO {
         values.put("account_id", requestDTO.getAccountId());
         values.put("date_updated", requestDTO.getDateUpdated().getTime());
         values.put("date_created", requestDTO.getDateCreated().getTime());
+        values.put("event_date_time", requestDTO.getEvenDateTime().getTime());
         values.put("place_from", requestDTO.getPlaceFrom());
         values.put("place_to", requestDTO.getPlaceTo());
-        values.put("price", requestDTO.getPrice());
+
+        if(requestDTO.getPrice() != null)
+            values.put("price", requestDTO.getPrice());
+
         values.put("request_status", requestDTO.getRequestStatus().getValue());
+        values.put("details", requestDTO.getDetails());
 
 
         return values;

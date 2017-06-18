@@ -41,7 +41,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class CreateRequestActivity extends Fragment {
 
     private AutoCompleteTextView autoCompleteFrom, autoCompleteTo;
-    private EditText mTimePicker, datePicker;
+    private EditText mTimePicker, datePicker, editTextDetails;
     private String[] places;
 
     private Calendar requestDateTime = Calendar.getInstance();
@@ -64,8 +64,13 @@ public class CreateRequestActivity extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        mTimePicker.setText(String.valueOf(selectedHour)+" : "+String.valueOf(selectedMinute));
 
+                        String min =  String.valueOf(selectedMinute).length() <2? "0"+String.valueOf(selectedMinute):String.valueOf(selectedMinute);
+
+                        mTimePicker.setText(String.valueOf(selectedHour)+" : "+min);
+
+                        requestDateTime.set(Calendar.HOUR_OF_DAY, selectedHour);
+                        requestDateTime.set(Calendar.MINUTE, selectedMinute);
                     }
                 }, mHour, mMinute, false);
 
@@ -113,13 +118,14 @@ public class CreateRequestActivity extends Fragment {
         ArrayAdapter<String> adapterTo = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,places);
         autoCompleteTo.setAdapter(adapterTo);
 
+        editTextDetails = (EditText)view.findViewById(R.id.editTextDetails);
 
         Button btnCreateRequest = (Button)view.findViewById(R.id.btnCreateRequest);
         btnCreateRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(validForm()){
-                    new AsyncCreateRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+                   new AsyncCreateRequest(getActivity(), getFragmentManager()).execute(requestDTO);
                 }
             }
         });
@@ -188,6 +194,9 @@ public class CreateRequestActivity extends Fragment {
         else if(mTimePicker.getText() == null ){
             Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_time));
             validForm = false;
+        } else if(editTextDetails.getText() == null ){
+            Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_details));
+            validForm = false;
         }
 
         String addressFrom = autoCompleteFrom.getText().toString();
@@ -218,6 +227,13 @@ public class CreateRequestActivity extends Fragment {
 
             requestDTO.setPlaceFrom(autoCompleteFrom.getText().toString());
             requestDTO.setPlaceTo(autoCompleteTo.getText().toString());
+            requestDTO.setDetails(editTextDetails.getText().toString());
+            requestDTO.setEvenDateTime(requestDateTime.getTime());
+            requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
+
+            Date date = new Date();
+            requestDTO.setDateCreated(date);
+            requestDTO.setDateUpdated(date);
         }
 
         return validForm&&validAddressFrom&&validAddressTo;

@@ -12,21 +12,21 @@ import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 public class RequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int requestId;
+    private Integer requestId;
     private Date dateCreated;
     private Date dateUpdated;
+    private Date evenDateTime;
     private String placeFrom;
     private String placeTo;
-    private int price;
+    private Integer price;
     private RequestStatus requestStatus;
-    private int accountId;
+    private Integer accountId;
 
-
-    public int getRequestId() {
+    public Integer getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(int requestId) {
+    public void setRequestId(Integer requestId) {
         this.requestId = requestId;
     }
 
@@ -46,6 +46,14 @@ public class RequestDTO implements Serializable {
         this.dateUpdated = dateUpdated;
     }
 
+    public Date getEvenDateTime() {
+        return evenDateTime;
+    }
+
+    public void setEvenDateTime(Date evenDateTime) {
+        this.evenDateTime = evenDateTime;
+    }
+
     public String getPlaceFrom() {
         return placeFrom;
     }
@@ -62,11 +70,11 @@ public class RequestDTO implements Serializable {
         this.placeTo = placeTo;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -78,11 +86,23 @@ public class RequestDTO implements Serializable {
         this.requestStatus = requestStatus;
     }
 
-    public int getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    private String details;
+
+
 }

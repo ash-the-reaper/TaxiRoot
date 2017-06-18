@@ -34,6 +34,7 @@ import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
 
 import static android.content.Context.MODE_PRIVATE;
+import static java.net.Proxy.Type.HTTP;
 
 /**
  * Created by Ashwin on 03-Jun-17.
@@ -62,59 +63,55 @@ public class AsyncCreateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO >
         JSONObject postData = new JSONObject();
         RequestDTO requestDTO = params[0];
 
+        HttpURLConnection httpURLConnection = null;
+
         try{
             postData.put("placeFrom", requestDTO.getPlaceFrom());
             postData.put("placeTo", requestDTO.getPlaceTo());
-            postData.put("requestStatus", RequestStatus.REQUEST_PENDING);
+            postData.put("requestStatus", requestDTO.getRequestStatus());
             postData.put("accountId", requestDTO.getAccountId());
+            postData.put("dateCreated", requestDTO.getDateCreated().getTime());
+            postData.put("dateUpdated", requestDTO.getDateUpdated().getTime());
+            postData.put("eventDateTime", requestDTO.getEvenDateTime().getTime());
+            postData.put("details", requestDTO.getDetails());
 
-            HttpURLConnection httpURLConnection = null;
-            try {
+            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_REQUEST).openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            httpURLConnection.setRequestProperty("Accept", "application/json;charset=UTF-8");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.connect();
 
-                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_REQUEST).openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-                httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
-                httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.connect();
 
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                wr.writeBytes(postData.toString());
-                wr.flush();
-                wr.close();
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(postData.toString());
+            wr.flush();
+            wr.close();
 
-                InputStream responseStream = httpURLConnection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
+            InputStream responseStream = httpURLConnection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
 
-                final StringBuilder builder = new StringBuilder();
-                String inputLine;
+            final StringBuilder builder = new StringBuilder();
+            String inputLine;
 
-                while ((inputLine = reader.readLine()) != null) {
-                    builder.append(inputLine).append("\n");
-                }
-
-                JSONObject jsonObject = new JSONObject(builder.toString());
-                requestDTO.setRequestId(jsonObject.getInt("requestId"));
-
-                Date date = new Date();
-                requestDTO.setDateCreated(date);
-                requestDTO.setDateUpdated(date);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
+            while ((inputLine = reader.readLine()) != null) {
+                builder.append(inputLine).append("\n");
             }
+
+            JSONObject jsonObject = new JSONObject(builder.toString());
+            requestDTO.setRequestId(jsonObject.getInt("requestId"));
 
             return requestDTO;
 
         }catch (Exception e){
             e.printStackTrace();
         } finally {
-            progressDialog.dismiss();
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+
+            if(progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
         }
 
         return null;

@@ -52,7 +52,7 @@ public class AccountDAO {
             dto.setRole(res.getInt(res.getColumnIndex("role")) != 0? UserRole.USER:UserRole.TAXI_DRIVER);
             dto.setGender(res.getInt(res.getColumnIndex("gender")) != 0? Gender.FEMALE:Gender.MALE);
             dto.setUserStatus(res.getInt(res.getColumnIndex("status")) == 0? UserStatus.ACTIVE:UserStatus.DESACTIVE);
-            dto.setDateCreated(new Date(Long.parseLong(res.getString(res.getColumnIndexOrThrow("date_created")))));
+            dto.setDateCreated(new Date(res.getLong(res.getColumnIndex("date_created"))));
 
             res.moveToNext();
         }

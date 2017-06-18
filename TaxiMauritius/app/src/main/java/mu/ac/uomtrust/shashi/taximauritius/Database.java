@@ -76,6 +76,8 @@ public class Database extends SQLiteOpenHelper {
                 " price INTEGER, "+
                 " place_from TEXT DEFAULT NULL, "+
                 " place_to TEXT DEFAULT NULL, "+
+                " details TEXT DEFAULT NULL, "+
+                " event_date_time NUMERIC DEFAULT NULL, "+
                 " date_updated NUMERIC DEFAULT NULL, "+
                 " date_created NUMERIC DEFAULT NULL ); ";
         db.execSQL(qb);

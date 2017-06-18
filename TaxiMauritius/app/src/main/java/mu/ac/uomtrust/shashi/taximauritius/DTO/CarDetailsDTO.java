@@ -9,24 +9,54 @@ import java.io.Serializable;
 public class CarDetailsDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int carId;
+    private Integer carId;
     private String make;
-    private int year;
-    private int numOfPassenger;
+    private Integer year;
+    private Integer numOfPassenger;
     private String plateNum;
     private byte[] picture1;
     private byte[] picture2;
     private byte[] picture3;
     private byte[] picture4;
-    private int accountId;
 
-
-    public int getAccountId() {
-        return accountId;
+    public Integer getCarId() {
+        return carId;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setCarId(Integer carId) {
+        this.carId = carId;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getNumOfPassenger() {
+        return numOfPassenger;
+    }
+
+    public void setNumOfPassenger(Integer numOfPassenger) {
+        this.numOfPassenger = numOfPassenger;
+    }
+
+    public String getPlateNum() {
+        return plateNum;
+    }
+
+    public void setPlateNum(String plateNum) {
+        this.plateNum = plateNum;
     }
 
     public byte[] getPicture1() {
@@ -61,43 +91,15 @@ public class CarDetailsDTO implements Serializable {
         this.picture4 = picture4;
     }
 
-    public int getCarId() {
-        return carId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setCarId(int carId) {
-        this.carId = carId;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
-    public String getMake() {
-        return make;
-    }
+    private Integer accountId;
 
-    public void setMake(String make) {
-        this.make = make;
-    }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getNumOfPassenger() {
-        return numOfPassenger;
-    }
-
-    public void setNumOfPassenger(int numOfPassenger) {
-        this.numOfPassenger = numOfPassenger;
-    }
-
-    public String getPlateNum() {
-        return plateNum;
-    }
-
-    public void setPlateNum(String plateNum) {
-        this.plateNum = plateNum;
-    }
 }

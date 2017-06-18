@@ -51,8 +51,9 @@ public class AsyncCheckAccount extends AsyncTask<String, Void ,Integer > {
 
                 httpURLConnection = (HttpURLConnection) new URL(WebService.API_CHECK_ACCOUNT_VIA_EMAIL).openConnection();
                 httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json");
-                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
+                httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.connect();
 
