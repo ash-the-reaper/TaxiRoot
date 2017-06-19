@@ -62,10 +62,4 @@ public class ClientController {
 	public List<Account> getAllClientByStatus(@RequestBody UsersDetails usersDetails) {
 		return clientService.getAllClientByStatus(usersDetails.getUserStatus(), usersDetails.getUserRole());
 	}
-    
-    @CrossOrigin(origins = "http://localhost:8081")
-	@RequestMapping(value = "/createRequest", method = RequestMethod.POST)
-	public RequestDTO createRequest(@RequestBody RequestDTO requestDTO) {    	
-		return requestService.save(requestDTO);
-	}
 }

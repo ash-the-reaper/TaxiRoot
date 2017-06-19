@@ -19,4 +19,7 @@ public class WebService {
     public static final String API_CREATE_UPDATE_REQUEST = API_REQUEST +"createUpdateRequest";
     public static final String API_DELETE_REQUEST = API_REQUEST +"deleteRequest";
 
+    public static final String API_GET_REQUEST_LIST_USER = API_REQUEST +"getRequestListUser";
+    public static final String API_GET_REQUEST_LIST_TAXI = API_REQUEST +"getRequestListTaxi";
+
 }

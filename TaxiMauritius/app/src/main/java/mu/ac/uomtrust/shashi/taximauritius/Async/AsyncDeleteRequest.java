@@ -30,7 +30,7 @@ public class AsyncDeleteRequest extends AsyncTask<RequestDTO, Void ,Boolean > {
     private Context context;
     private ProgressDialog progressDialog;
     private FragmentManager fragmentManager;
-    private Integer requestId = null;
+    private  RequestDTO requestDTO;
 
     public AsyncDeleteRequest(final Context context, FragmentManager fragmentManager) {
         this.context = context;
@@ -49,7 +49,7 @@ public class AsyncDeleteRequest extends AsyncTask<RequestDTO, Void ,Boolean > {
     @Override
     protected Boolean doInBackground(RequestDTO... params) {
         JSONObject postData = new JSONObject();
-        RequestDTO requestDTO = params[0];
+        requestDTO = params[0];
 
         HttpURLConnection httpURLConnection = null;
 
@@ -79,10 +79,7 @@ public class AsyncDeleteRequest extends AsyncTask<RequestDTO, Void ,Boolean > {
                 builder.append(inputLine).append("\n");
             }
 
-            JSONObject jsonObject = new JSONObject(builder.toString());
-            boolean result = jsonObject.getBoolean("requestId");
-
-            return result;
+            return builder.toString().contains("true");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -102,8 +99,8 @@ public class AsyncDeleteRequest extends AsyncTask<RequestDTO, Void ,Boolean > {
     protected void onPostExecute(Boolean deleted){
         super.onPostExecute(deleted);
 
-        if(deleted == true) {
-            new RequestDAO(context).deleteRequest(requestId);
+        if(deleted != null && deleted == true) {
+            new RequestDAO(context).deleteRequest(requestDTO.getRequestId());
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.details, new ManageRequestActivity())

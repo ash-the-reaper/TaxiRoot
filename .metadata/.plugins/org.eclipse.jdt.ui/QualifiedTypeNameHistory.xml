@@ -58,4 +58,5 @@
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.RequestDTO"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.RequestStatus"/>
 </qualifiedTypeNameHistroy>

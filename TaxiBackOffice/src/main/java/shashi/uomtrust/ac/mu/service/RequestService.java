@@ -11,5 +11,8 @@ import shashi.uomtrust.ac.mu.enums.UserStatus;
 public interface RequestService {
 
 	public RequestDTO save(RequestDTO requestDTO);
+	public Boolean delete(Integer requestId);
+	public List<RequestDTO> getRequestByUserIdAndRequestStatus(RequestDTO requestDTO);
+	public List<RequestDTO> getRequestForTaxiByRequestStatus(RequestDTO requestDTO);
 
 }

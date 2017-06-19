@@ -16,8 +16,8 @@ public class CarDetails{
 	private Integer carId;
 	
     private String make;
-    private int year;
-    private int numOfPassenger;
+    private Integer year;
+    private Integer numOfPassenger;
     private String plateNum;
     
     private byte[] picture1;
@@ -30,83 +30,103 @@ public class CarDetails{
 	@JoinColumn(name = "account_id", nullable = true)
 	private Account account;
 
-    public Account getAccount() {
-		return account;
+
+	public Integer getCarId() {
+		return carId;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
 
 	public void setCarId(Integer carId) {
 		this.carId = carId;
 	}
 
-	public Integer getCarId() {
-        return carId;
-    }
 
-    public String getMake() {
-        return make;
-    }
+	public String getMake() {
+		return make;
+	}
 
-    public void setMake(String make) {
-        this.make = make;
-    }
 
-    public int getYear() {
-        return year;
-    }
+	public void setMake(String make) {
+		this.make = make;
+	}
 
-    public void setYear(int year) {
-        this.year = year;
-    }
 
-    public int getNumOfPassenger() {
-        return numOfPassenger;
-    }
+	public Integer getYear() {
+		return year;
+	}
 
-    public void setNumOfPassenger(int numOfPassenger) {
-        this.numOfPassenger = numOfPassenger;
-    }
 
-    public String getPlateNum() {
-        return plateNum;
-    }
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 
-    public void setPlateNum(String plateNum) {
-        this.plateNum = plateNum;
-    }
-    
-    public byte[] getPicture1() {
-        return picture1;
-    }
 
-    public void setPicture1(byte[] picture1) {
-        this.picture1 = picture1;
-    }
+	public Integer getNumOfPassenger() {
+		return numOfPassenger;
+	}
 
-    public byte[] getPicture2() {
-        return picture2;
-    }
 
-    public void setPicture2(byte[] picture2) {
-        this.picture2 = picture2;
-    }
+	public void setNumOfPassenger(Integer numOfPassenger) {
+		this.numOfPassenger = numOfPassenger;
+	}
 
-    public byte[] getPicture3() {
-        return picture3;
-    }
 
-    public void setPicture3(byte[] picture3) {
-        this.picture3 = picture3;
-    }
+	public String getPlateNum() {
+		return plateNum;
+	}
 
-    public byte[] getPicture4() {
-        return picture4;
-    }
 
-    public void setPicture4(byte[] picture4) {
-        this.picture4 = picture4;
-    }
+	public void setPlateNum(String plateNum) {
+		this.plateNum = plateNum;
+	}
+
+
+	public byte[] getPicture1() {
+		return picture1;
+	}
+
+
+	public void setPicture1(byte[] picture1) {
+		this.picture1 = picture1;
+	}
+
+
+	public byte[] getPicture2() {
+		return picture2;
+	}
+
+
+	public void setPicture2(byte[] picture2) {
+		this.picture2 = picture2;
+	}
+
+
+	public byte[] getPicture3() {
+		return picture3;
+	}
+
+
+	public void setPicture3(byte[] picture3) {
+		this.picture3 = picture3;
+	}
+
+
+	public byte[] getPicture4() {
+		return picture4;
+	}
+
+
+	public void setPicture4(byte[] picture4) {
+		this.picture4 = picture4;
+	}
+
+
+	public Account getAccount() {
+		return account;
+	}
+
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 }

@@ -23,6 +23,7 @@
 
     <string name="menu_google_map">Map</string>
     <string name="menu_create_request">Create Request</string>
+    <string name="menu_request">Request</string>
     <string name="menu_history">History</string>
     <string name="menu_logout">Logout</string>
 
@@ -39,6 +40,13 @@
     <string-array name="manage_request_arrays">
         <item>PENDING</item>
         <item>ACCEPTED</item>
+    </string-array>
+
+    <string-array name="manage_request_taxi_arrays">
+        <item>PENDING</item>
+        <item>I ACCEPTED</item>
+        <item>CLIENT ACCEPTED</item>
+        <item>CLIENT REJECTED</item>
     </string-array>
 
     <string name="complete_registration_make">Make:</string>

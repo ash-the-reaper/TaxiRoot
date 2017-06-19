@@ -17,82 +17,100 @@ import shashi.uomtrust.ac.mu.enums.RequestStatus;
 public class RequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int requestId;
+    private Integer requestId;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dateCreated;
+    private Long dateCreated;
+    private Long dateUpdated;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dateUpdated;
+    private Long eventDateTime;
     
     private String placeFrom;
     private String placeTo;
-    private int price;
+    private Integer price;
     private RequestStatus requestStatus;
-    private int accountId;
+    private Integer accountId;
+
+    private String details;
+
+	public Integer getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(Integer requestId) {
+		this.requestId = requestId;
+	}
+
+	public Long getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Long dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Long getDateUpdated() {
+		return dateUpdated;
+	}
+
+	public void setDateUpdated(Long dateUpdated) {
+		this.dateUpdated = dateUpdated;
+	}
+
+	public Long getEventDateTime() {
+		return eventDateTime;
+	}
+
+	public void setEventDateTime(Long eventDateTime) {
+		this.eventDateTime = eventDateTime;
+	}
+
+	public String getPlaceFrom() {
+		return placeFrom;
+	}
+
+	public void setPlaceFrom(String placeFrom) {
+		this.placeFrom = placeFrom;
+	}
+
+	public String getPlaceTo() {
+		return placeTo;
+	}
+
+	public void setPlaceTo(String placeTo) {
+		this.placeTo = placeTo;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public RequestStatus getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(RequestStatus requestStatus) {
+		this.requestStatus = requestStatus;
+	}
+
+	public Integer getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
 
 
-    public int getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(int requestId) {
-        this.requestId = requestId;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Date getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(Date dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
-
-    public String getPlaceFrom() {
-        return placeFrom;
-    }
-
-    public void setPlaceFrom(String placeFrom) {
-        this.placeFrom = placeFrom;
-    }
-
-    public String getPlaceTo() {
-        return placeTo;
-    }
-
-    public void setPlaceTo(String placeTo) {
-        this.placeTo = placeTo;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public RequestStatus getRequestStatus() {
-        return requestStatus;
-    }
-
-    public void setRequestStatus(RequestStatus requestStatus) {
-        this.requestStatus = requestStatus;
-    }
-
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
 }

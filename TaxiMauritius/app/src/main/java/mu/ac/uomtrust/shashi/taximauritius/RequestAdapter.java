@@ -32,11 +32,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<RequestDTO> requestDTOList;
     private Context context;
     private FragmentManager fragmentManager;
+    private boolean history;
 
-    public RequestAdapter (Context context, List<RequestDTO> requestDTOList, FragmentManager fragmentManager){
+    public RequestAdapter (Context context, List<RequestDTO> requestDTOList, FragmentManager fragmentManager, boolean history){
         this.requestDTOList = requestDTOList;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.history = history;
     }
 
 
@@ -68,19 +70,21 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         requestViewHolder.txtDate.setText(sDate);
         requestViewHolder.txtTime.setText(sTime);
 
-        requestViewHolder.llMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
-                editor.putInt("requestId", requestDTO.getRequestId());
-                editor.commit();
+        if(!history) {
+            requestViewHolder.llMain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
+                    editor.putInt("requestId", requestDTO.getRequestId());
+                    editor.commit();
 
-                fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.details, new ViewRequestActivity())
-                        .commit();
-            }
-        });
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.details, new ViewRequestActivity())
+                            .commit();
+                }
+            });
+        }
 
     }
 

@@ -20,9 +20,12 @@ import android.widget.TextView;
 
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    UserRole userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +41,22 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View view =  navigationView.getHeaderView(0);
-
-
         SharedPreferences prefs = getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
         Integer accountId = prefs.getInt("accountId", 1);
 
         AccountDTO accountDTO = new AccountDAO(this).getAccountById(accountId);
+        userRole = accountDTO.getRole();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        if(userRole == UserRole.TAXI_DRIVER) {
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.taxi_menu);
+        }
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View view =  navigationView.getHeaderView(0);
 
         ImageView imgProfilePic = (ImageView) view.findViewById(R.id.imgProfilePic);
         imgProfilePic.setImageBitmap(Utils.convertBlobToBitmap(accountDTO.getProfilePicture()));
@@ -109,9 +118,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.navCreateRequest) {
             CreateRequestActivity createRequestActivity = new CreateRequestActivity();
             changeFragment(createRequestActivity);
-        } else if (id == R.id.navHistory) {
+        } else if (id == R.id.navRequest) {
             ManageRequestActivity pendingRequestActivity = new ManageRequestActivity();
             changeFragment(pendingRequestActivity);
+        }else if (id == R.id.navHistory) {
+            RequestHistoryActivity requestHistoryActivity = new RequestHistoryActivity();
+            changeFragment(requestHistoryActivity);
         }
         else if(id == R.id.navLogOut){
             Intent intent = new Intent(MainActivity.this, LogOut.class);

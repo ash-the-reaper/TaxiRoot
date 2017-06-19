@@ -99,6 +99,42 @@ public class RequestDAO {
         return requestDTOList;
     }
 
+    public RequestDTO getOneRequest() {
+        final StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT * ");
+        sql.append(" FROM "+ TABLE_NAME);
+        sql.append(" ORDER BY request_id DESC");
+        sql.append(" limit 1");
+
+        dbHelper.open();
+        Cursor res = dbHelper.executeQuery(sql.toString(), null);
+        if (res != null) {
+            res.moveToFirst();
+        }
+
+        RequestDTO requestDTO = new RequestDTO();
+
+        while (!res.isAfterLast()) {
+
+            requestDTO.setRequestId(res.getInt(res.getColumnIndex("request_id")));
+            requestDTO.setAccountId(res.getInt(res.getColumnIndex("account_id")));
+            requestDTO.setDateUpdated(new Date(res.getLong(res.getColumnIndex("date_updated"))));
+            requestDTO.setDateCreated(new Date(res.getLong(res.getColumnIndex("date_created"))));
+            requestDTO.setEvenDateTime(new Date(res.getLong(res.getColumnIndex("event_date_time"))));
+            requestDTO.setPlaceFrom(res.getString(res.getColumnIndex("place_from")));
+            requestDTO.setPlaceTo(res.getString(res.getColumnIndex("place_to")));
+            requestDTO.setDetails(res.getString(res.getColumnIndex("details")));
+            requestDTO.setPrice(res.getInt(res.getColumnIndex("price")));
+            requestDTO.setRequestStatus(RequestStatus.valueFor(res.getInt(res.getColumnIndex("request_status"))));
+
+            res.moveToNext();
+        }
+
+        res.close();
+
+        return requestDTO;
+    }
+
 
     private ContentValues setContentValues(RequestDTO requestDTO){
         ContentValues values = new ContentValues();
