@@ -30,13 +30,13 @@ public class ManageRequest implements Serializable{
 	@JoinColumn(name = "request_id", nullable = true)
 	private Request request;
 	
-    @ManyToOne(fetch = FetchType.EAGER)
+    /*@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account_id", nullable = true)
-	private Account userAccount;
+	private Account userAccount;*/
 	
-    @ManyToOne(fetch = FetchType.EAGER)
+   /* @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "car_id", nullable = true)
-	private CarDetails carDetails;
+	private CarDetails carDetails;*/
     
     private Integer request_status;
     private Integer price;
@@ -63,13 +63,13 @@ public class ManageRequest implements Serializable{
 		this.request = request;
 	}
 
-	public Account getUserAccount() {
+/*	public Account getUserAccount() {
 		return userAccount;
 	}
 
 	public void setUserAccount(Account userAccount) {
 		this.userAccount = userAccount;
-	}
+	}*/
 
 	public CarDetails getCarDetails() {
 		return carDetails;

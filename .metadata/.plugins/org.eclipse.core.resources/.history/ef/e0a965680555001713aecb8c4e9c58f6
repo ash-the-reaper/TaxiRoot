@@ -39,11 +39,11 @@ public class ManageRequestServiceImp implements ManageRequestService{
 		
 		ManageRequest manageRequest = new ManageRequest();
 		
-		CarDetails carDetails = carDetailsRepository.getCarById(manageRequestDTO.getCarId());
-		manageRequest.setCarDetails(carDetails);
+		/*CarDetails carDetails = carDetailsRepository.getCarById(manageRequestDTO.getCarId());
+		manageRequest.setCarDetails(carDetails);*/
 		
-		Account account = accountRepository.findByAccountId(manageRequestDTO.getAccountId());
-		manageRequest.setUserAccount(account);
+		/*Account account = accountRepository.findByAccountId(manageRequestDTO.getAccountId());
+		manageRequest.setUserAccount(account);*/
 		
 		Request request = requestRepository.getRequestById(manageRequestDTO.getRequestId());
 		manageRequest.setRequest(request);
@@ -66,8 +66,8 @@ public class ManageRequestServiceImp implements ManageRequestService{
 		ManageRequest newManageRequest = manageRequestRepository.save(manageRequest);
 		
 		ManageRequestDTO newManageRequestDTO = new ManageRequestDTO();
-		newManageRequestDTO.setAccountId(newManageRequest.getUserAccount().getAccountId());
-		newManageRequestDTO.setCarId(newManageRequest.getCarDetails().getCarId());
+		//newManageRequestDTO.setAccountId(newManageRequest.getUserAccount().getAccountId());
+		//newManageRequestDTO.setCarId(newManageRequest.getCarDetails().getCarId());
 		newManageRequestDTO.setManageRequestId(newManageRequest.getManage_request_id());
 		newManageRequestDTO.setPrice(newManageRequest.getPrice());
 		newManageRequestDTO.setRequestStatus(RequestStatus.valueFor(newManageRequest.getRequest_status()));
