@@ -31,11 +31,15 @@
     <string name="login_activity_prompt_user_type">Choose a user type</string>
 
     <string-array name="user_type_arrays">
-        <item>Select user type</item>
-        <item>Taxi Driver</item>
-        <item>Other</item>
+        <item>SELECT USER TYPE</item>
+        <item>TAXI DRIVER</item>
+        <item>OTHER</item>
     </string-array>
 
+    <string-array name="manage_request_arrays">
+        <item>PENDING</item>
+        <item>ACCEPTED</item>
+    </string-array>
 
     <string name="complete_registration_make">Make:</string>
     <string name="complete_registration_plate_num">Plate Num:</string>

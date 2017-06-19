@@ -132,7 +132,7 @@ public class CreateRequestActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 if(validForm()){
-                   new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+                   new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager(), true).execute(requestDTO);
                 }
             }
         });

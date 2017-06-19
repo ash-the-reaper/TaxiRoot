@@ -103,4 +103,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             llMain = (LinearLayout) view.findViewById(R.id.llMain);
         }
     }
+
+    public List<RequestDTO> getRequestDTOList() {
+        return requestDTOList;
+    }
+
+    public void setRequestDTOList(List<RequestDTO> requestDTOList) {
+        this.requestDTOList = requestDTOList;
+    }
 }

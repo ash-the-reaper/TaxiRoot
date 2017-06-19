@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -26,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateOrUpdateRequest;
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncDeleteRequest;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.RequestDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
@@ -130,7 +130,7 @@ public class ViewRequestActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 if(validForm()){
-                   new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+                   new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager(), false).execute(requestDTO);
                 }
             }
         });
@@ -147,7 +147,7 @@ public class ViewRequestActivity extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
         Integer requestId = prefs.getInt("requestId", 1);
 
-        RequestDTO requestDTO = new RequestDAO(getActivity()).getRequestByID(requestId);
+        requestDTO = new RequestDAO(getActivity()).getRequestByID(requestId);
         autoCompleteFrom.setText(requestDTO.getPlaceFrom());
         autoCompleteTo.setText(requestDTO.getPlaceTo());
 
@@ -187,10 +187,8 @@ public class ViewRequestActivity extends Fragment {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
 
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.details, new PendingRequestActivity())
-                        .commit();
+                new AsyncDeleteRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+
                 dialog.cancel();
             }
         });
@@ -254,9 +252,6 @@ public class ViewRequestActivity extends Fragment {
         }
 
         if(validForm&&validAddressFrom&&validAddressTo){
-            SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
-            int accountId = prefs.getInt("accountId", 1);
-            requestDTO.setAccountId(accountId);
 
             requestDTO.setPlaceFrom(autoCompleteFrom.getText().toString());
             requestDTO.setPlaceTo(autoCompleteTo.getText().toString());
@@ -265,7 +260,6 @@ public class ViewRequestActivity extends Fragment {
             requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
 
             Date date = new Date();
-            requestDTO.setDateCreated(date);
             requestDTO.setDateUpdated(date);
         }
 

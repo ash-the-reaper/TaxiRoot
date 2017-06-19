@@ -25,26 +25,21 @@ import mu.ac.uomtrust.shashi.taximauritius.WebService;
  * Created by Ashwin on 03-Jun-17.
  */
 
-public class AsyncCreateOrUpdateRequest extends AsyncTask<RequestDTO, Void ,RequestDTO > {
+public class AsyncDeleteRequest extends AsyncTask<RequestDTO, Void ,Boolean > {
 
     private Context context;
     private ProgressDialog progressDialog;
     private FragmentManager fragmentManager;
-    boolean newRequest;
+    private Integer requestId = null;
 
-    public AsyncCreateOrUpdateRequest(final Context context, FragmentManager fragmentManager , boolean newRequest) {
+    public AsyncDeleteRequest(final Context context, FragmentManager fragmentManager) {
         this.context = context;
         this.fragmentManager = fragmentManager;
-        this.newRequest = newRequest;
     }
 
     @Override
     protected void onPreExecute() {
-        String message;
-        if(newRequest)
-            message =  "Creating your request";
-        else
-            message =  "Updating your request";
+        String message = "Deleting your request";
 
         progressDialog = Utils.progressDialogue(context,message);
         progressDialog.show();
@@ -52,29 +47,16 @@ public class AsyncCreateOrUpdateRequest extends AsyncTask<RequestDTO, Void ,Requ
 
 
     @Override
-    protected RequestDTO doInBackground(RequestDTO... params) {
+    protected Boolean doInBackground(RequestDTO... params) {
         JSONObject postData = new JSONObject();
         RequestDTO requestDTO = params[0];
 
         HttpURLConnection httpURLConnection = null;
 
         try{
-            if(requestDTO.getRequestId() != null && requestDTO.getRequestId() >0)
-                postData.put("requestId", requestDTO.getRequestId());
+            postData.put("requestId", requestDTO.getRequestId());
 
-            postData.put("placeFrom", requestDTO.getPlaceFrom());
-            postData.put("placeTo", requestDTO.getPlaceTo());
-            postData.put("requestStatus", requestDTO.getRequestStatus());
-            postData.put("accountId", requestDTO.getAccountId());
-
-            if(requestDTO.getDateCreated() != null)
-                postData.put("dateCreated", requestDTO.getDateCreated().getTime());
-
-            postData.put("dateUpdated", requestDTO.getDateUpdated().getTime());
-            postData.put("eventDateTime", requestDTO.getEvenDateTime().getTime());
-            postData.put("details", requestDTO.getDetails());
-
-            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_UPDATE_REQUEST).openConnection();
+            httpURLConnection = (HttpURLConnection) new URL(WebService.API_DELETE_REQUEST).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             httpURLConnection.setRequestProperty("Accept", "application/json;charset=UTF-8");
@@ -98,9 +80,9 @@ public class AsyncCreateOrUpdateRequest extends AsyncTask<RequestDTO, Void ,Requ
             }
 
             JSONObject jsonObject = new JSONObject(builder.toString());
-            requestDTO.setRequestId(jsonObject.getInt("requestId"));
+            boolean result = jsonObject.getBoolean("requestId");
 
-            return requestDTO;
+            return result;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -117,11 +99,11 @@ public class AsyncCreateOrUpdateRequest extends AsyncTask<RequestDTO, Void ,Requ
     }
 
     @Override
-    protected void onPostExecute(RequestDTO requestDTO){
-        super.onPostExecute(requestDTO);
+    protected void onPostExecute(Boolean deleted){
+        super.onPostExecute(deleted);
 
-        if(requestDTO != null && requestDTO.getRequestId() > 0) {
-            new RequestDAO(context).saveOrUpdateRequest(requestDTO);
+        if(deleted == true) {
+            new RequestDAO(context).deleteRequest(requestId);
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.details, new ManageRequestActivity())

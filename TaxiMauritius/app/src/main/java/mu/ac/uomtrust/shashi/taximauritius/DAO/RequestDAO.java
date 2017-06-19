@@ -122,21 +122,21 @@ public class RequestDAO {
 
     }
 
-    public long saveRequest(RequestDTO requestDTO){
+    public long saveOrUpdateRequest(RequestDTO requestDTO){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = setContentValues(requestDTO);
 
-        return db.insert(TABLE_NAME, null, contentValues);
+        boolean newRequest = getRequestByID(requestDTO.getRequestId()).getRequestId() == null;
+
+        if(newRequest)
+            return db.insert(TABLE_NAME, null, contentValues);
+        else
+            return db.update(TABLE_NAME, contentValues, "request_id = "+requestDTO.getRequestId(), null);
     }
 
-  /*  public long updateCarDetailsIdFromWS(int carId){
+    public void deleteRequest(Integer requestId){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(TABLE_NAME, " request_id = " + requestId, null);
+    }
 
-        CarDetailsDTO carDetailsDTO = getCarDetailsByCarID(-1);
-        carDetailsDTO.setCarId(carId);
-
-        ContentValues contentValues = setContentValues(carDetailsDTO);
-
-        return db.update(TABLE_NAME, contentValues, " car_id = \"" + -1 + "\"" ,null);
-    }*/
 }

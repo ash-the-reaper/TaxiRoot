@@ -17,5 +17,6 @@ public class WebService {
     public static final String API_CHECK_ACCOUNT_VIA_EMAIL = API_ACCOUNT +"checkAccountViaEmail";
 
     public static final String API_CREATE_UPDATE_REQUEST = API_REQUEST +"createUpdateRequest";
+    public static final String API_DELETE_REQUEST = API_REQUEST +"deleteRequest";
 
 }

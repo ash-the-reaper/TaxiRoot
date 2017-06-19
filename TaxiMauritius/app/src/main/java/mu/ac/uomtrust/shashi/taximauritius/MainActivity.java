@@ -1,8 +1,8 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.facebook.FacebookSdk;
 
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
@@ -68,10 +65,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -111,13 +110,10 @@ public class MainActivity extends AppCompatActivity
             CreateRequestActivity createRequestActivity = new CreateRequestActivity();
             changeFragment(createRequestActivity);
         } else if (id == R.id.navHistory) {
-            PendingRequestActivity pendingRequestActivity = new PendingRequestActivity();
+            ManageRequestActivity pendingRequestActivity = new ManageRequestActivity();
             changeFragment(pendingRequestActivity);
         }
         else if(id == R.id.navLogOut){
-           /* Logout logout = new Logout();
-            changeFragment(logout);*/
-            //popUpLogout();
             Intent intent = new Intent(MainActivity.this, LogOut.class);
             startActivity(intent);
         }
@@ -140,4 +136,6 @@ public class MainActivity extends AppCompatActivity
         // Commit the transaction
         transaction.commit();
     }
+
+
 }
