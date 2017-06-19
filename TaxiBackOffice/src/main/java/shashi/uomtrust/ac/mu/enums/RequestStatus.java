@@ -9,7 +9,8 @@ public enum RequestStatus {
 	CLIENT_ACCEPTED(2),
 	CLIENT_REJECTED(3),
 	TAXI_DRIVER_ACCEPTED(4),
-	TAXI_DRIVER_REJECTED(4);
+	TAXI_DRIVER_REJECTED(5),
+	PAID(6);
 
 
 	private int value ;

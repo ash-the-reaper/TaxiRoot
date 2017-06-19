@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.Gender"/>
-<fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
-<fullyQualifiedTypeName name="org.springframework.scheduling.annotation.EnableAsync"/>
-<fullyQualifiedTypeName name="ch.qos.logback.core.net.server.Client"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dao.AccountDAO"/>
 <fullyQualifiedTypeName name="org.springframework.http.client.ClientHttpResponse"/>
@@ -24,7 +20,6 @@
 <fullyQualifiedTypeName name="java.security.Principal"/>
 <fullyQualifiedTypeName name="org.springframework.security.authentication.AccountStatusUserDetailsChecker"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.UserStatus"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestAttribute"/>
@@ -39,10 +34,8 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.ClientService"/>
 <fullyQualifiedTypeName name="org.springframework.security.web.context.SaveContextOnUpdateOrErrorResponseWrapper"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.CarDetailsRepository"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.CarDetailsService"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
 <fullyQualifiedTypeName name="java.util.Base64"/>
 <fullyQualifiedTypeName name="java.util.Base64.Decoder"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.CarDetailsImp"/>
@@ -50,13 +43,21 @@
 <fullyQualifiedTypeName name="org.apache.tomcat.util.codec.binary.Base64"/>
 <fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.RequestRepository"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.RequestService"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.AccountService"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Request"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.RequestDTO"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.ManageRequestService"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.CarDetailsRepository"/>
+<fullyQualifiedTypeName name="jnr.ffi.types.caddr_t"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Request"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.ManageRequest"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.ManageRequestDTO"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.RequestStatus"/>
 </qualifiedTypeNameHistroy>

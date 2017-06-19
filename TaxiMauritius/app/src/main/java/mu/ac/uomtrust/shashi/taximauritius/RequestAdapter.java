@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 
 import static android.R.attr.fragment;
 import static android.R.attr.key;
@@ -33,12 +36,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private FragmentManager fragmentManager;
     private boolean history;
+    private UserRole userRole;
 
-    public RequestAdapter (Context context, List<RequestDTO> requestDTOList, FragmentManager fragmentManager, boolean history){
+    public RequestAdapter (Context context, List<RequestDTO> requestDTOList, FragmentManager fragmentManager, boolean history, UserRole userRole){
         this.requestDTOList = requestDTOList;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.history = history;
+        this.userRole = userRole;
     }
 
 
@@ -75,13 +80,23 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
-                    editor.putInt("requestId", requestDTO.getRequestId());
+                    Gson gson = new Gson();
+                    String gsonRequestDTO = gson.toJson(requestDTO);
+                    editor.putString("gsonRequestDTO", gsonRequestDTO);
                     editor.commit();
 
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.details, new ViewRequestActivity())
-                            .commit();
+                    if(userRole == UserRole.USER) {
+                        fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.details, new ViewRequestActivity())
+                                .commit();
+                    }
+                    else{
+                        fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.details, new ViewRequestTaxiActivity())
+                                .commit();
+                    }
                 }
             });
         }
@@ -106,10 +121,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             txtTime = (TextView) view.findViewById(R.id.txtTime);
             llMain = (LinearLayout) view.findViewById(R.id.llMain);
         }
-    }
-
-    public List<RequestDTO> getRequestDTOList() {
-        return requestDTOList;
     }
 
     public void setRequestDTOList(List<RequestDTO> requestDTOList) {

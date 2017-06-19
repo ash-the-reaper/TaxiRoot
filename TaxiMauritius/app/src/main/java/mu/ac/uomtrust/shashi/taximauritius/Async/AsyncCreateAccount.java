@@ -52,6 +52,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
     protected AccountDTO doInBackground(AccountDTO... params) {
         JSONObject postData = new JSONObject();
         AccountDTO accountDTO = params[0];
+        HttpURLConnection httpURLConnection = null;
 
         try{
             postData.put("firstName", accountDTO.getFirstName());
@@ -61,52 +62,43 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
             postData.put("userStatus", accountDTO.getUserStatus());
             postData.put("gender", accountDTO.getGender());
 
-            HttpURLConnection httpURLConnection = null;
-            try {
+            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_ACCOUNT).openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
+            httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.connect();
 
-                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_ACCOUNT).openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-                httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
-                httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.connect();
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(postData.toString());
+            wr.flush();
+            wr.close();
 
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                wr.writeBytes(postData.toString());
-                wr.flush();
-                wr.close();
+            InputStream responseStream = httpURLConnection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
 
-                InputStream responseStream = httpURLConnection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
+            final StringBuilder builder = new StringBuilder();
+            String inputLine;
 
-                final StringBuilder builder = new StringBuilder();
-                String inputLine;
-
-                while ((inputLine = reader.readLine()) != null) {
-                    builder.append(inputLine).append("\n");
-                }
-
-                JSONObject jsonObject = new JSONObject(builder.toString());
-                accountDTO.setAccountId(jsonObject.getInt("accountId"));
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
+            while ((inputLine = reader.readLine()) != null) {
+                builder.append(inputLine).append("\n");
             }
 
+            JSONObject jsonObject = new JSONObject(builder.toString());
+            accountDTO.setAccountId(jsonObject.getInt("accountId"));
+
             return accountDTO;
-
-
 
         }catch (Exception e){
             e.printStackTrace();
         } finally {
-            progressDialog.dismiss();
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+
+            if(progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
         }
 
         return null;

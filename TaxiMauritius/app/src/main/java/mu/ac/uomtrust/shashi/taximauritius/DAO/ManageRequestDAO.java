@@ -5,26 +5,32 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Date;
+
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.ManageRequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Database;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 
 /**
  * Created by Ashwin on 05-Jun-17.
  */
 
 public class ManageRequestDAO {
-    private final String TABLE_NAME = "car_details";
+    private final String TABLE_NAME = "manage_request";
     private final Database dbHelper;
 
     public ManageRequestDAO(final Context context) {
         dbHelper = Database.getInstance(context);
     }
 
-    public CarDetailsDTO getCarDetailsByAccountID(int accountId) {
+    public ManageRequestDTO getManageRequest(ManageRequestDTO manageRequestDTO) {
         final StringBuilder sql = new StringBuilder();
         sql.append(" SELECT * ");
         sql.append(" FROM "+ TABLE_NAME);
-        sql.append(" WHERE account_id = " + accountId);
+        sql.append(" WHERE request_id = " + manageRequestDTO.getRequestId());
+        sql.append(" AND account_id = " + manageRequestDTO.getAccountId());
+        sql.append(" AND car_id = " + manageRequestDTO.getCarId());
 
         dbHelper.open();
         Cursor res = dbHelper.executeQuery(sql.toString(), null);
@@ -32,99 +38,55 @@ public class ManageRequestDAO {
             res.moveToFirst();
         }
 
-        CarDetailsDTO dto = new CarDetailsDTO();
-
         while (!res.isAfterLast()) {
 
-            dto.setCarId(res.getInt(res.getColumnIndex("car_id")));
-            dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
-            dto.setMake(res.getString(res.getColumnIndex("make")));
-            dto.setYear(res.getInt(res.getColumnIndex("year")));
-            dto.setNumOfPassenger(res.getInt(res.getColumnIndex("num_of_passenger")));
-            dto.setPlateNum(res.getString(res.getColumnIndex("plate_num")));
-
-            dto.setPicture1(res.getBlob(res.getColumnIndex("picture1")));
-            dto.setPicture2(res.getBlob(res.getColumnIndex("picture2")));
-            dto.setPicture3(res.getBlob(res.getColumnIndex("picture3")));
-            dto.setPicture4(res.getBlob(res.getColumnIndex("picture4")));
-
+            manageRequestDTO.setCarId(res.getInt(res.getColumnIndex("car_id")));
+            manageRequestDTO.setAccountId(res.getInt(res.getColumnIndex("account_id")));
+            manageRequestDTO.setDateCreated(new Date(res.getLong(res.getColumnIndex("date_created"))));
+            manageRequestDTO.setDateUpdated(new Date(res.getLong(res.getColumnIndex("date_updated"))));
+            manageRequestDTO.setPrice(res.getInt(res.getColumnIndex("price")));
+            manageRequestDTO.setManageRequestId(res.getInt(res.getColumnIndex("manage_request_id")));
+            manageRequestDTO.setRequestStatus(RequestStatus.valueFor(res.getInt(res.getColumnIndex("request_status"))));
+            manageRequestDTO.setRequestId(res.getInt(res.getColumnIndex("request_id")));
             res.moveToNext();
         }
 
         res.close();
 
-        return dto;
+        return manageRequestDTO;
     }
 
-    public CarDetailsDTO getCarDetailsByCarID(int carId) {
-        final StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT * ");
-        sql.append(" FROM "+ TABLE_NAME);
-        sql.append(" WHERE car_id = " + carId);
 
-        dbHelper.open();
-        Cursor res = dbHelper.executeQuery(sql.toString(), null);
-        if (res != null) {
-            res.moveToFirst();
-        }
-
-        CarDetailsDTO dto = new CarDetailsDTO();
-
-        while (!res.isAfterLast()) {
-
-            dto.setCarId(res.getInt(res.getColumnIndex("car_id")));
-            dto.setAccountId(res.getInt(res.getColumnIndex("account_id")));
-            dto.setMake(res.getString(res.getColumnIndex("make")));
-            dto.setYear(res.getInt(res.getColumnIndex("year")));
-            dto.setNumOfPassenger(res.getInt(res.getColumnIndex("num_of_passenger")));
-            dto.setPlateNum(res.getString(res.getColumnIndex("plate_num")));
-
-            dto.setPicture1(res.getBlob(res.getColumnIndex("picture1")));
-            dto.setPicture2(res.getBlob(res.getColumnIndex("picture2")));
-            dto.setPicture3(res.getBlob(res.getColumnIndex("picture3")));
-            dto.setPicture4(res.getBlob(res.getColumnIndex("picture4")));
-
-            res.moveToNext();
-        }
-
-        res.close();
-
-        return dto;
-    }
-
-    private ContentValues setContentValues(CarDetailsDTO carDetailsDTO){
+    private ContentValues setContentValues(ManageRequestDTO manageRequestDTO){
         ContentValues values = new ContentValues();
 
-        values.put("car_id", carDetailsDTO.getCarId());
-        values.put("account_id", carDetailsDTO.getAccountId());
-        values.put("make", carDetailsDTO.getMake());
-        values.put("year", carDetailsDTO.getYear());
-        values.put("num_of_passenger", carDetailsDTO.getNumOfPassenger());
-        values.put("picture1", carDetailsDTO.getPicture1());
-        values.put("picture2", carDetailsDTO.getPicture2());
-        values.put("picture3", carDetailsDTO.getPicture3());
-        values.put("picture4", carDetailsDTO.getPicture4());
-        values.put("plate_num", carDetailsDTO.getPlateNum());
+        values.put("car_id", manageRequestDTO.getCarId());
+        values.put("account_id", manageRequestDTO.getAccountId());
+        values.put("date_created", manageRequestDTO.getDateCreated().getTime());
+        values.put("date_updated", manageRequestDTO.getDateUpdated().getTime());
+        values.put("price", manageRequestDTO.getPrice());
+        values.put("manage_request_id", manageRequestDTO.getManageRequestId());
+        values.put("request_status", manageRequestDTO.getRequestStatus().getValue());
+        values.put("request_id", manageRequestDTO.getRequestId());
 
         return values;
 
     }
 
-    public long saveCarDetails(CarDetailsDTO carDetailsDTO){
+    public long saveOrUpdateManageRequest(ManageRequestDTO manageRequestDTO){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues contentValues = setContentValues(carDetailsDTO);
+        ContentValues contentValues = setContentValues(manageRequestDTO);
 
-        return db.insert(TABLE_NAME, null, contentValues);
-    }
+        boolean newRequest = getManageRequest(manageRequestDTO).getRequestId() == null;
 
-    public long updateCarDetailsIdFromWS(int carId){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if(newRequest)
+            return db.insert(TABLE_NAME, null, contentValues);
+        else {
+            String condition = "request_id = " + manageRequestDTO.getRequestId()
+                                +" account_id = " + manageRequestDTO.getAccountId()
+                                + "car_id = "+ manageRequestDTO.getCarId();
 
-        CarDetailsDTO carDetailsDTO = getCarDetailsByCarID(-1);
-        carDetailsDTO.setCarId(carId);
-
-        ContentValues contentValues = setContentValues(carDetailsDTO);
-
-        return db.update(TABLE_NAME, contentValues, " car_id = \"" + -1 + "\"" ,null);
+            return db.update(TABLE_NAME, contentValues, condition, null);
+        }
     }
 }

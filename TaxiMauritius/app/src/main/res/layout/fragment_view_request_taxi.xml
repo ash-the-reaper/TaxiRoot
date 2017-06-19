@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:layout_height="match_parent">
+
+   <TableLayout
+       android:weightSum="6"
+       android:layout_margin="5dp"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <TableRow
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_from"/>
+
+           <TextView
+               android:gravity="center|left"
+               android:id="@+id/txtFrom"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_to"/>
+
+           <TextView
+               android:gravity="center|left"
+               android:id="@+id/txtTo"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_date"/>
+
+           <TextView
+               android:textColor="@color/black"
+               android:textStyle="bold"
+               android:gravity="center|left"
+               android:text="Select Date"
+               android:id="@+id/datePicker"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_time"/>
+
+           <TextView
+               android:gravity="center|left"
+               android:textColor="@color/black"
+               android:textStyle="bold"
+               android:text="Select Time"
+               android:id="@+id/timePicker"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+       <TableRow
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_create_request_details"/>
+
+           <TextView
+               android:gravity="center|left"
+               android:textColor="@color/black"
+               android:textStyle="bold"
+               android:id="@+id/txtDetails"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"/>
+
+       </TableRow>
+
+
+       <TableRow
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp">
+
+           <TextView
+               android:gravity="center_vertical"
+               android:textStyle="bold"
+               android:textSize="20dp"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="@string/fragment_view_request_taxi"/>
+
+           <EditText
+               android:gravity="center|left"
+               android:textColor="@color/black"
+               android:textStyle="bold"
+               android:id="@+id/editTextPrice"
+               android:layout_weight="0.5"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"/>
+
+       </TableRow>
+
+
+       <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <Button
+               android:id="@+id/btnDeleteRequest"
+               android:text="REJECT"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="1"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+           <Button
+               android:id="@+id/btnUpdateRequest"
+               android:text="ACCEPT"
+               android:textStyle="bold"
+               android:textColor="@color/black"
+               android:textSize="20dp"
+               android:layout_weight="1"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"/>
+
+       </TableRow>
+
+   </TableLayout>
+
+</LinearLayout>

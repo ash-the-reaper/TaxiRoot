@@ -20,6 +20,7 @@ public class ManageRequestDTO implements Serializable {
     private RequestStatus requestStatus;
     private Integer accountId;
     private Integer carId;
+    private Integer requestId;
 
     public Integer getManageRequestId() {
         return manageRequestId;
@@ -84,8 +85,5 @@ public class ManageRequestDTO implements Serializable {
     public void setRequestId(Integer requestId) {
         this.requestId = requestId;
     }
-
-    private Integer requestId;
-
 
 }

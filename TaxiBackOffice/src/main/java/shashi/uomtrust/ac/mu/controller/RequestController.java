@@ -3,20 +3,16 @@ package shashi.uomtrust.ac.mu.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import shashi.uomtrust.ac.mu.dto.ManageRequestDTO;
 import shashi.uomtrust.ac.mu.dto.RequestDTO;
-import shashi.uomtrust.ac.mu.dto.UsersDetails;
-import shashi.uomtrust.ac.mu.entity.Account;
-import shashi.uomtrust.ac.mu.entity.Request;
-import shashi.uomtrust.ac.mu.enums.UserRole;
-import shashi.uomtrust.ac.mu.service.AccountService;
 import shashi.uomtrust.ac.mu.service.ClientService;
+import shashi.uomtrust.ac.mu.service.ManageRequestService;
 import shashi.uomtrust.ac.mu.service.RequestService;
 
 @RestController
@@ -28,6 +24,9 @@ public class RequestController {
 	
 	@Autowired
 	private RequestService requestService;
+	
+	@Autowired
+	private ManageRequestService manageRequestService;
     
     @CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/createUpdateRequest", method = RequestMethod.POST)
@@ -52,5 +51,11 @@ public class RequestController {
    	@RequestMapping(value = "/getRequestListTaxi", method = RequestMethod.POST)
    	public List<RequestDTO> getRequestList(@RequestBody RequestDTO requestDTO) {    	    	
     	return requestService.getRequestForTaxiByRequestStatus(requestDTO);
+   	}
+    
+    @CrossOrigin(origins = "http://localhost:8081")
+   	@RequestMapping(value = "/acceptRequestTaxi", method = RequestMethod.POST)
+   	public ManageRequestDTO acceptRequestTaxi(@RequestBody ManageRequestDTO manageRequestDTO) {    	    	
+    	return manageRequestService.save(manageRequestDTO);
    	}
 }

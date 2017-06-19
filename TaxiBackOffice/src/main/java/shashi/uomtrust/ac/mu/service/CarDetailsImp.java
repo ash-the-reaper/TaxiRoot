@@ -33,6 +33,7 @@ public class CarDetailsImp implements CarDetailsService{
 		carDetails.setAccount(account);
 		carDetails.setMake(carDetailsDTO.getMake());
 		carDetails.setNumOfPassenger(carDetailsDTO.getNumOfPassenger());
+		carDetails.setYear(carDetailsDTO.getYear());
 		carDetails.setPlateNum(carDetailsDTO.getPlateNum());
 		
 		carDetails.setPicture1(carDetailsDTO.getPicture1());
@@ -44,6 +45,7 @@ public class CarDetailsImp implements CarDetailsService{
 		
 		CarDetailsDTO newCarDetailsDTO = new CarDetailsDTO();
 		newCarDetailsDTO.setCarId(newCardetails.getCarId());
+		newCarDetailsDTO.setYear(newCardetails.getYear());
 		newCarDetailsDTO.setAccountId(newCardetails.getAccount().getAccountId());
 		newCarDetailsDTO.setMake(newCardetails.getMake());
 		newCarDetailsDTO.setNumOfPassenger(newCardetails.getNumOfPassenger());

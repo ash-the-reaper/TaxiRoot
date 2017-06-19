@@ -22,4 +22,8 @@ public class WebService {
     public static final String API_GET_REQUEST_LIST_USER = API_REQUEST +"getRequestListUser";
     public static final String API_GET_REQUEST_LIST_TAXI = API_REQUEST +"getRequestListTaxi";
 
+    public static final String API_ACCEPT_REQUEST_TAXI = API_REQUEST +"acceptRequestTaxi";
+
+
+
 }

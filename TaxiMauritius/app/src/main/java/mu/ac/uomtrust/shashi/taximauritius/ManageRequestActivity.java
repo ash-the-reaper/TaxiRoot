@@ -49,9 +49,10 @@ public class ManageRequestActivity extends Fragment {
         Integer accountId = prefs.getInt("accountId", 1);
 
         AccountDTO accountDTO = new AccountDAO(getActivity()).getAccountById(accountId);
+        final UserRole userRole = accountDTO.getRole();
 
         int resourceId;
-        if(accountDTO.getRole() == UserRole.TAXI_DRIVER){
+        if(userRole == UserRole.TAXI_DRIVER){
             resourceId = R.array.manage_request_taxi_arrays;
         }
         else
@@ -70,20 +71,40 @@ public class ManageRequestActivity extends Fragment {
 
 
         requestDTOList = new ArrayList<>();
-        requestAdapter = new RequestAdapter(getActivity(), requestDTOList, fragmentManager, false);
+        requestAdapter = new RequestAdapter(getActivity(), requestDTOList, fragmentManager, false, userRole);
         recyclerView.setAdapter(requestAdapter);
 
         final RequestDTO requestDTO = new RequestDAO(getActivity()).getOneRequest();
+
+        if(requestDTO.getAccountId() == null){
+            requestDTO.setAccountId(accountId);
+        }
 
         spinnerRequestType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position == 0 && requestDTO != null && requestDTO.getRequestId() != null) {
-                    requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
-                    new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
-                } else if(requestDTO != null && requestDTO.getRequestId() != null){
-                    requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
+                if(userRole == UserRole.USER) {
+                    if (position == 0 && requestDTO != null && requestDTO.getRequestId() != null) {
+                        requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
+                        new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
+                    } else if (requestDTO != null && requestDTO.getRequestId() != null) {
+                        requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
+                        new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
+                    }
+                }
+                else{
+
+                    if (position == 0) {
+                        requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
+                    } else if (position == 1) {
+                        requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
+                    }else if (position == 2) {
+                        requestDTO.setRequestStatus(RequestStatus.CLIENT_ACCEPTED);
+                    }
+                    else if (position == 3) {
+                        requestDTO.setRequestStatus(RequestStatus.CLIENT_REJECTED);
+                    }
                     new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
                 }
             }

@@ -45,6 +45,7 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
     protected Integer doInBackground(CarDetailsDTO... params) {
         JSONObject postData = new JSONObject();
         CarDetailsDTO carDetailsDTO = params[0];
+        HttpURLConnection httpURLConnection = null;
 
         try{
             postData.put("make", carDetailsDTO.getMake());
@@ -66,50 +67,44 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
 
             postData.put("accountId", carDetailsDTO.getAccountId());
 
-            HttpURLConnection httpURLConnection = null;
-            try {
+            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_CAR_DETAILS).openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
+            httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.connect();
 
-                httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_CAR_DETAILS).openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-                httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");
-                httpURLConnection.setRequestProperty("accept-charset", "UTF-8");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.connect();
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(postData.toString());
+            wr.flush();
+            wr.close();
 
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                wr.writeBytes(postData.toString());
-                wr.flush();
-                wr.close();
+            InputStream responseStream = httpURLConnection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
 
-                InputStream responseStream = httpURLConnection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
+            final StringBuilder builder = new StringBuilder();
+            String inputLine;
 
-                final StringBuilder builder = new StringBuilder();
-                String inputLine;
-
-                while ((inputLine = reader.readLine()) != null) {
-                    builder.append(inputLine).append("\n");
-                }
-
-                JSONObject jsonObject = new JSONObject(builder.toString());
-                carDetailsDTO.setCarId(jsonObject.getInt("carId"));
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
+            while ((inputLine = reader.readLine()) != null) {
+                builder.append(inputLine).append("\n");
             }
+
+            JSONObject jsonObject = new JSONObject(builder.toString());
+            carDetailsDTO.setCarId(jsonObject.getInt("carId"));
 
             return carDetailsDTO.getCarId();
 
-
-
         }catch (Exception e){
             e.printStackTrace();
+        }
+        finally {
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
+
+            if(progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
         }
 
         return null;

@@ -39,7 +39,8 @@
 
     <string-array name="manage_request_arrays">
         <item>PENDING</item>
-        <item>ACCEPTED</item>
+        <item>DRIVER ACCEPTED</item>
+        <item>I ACCEPTED</item>
     </string-array>
 
     <string-array name="manage_request_taxi_arrays">
@@ -74,6 +75,7 @@
 
 
     <string name="create_request_activity_validation_autocomplete_address">Address can not be null</string>
+    <string name="create_request_activity_validation_autocomplete_price">Price can not be null</string>
     <string name="create_request_activity_validation_autocomplete_date">Date can not be null</string>
     <string name="create_request_activity_validation_autocomplete_time">Time can not be null</string>
     <string name="create_request_activity_validation_autocomplete_details">Details can not be null</string>
@@ -91,6 +93,8 @@
     <string name="fragment_create_request_time">Time:</string>
     <string name="fragment_create_request_details">Details</string>
     <string name="fragment_create_request_date">Date:</string>
+
+    <string name="fragment_view_request_taxi">Price</string>
 
 
     <string name="error_server">An error has occured please try again later</string>

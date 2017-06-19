@@ -8,10 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,17 +26,14 @@ public class ManageRequest implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer manage_request_id;
     
-    @Id
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "request_id", nullable = true)
 	private Request request;
 	
-    @Id
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account_id", nullable = true)
 	private Account userAccount;
 	
-    @Id
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "car_id", nullable = true)
 	private CarDetails carDetails;

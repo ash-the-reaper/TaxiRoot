@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.gson.Gson;
+
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -144,32 +146,38 @@ public class ViewRequestActivity extends Fragment {
         });
 
 
-        SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
-        Integer requestId = prefs.getInt("requestId", 1);
+       SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
+        //Integer requestId = prefs.getInt("requestId", 1);
 
-        requestDTO = new RequestDAO(getActivity()).getRequestByID(requestId);
-        autoCompleteFrom.setText(requestDTO.getPlaceFrom());
-        autoCompleteTo.setText(requestDTO.getPlaceTo());
+        Gson gson = new Gson();
+        String gsonRequestDTO = prefs.getString("gsonRequestDTO", null);
+        requestDTO = gson.fromJson(gsonRequestDTO, RequestDTO.class);
 
-        String sDate = null, sTime = null;
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMMM");
-            sDate = simpleDateFormat.format(requestDTO.getEvenDateTime());
+        //requestDTO = new RequestDAO(getActivity()).getRequestByID(requestId);
 
-            SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("H : mm");
-            sTime = simpleTimeFormat.format(requestDTO.getEvenDateTime());
+        if(requestDTO != null && requestDTO.getRequestId() != null) {
+
+            autoCompleteFrom.setText(requestDTO.getPlaceFrom());
+            autoCompleteTo.setText(requestDTO.getPlaceTo());
+
+            String sDate = null, sTime = null;
+            try {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMMM");
+                sDate = simpleDateFormat.format(requestDTO.getEvenDateTime());
+
+                SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("H : mm");
+                sTime = simpleTimeFormat.format(requestDTO.getEvenDateTime());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            datePicker.setText(sDate);
+            mTimePicker.setText(sTime);
+
+            editTextDetails.setText(requestDTO.getDetails());
+
+            requestDateTime.setTime(requestDTO.getEvenDateTime());
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        datePicker.setText(sDate);
-        mTimePicker.setText(sTime);
-
-        editTextDetails.setText(requestDTO.getDetails());
-
-        requestDateTime.setTime(requestDTO.getEvenDateTime());
-
 
         return view;
     }
