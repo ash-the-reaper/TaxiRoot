@@ -63,13 +63,13 @@ public class ManageRequest implements Serializable{
 		this.request = request;
 	}
 
-/*	public Account getUserAccount() {
+	public Account getUserAccount() {
 		return userAccount;
 	}
 
 	public void setUserAccount(Account userAccount) {
 		this.userAccount = userAccount;
-	}*/
+	}
 
 	public CarDetails getCarDetails() {
 		return carDetails;
