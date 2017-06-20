@@ -52,6 +52,16 @@ public class Account {
 	@Column(nullable = true)
 	private String password;
 	
+	@Column(nullable = true)
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public UserRole getUserRole() {
 		return userRole;

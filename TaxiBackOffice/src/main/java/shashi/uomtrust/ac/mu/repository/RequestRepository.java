@@ -47,5 +47,15 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 	public List<Request> getRequestForTaxiByRequestStatus(@Param("request_status") Integer request_status);
 	
 	
+	@Query("select r from Request r , ManageRequest m join r.account a join m.request "
+			+ " where r.account = a "
+			+ " and m.request = r "
+			+ " and a.address = r.place_from "
+			+ " and r.request_status =:request_status "
+			+ "order by r.request_id desc")
+	
+	public List<Request> getPendingRequestListTaxi(@Param("request_status") Integer request_status);
+	
+	
 	
 }

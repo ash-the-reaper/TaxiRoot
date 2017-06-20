@@ -1,7 +1,6 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
 import android.Manifest;
-import android.accounts.Account;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -357,6 +356,7 @@ public class CompleteDriverRegistration extends Activity {
 
     private void setData(){
         AccountDTO accountDTO = new AccountDAO(CompleteDriverRegistration.this).getAccountById(-1);
+        //AccountDTO accountDTO = (AccountDTO) getIntent().getSerializableExtra("accountDTO");
 
         CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
         carDetailsDTO.setCarId(-1);
@@ -378,10 +378,10 @@ public class CompleteDriverRegistration extends Activity {
         if(img4.getDrawable() != null)
             carDetailsDTO.setPicture4(Utils.convertBitmapToBlob(((BitmapDrawable)img4.getDrawable()).getBitmap()));
 
-        new CarDetailsDAO(CompleteDriverRegistration.this).saveCarDetails(carDetailsDTO);
+        new CarDetailsDAO(CompleteDriverRegistration.this).saveOrUpdateCarDetails(carDetailsDTO);
 
         accountDTO.setAddress(autoCompleteAddress.getText().toString());
-        new AccountDAO(CompleteDriverRegistration.this).saveAccount(accountDTO);
+        new AccountDAO(CompleteDriverRegistration.this).saveOrUpdateAccount(accountDTO);
         new AsyncCreateAccount(CompleteDriverRegistration.this).execute(accountDTO);
     }
 }

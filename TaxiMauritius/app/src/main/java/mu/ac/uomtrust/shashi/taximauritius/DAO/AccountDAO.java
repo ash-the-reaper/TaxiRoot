@@ -81,11 +81,17 @@ public class AccountDAO {
 
     }
 
-    public long saveAccount(AccountDTO accountDTO){
+    public long saveOrUpdateAccount(AccountDTO accountDTO){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = setContentValues(accountDTO);
 
-        return db.insert(TABLE_NAME, null, contentValues);
+        boolean accountExist = getAccountById(accountDTO.getAccountId()).getAccountId() == null;
+
+        if(accountExist)
+            return db.insert(TABLE_NAME, null, contentValues);
+        else
+            return db.update(TABLE_NAME, contentValues, "account_id = "+accountDTO.getAccountId(), null);
+
     }
 
     public long updateAccountIdFromWS(int accountId){

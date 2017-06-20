@@ -94,7 +94,6 @@ public class ManageRequestActivity extends Fragment {
                     }
                 }
                 else{
-
                     if (position == 0) {
                         requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
                     } else if (position == 1) {

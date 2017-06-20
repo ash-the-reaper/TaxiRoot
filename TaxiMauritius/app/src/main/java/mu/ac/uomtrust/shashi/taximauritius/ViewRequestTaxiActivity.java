@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,18 +67,19 @@ public class ViewRequestTaxiActivity extends Fragment {
         txtFrom = (TextView) view.findViewById(R.id.txtFrom);
         editTextPrice = (EditText) view.findViewById(R.id.editTextPrice);
 
-        Button btnUpdateRequest = (Button)view.findViewById(R.id.btnUpdateRequest);
-        btnUpdateRequest.setOnClickListener(new View.OnClickListener() {
+        Button btnAcceptRequest = (Button)view.findViewById(R.id.btnAcceptRequest);
+        btnAcceptRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(validForm()){
                    //new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager(), false).execute(requestDTO);
+                    Utils.showToast(getActivity(), "Test");
                 }
             }
         });
 
-        Button btnDeleteRequest = (Button)view.findViewById(R.id.btnDeleteRequest);
-        btnDeleteRequest.setOnClickListener(new View.OnClickListener() {
+        Button btnRejectRequest = (Button)view.findViewById(R.id.btnRejectRequest);
+        btnRejectRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDelete();
@@ -152,12 +154,11 @@ public class ViewRequestTaxiActivity extends Fragment {
     private boolean validForm(){
         boolean validForm = true;
 
-        if(editTextPrice.getText() == null){
+        if(TextUtils.isEmpty(editTextPrice.getText())){
             Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_price));
             validForm = false;
         }
-
-        if(validForm){
+        else{
             manageRequestDTO.setRequestId(requestDTO.getRequestId());
             manageRequestDTO.setAccountId(requestDTO.getAccountId());
             manageRequestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);

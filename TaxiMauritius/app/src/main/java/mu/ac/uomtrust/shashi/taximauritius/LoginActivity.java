@@ -214,9 +214,10 @@ public class LoginActivity extends Activity {
                     dialog.dismiss();
 
                     accountDTO.setRole(UserRole.TAXI_DRIVER);
-                    new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
+                    new AccountDAO(LoginActivity.this).saveOrUpdateAccount(accountDTO);
 
                     Intent intent = new Intent(LoginActivity.this, CompleteDriverRegistration.class);
+                    //intent.putExtra("accountDTO", accountDTO);
                     startActivity(intent);
                     finish();
                 }
@@ -224,8 +225,7 @@ public class LoginActivity extends Activity {
                     dialog.dismiss();
 
                     accountDTO.setRole(UserRole.USER);
-                    new AccountDAO(LoginActivity.this).saveAccount(accountDTO);
-
+                    new AccountDAO(LoginActivity.this).saveOrUpdateAccount(accountDTO);
                     new AsyncCreateAccount(LoginActivity.this).execute(accountDTO);
                 }
             }

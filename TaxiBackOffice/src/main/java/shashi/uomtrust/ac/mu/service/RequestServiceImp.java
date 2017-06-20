@@ -117,5 +117,28 @@ public class RequestServiceImp implements RequestService{
 		
 		return requestDTOs;
 	}
+	
+	@Override
+	public List<RequestDTO> getPendingRequestListTaxi(RequestDTO requestDTO) {
+		// TODO Auto-generated method stub
+		List<Request> requestList = requestRepository.getPendingRequestListTaxi(requestDTO.getRequestStatus().getValue());
+		
+		List<RequestDTO> requestDTOs = new ArrayList<>();
+		
+		for(Request request : requestList){
+			RequestDTO newRequestDTO = new RequestDTO();
+			newRequestDTO.setAccountId(request.getAccount().getAccountId());
+			newRequestDTO.setEventDateTime(request.getEvent_date_time().getTime());
+			newRequestDTO.setPlaceFrom(request.getPlace_from());
+			newRequestDTO.setPlaceTo(request.getPlace_to());
+			newRequestDTO.setRequestId(request.getRequest_id());
+			newRequestDTO.setDetails(request.getDetails());
+			newRequestDTO.setRequestStatus(RequestStatus.valueFor(request.getRequest_status()));
+			
+			requestDTOs.add(newRequestDTO);
+		}
+		
+		return requestDTOs;
+	}
 
 }

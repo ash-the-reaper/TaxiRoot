@@ -100,21 +100,36 @@ public class CarDetailsDAO {
         values.put("make", carDetailsDTO.getMake());
         values.put("year", carDetailsDTO.getYear());
         values.put("num_of_passenger", carDetailsDTO.getNumOfPassenger());
-        values.put("picture1", carDetailsDTO.getPicture1());
-        values.put("picture2", carDetailsDTO.getPicture2());
-        values.put("picture3", carDetailsDTO.getPicture3());
-        values.put("picture4", carDetailsDTO.getPicture4());
+
+        if(carDetailsDTO.getPicture1() != null)
+            values.put("picture1", carDetailsDTO.getPicture1());
+
+        if(carDetailsDTO.getPicture2() != null)
+            values.put("picture2", carDetailsDTO.getPicture2());
+
+        if(carDetailsDTO.getPicture3() != null)
+            values.put("picture3", carDetailsDTO.getPicture3());
+
+        if(carDetailsDTO.getPicture4() != null)
+            values.put("picture4", carDetailsDTO.getPicture4());
+
         values.put("plate_num", carDetailsDTO.getPlateNum());
 
         return values;
 
     }
 
-    public long saveCarDetails(CarDetailsDTO carDetailsDTO){
+    public long saveOrUpdateCarDetails(CarDetailsDTO carDetailsDTO){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = setContentValues(carDetailsDTO);
 
-        return db.insert(TABLE_NAME, null, contentValues);
+        boolean carExist = getCarDetailsByCarID(carDetailsDTO.getCarId()).getCarId() == null;
+
+        if(carExist)
+            return db.insert(TABLE_NAME, null, contentValues);
+        else
+            return db.update(TABLE_NAME, contentValues, "car_id = "+carDetailsDTO.getCarId(), null);
+
     }
 
     public long updateCarDetailsIdFromWS(int carId){

@@ -1,12 +1,10 @@
 package mu.ac.uomtrust.shashi.taximauritius.Async;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -20,12 +18,8 @@ import java.util.Date;
 import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DAO.RequestDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.AccountDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
-import mu.ac.uomtrust.shashi.taximauritius.ManageRequestActivity;
-import mu.ac.uomtrust.shashi.taximauritius.R;
 import mu.ac.uomtrust.shashi.taximauritius.RequestAdapter;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
@@ -73,7 +67,7 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
 
             UserRole userRole = new AccountDAO(context).getAccountById(requestDTO.getAccountId()).getRole();
             if(userRole == UserRole.TAXI_DRIVER)
-                url = WebService.API_GET_REQUEST_LIST_TAXI;
+                url = WebService.API_GET_PENDING_REQUEST_LIST_TAXI;
 
             httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
             httpURLConnection.setRequestMethod("POST");

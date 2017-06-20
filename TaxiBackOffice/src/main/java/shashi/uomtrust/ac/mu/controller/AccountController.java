@@ -41,7 +41,7 @@ public class AccountController {
 		
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:8081")
+	@CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
 	public Boolean checkLogin(@RequestBody Account account) {
 		if(account != null && account.getEmail() !=null )
@@ -49,6 +49,7 @@ public class AccountController {
 		return false;
 	}
 
+	@CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
 	public Account createAccount(@RequestBody Account account) {
 		if(account != null && account.getEmail() !=null ){
@@ -57,6 +58,7 @@ public class AccountController {
 		return null;
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/checkAccountViaEmail", method = RequestMethod.POST)
 	public Account checkAccountViaEmail(@RequestBody Account account) {
 		if(account != null && account.getEmail() !=null ){
@@ -65,7 +67,7 @@ public class AccountController {
 		return null;
 	}
 	
-	
+	@CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/createCarDetails", method = RequestMethod.POST)
 	public CarDetailsDTO createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
 		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){	

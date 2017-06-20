@@ -146,6 +146,7 @@
            android:layout_height="0dp">
 
            <TextView
+               android:textColor="@color/taxiBackground"
                android:gravity="center_vertical"
                android:textStyle="bold"
                android:textSize="20dp"
@@ -155,6 +156,7 @@
                android:text="@string/fragment_view_request_taxi"/>
 
            <EditText
+               android:inputType="number"
                android:gravity="center|left"
                android:textColor="@color/black"
                android:textStyle="bold"
@@ -171,7 +173,7 @@
            android:layout_height="match_parent">
 
            <Button
-               android:id="@+id/btnDeleteRequest"
+               android:id="@+id/btnRejectRequest"
                android:text="REJECT"
                android:textStyle="bold"
                android:textColor="@color/black"
@@ -181,7 +183,7 @@
                android:layout_height="match_parent"/>
 
            <Button
-               android:id="@+id/btnUpdateRequest"
+               android:id="@+id/btnAcceptRequest"
                android:text="ACCEPT"
                android:textStyle="bold"
                android:textColor="@color/black"

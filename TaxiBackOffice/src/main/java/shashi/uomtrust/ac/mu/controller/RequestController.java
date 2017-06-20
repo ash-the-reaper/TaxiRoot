@@ -48,10 +48,16 @@ public class RequestController {
    	}
     
     @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/getRequestListTaxi", method = RequestMethod.POST)
-   	public List<RequestDTO> getRequestList(@RequestBody RequestDTO requestDTO) {    	    	
-    	return requestService.getRequestForTaxiByRequestStatus(requestDTO);
+   	@RequestMapping(value = "/getPendingRequestListTaxi", method = RequestMethod.POST)
+   	public List<RequestDTO> getPendingRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
+    	return requestService.getPendingRequestListTaxi(requestDTO);
    	}
+    
+   /* @CrossOrigin(origins = "http://localhost:8081")
+   	@RequestMapping(value = "/getRequestListTaxi", method = RequestMethod.POST)
+   	public List<RequestDTO> getRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
+    	return requestService.getRequestForTaxiByRequestStatus(requestDTO);
+   	}*/
     
     @CrossOrigin(origins = "http://localhost:8081")
    	@RequestMapping(value = "/acceptRequestTaxi", method = RequestMethod.POST)

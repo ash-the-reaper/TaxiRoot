@@ -14,5 +14,7 @@ public interface RequestService {
 	public Boolean delete(Integer requestId);
 	public List<RequestDTO> getRequestByUserIdAndRequestStatus(RequestDTO requestDTO);
 	public List<RequestDTO> getRequestForTaxiByRequestStatus(RequestDTO requestDTO);
+	public List<RequestDTO> getPendingRequestListTaxi(RequestDTO requestDTO);
+
 
 }

@@ -62,6 +62,10 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
             postData.put("userStatus", accountDTO.getUserStatus());
             postData.put("gender", accountDTO.getGender());
 
+            if(accountDTO.getAddress() != null)
+                postData.put("address", accountDTO.getAddress());
+
+
             httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_ACCOUNT).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
@@ -110,6 +114,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
 
         if(accountDTO != null && accountDTO.getAccountId() > 0) {
             new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
+            //new AccountDAO(context).saveOrUpdateAccount(accountDTO);
 
             SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
             editor.putBoolean("login", true);
@@ -120,7 +125,7 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
             if (accountDTO.getRole() == UserRole.TAXI_DRIVER) {
                 CarDetailsDTO carDetailsDTO = new CarDetailsDAO(context).getCarDetailsByAccountID(-1);
                 carDetailsDTO.setAccountId(accountDTO.getAccountId());
-                new CarDetailsDAO(context).saveCarDetails(carDetailsDTO);
+                new CarDetailsDAO(context).saveOrUpdateCarDetails(carDetailsDTO);
                 new AsyncCreateCarDetails(context).execute(carDetailsDTO);
             } else {
                 Intent intent = new Intent(context, MainActivity.class);
