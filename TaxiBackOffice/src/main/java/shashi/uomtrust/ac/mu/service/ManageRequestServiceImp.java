@@ -106,5 +106,34 @@ public class ManageRequestServiceImp implements ManageRequestService{
 		}		
 		return finalRequestList;
 	}
+	
+	@Override
+	public List<RequestDTO> getManageRequestByStatusForUser(Integer request_status, Integer account_id) {
+		// TODO Auto-generated method stub
+		Account account = accountRepository.findByAccountId(account_id);
+		List<ManageRequest> manageRequestList = manageRequestRepository.getManageRequestByStatusForTaxi(request_status, account);
+		
+		List<RequestDTO> finalRequestList = new ArrayList();
+		
+		if(manageRequestList != null && manageRequestList.size() >0){
+			for(ManageRequest manageRequest : manageRequestList){
+				Request request = manageRequest.getRequest();
+				
+				RequestDTO newRequestDTO = new RequestDTO();
+				newRequestDTO.setAccountId(request.getAccount().getAccountId());
+				newRequestDTO.setEventDateTime(request.getEvent_date_time().getTime());
+				newRequestDTO.setPlaceFrom(request.getPlace_from());
+				newRequestDTO.setPlaceTo(request.getPlace_to());
+				newRequestDTO.setRequestId(request.getRequest_id());
+				newRequestDTO.setDetails(request.getDetails());
+				newRequestDTO.setRequestStatus(RequestStatus.valueFor(request.getRequest_status()));
+				
+				finalRequestList.add(newRequestDTO);
+			}
+		}		
+		return finalRequestList;
+	}
+	
+	
 
 }

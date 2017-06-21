@@ -47,6 +47,8 @@ public class RequestController {
     	return requestService.getRequestByUserIdAndRequestStatus(requestDTO);
    	}
     
+    
+    //Taxi
     @CrossOrigin(origins = "http://localhost:8081")
    	@RequestMapping(value = "/getPendingRequestListTaxi", method = RequestMethod.POST)
    	public List<RequestDTO> getPendingRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	

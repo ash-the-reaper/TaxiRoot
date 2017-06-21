@@ -13,6 +13,7 @@ public interface ManageRequestService {
 
 	public ManageRequestDTO save(ManageRequestDTO ManageRequestDTO);
 	public  List<RequestDTO> getManageRequestByStatusForTaxi(Integer request_status, Integer account_id);
+	List<RequestDTO> getManageRequestByStatusForUser(Integer request_status, Integer account_id);
 
 	
 

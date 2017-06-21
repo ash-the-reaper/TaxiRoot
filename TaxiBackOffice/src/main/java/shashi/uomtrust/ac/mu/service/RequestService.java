@@ -13,6 +13,7 @@ public interface RequestService {
 	public RequestDTO save(RequestDTO requestDTO);
 	public Boolean delete(Integer requestId);
 	public List<RequestDTO> getRequestByUserIdAndRequestStatus(RequestDTO requestDTO);
+	public List<RequestDTO> getOtherRequestByUserIdAndRequestStatus(RequestDTO requestDTO);
 	public List<RequestDTO> getPendingRequestListTaxi(RequestDTO requestDTO);
 
 

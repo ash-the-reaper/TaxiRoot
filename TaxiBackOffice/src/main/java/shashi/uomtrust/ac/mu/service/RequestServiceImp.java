@@ -27,6 +27,8 @@ public class RequestServiceImp implements RequestService{
 	
 	@Autowired
 	private ManageRequestRepository manageRequestRepository;
+	
+	private ManageRequestService manageRequestService;
 
 	@Override
 	public RequestDTO save(RequestDTO requestDTO) {
@@ -98,6 +100,13 @@ public class RequestServiceImp implements RequestService{
 		}
 		
 		return requestDTOs;
+	}
+	
+	@Override
+	public List<RequestDTO> getOtherRequestByUserIdAndRequestStatus(RequestDTO requestDTO) {
+		// TODO Auto-generated method stub
+		
+		return manageRequestService.getManageRequestByStatusForUser(requestDTO.getRequestStatus().getValue(), requestDTO.getAccountId());
 	}
 	
 	@Override
