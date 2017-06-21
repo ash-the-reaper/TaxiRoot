@@ -27,9 +27,6 @@ public class ClientController {
 	private ClientService clientService;
 	
 	@Autowired
-	private RequestService requestService;
-	
-	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
     @CrossOrigin(origins = "http://localhost:8081")

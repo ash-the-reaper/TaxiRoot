@@ -31,7 +31,7 @@ public class ManageRequest implements Serializable{
 	private Request request;
 	
     @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "account_id", nullable = true)
+	@JoinColumn(name = "accountId", nullable = true)
 	private Account userAccount;
 	
     @ManyToOne(fetch = FetchType.EAGER)

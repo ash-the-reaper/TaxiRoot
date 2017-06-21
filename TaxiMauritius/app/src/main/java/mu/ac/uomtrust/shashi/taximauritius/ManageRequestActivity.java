@@ -104,6 +104,9 @@ public class ManageRequestActivity extends Fragment {
                     else if (position == 3) {
                         requestDTO.setRequestStatus(RequestStatus.CLIENT_REJECTED);
                     }
+                    else{
+                        requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_REJECTED);
+                    }
                     new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
                 }
             }

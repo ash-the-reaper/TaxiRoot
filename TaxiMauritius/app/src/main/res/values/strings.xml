@@ -48,6 +48,7 @@
         <item>I ACCEPTED</item>
         <item>CLIENT ACCEPTED</item>
         <item>CLIENT REJECTED</item>
+        <item>I REJECTED</item>
     </string-array>
 
     <string name="complete_registration_make">Make:</string>

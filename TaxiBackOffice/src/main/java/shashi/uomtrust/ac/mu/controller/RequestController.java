@@ -52,16 +52,11 @@ public class RequestController {
    	public List<RequestDTO> getPendingRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
     	return requestService.getPendingRequestListTaxi(requestDTO);
    	}
-    
-   /* @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/getRequestListTaxi", method = RequestMethod.POST)
-   	public List<RequestDTO> getRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
-    	return requestService.getRequestForTaxiByRequestStatus(requestDTO);
-   	}*/
+   
     
     @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/acceptRequestTaxi", method = RequestMethod.POST)
-   	public ManageRequestDTO acceptRequestTaxi(@RequestBody ManageRequestDTO manageRequestDTO) {    	    	
-    	return manageRequestService.save(manageRequestDTO);
+   	@RequestMapping(value = "/getOtherRequestListTaxi", method = RequestMethod.POST)
+   	public List<RequestDTO> getOtherRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
+    	return manageRequestService.getManageRequestByStatusForTaxi(requestDTO.getRequestStatus().getValue(), requestDTO.getAccountId());
    	}
 }

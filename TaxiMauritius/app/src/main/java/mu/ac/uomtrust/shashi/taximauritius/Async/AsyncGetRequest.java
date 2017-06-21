@@ -19,6 +19,7 @@ import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.DAO.AccountDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 import mu.ac.uomtrust.shashi.taximauritius.RequestAdapter;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
@@ -66,8 +67,12 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
             String url = WebService.API_GET_REQUEST_LIST_USER;
 
             UserRole userRole = new AccountDAO(context).getAccountById(requestDTO.getAccountId()).getRole();
-            if(userRole == UserRole.TAXI_DRIVER)
-                url = WebService.API_GET_PENDING_REQUEST_LIST_TAXI;
+            if(userRole == UserRole.TAXI_DRIVER) {
+                if(requestDTO.getRequestStatus().equals(RequestStatus.REQUEST_PENDING))
+                    url = WebService.API_GET_PENDING_REQUEST_LIST_TAXI;
+                else
+                    url = WebService.API_OTHER_REQUEST_LIST_TAXI;
+            }
 
             httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
             httpURLConnection.setRequestMethod("POST");

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import shashi.uomtrust.ac.mu.dto.RequestDTO;
 import shashi.uomtrust.ac.mu.entity.Account;
+import shashi.uomtrust.ac.mu.entity.ManageRequest;
 import shashi.uomtrust.ac.mu.entity.Request;
 import shashi.uomtrust.ac.mu.enums.RequestStatus;
 import shashi.uomtrust.ac.mu.repository.AccountRepository;
+import shashi.uomtrust.ac.mu.repository.ManageRequestRepository;
 import shashi.uomtrust.ac.mu.repository.RequestRepository;
 
 @Service
@@ -22,6 +24,9 @@ public class RequestServiceImp implements RequestService{
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private ManageRequestRepository manageRequestRepository;
 
 	@Override
 	public RequestDTO save(RequestDTO requestDTO) {
@@ -96,36 +101,50 @@ public class RequestServiceImp implements RequestService{
 	}
 	
 	@Override
-	public List<RequestDTO> getRequestForTaxiByRequestStatus(RequestDTO requestDTO) {
-		// TODO Auto-generated method stub
-		List<Request> requestList = requestRepository.getRequestForTaxiByRequestStatus(requestDTO.getRequestStatus().getValue());
-		
-		List<RequestDTO> requestDTOs = new ArrayList<>();
-		
-		for(Request request : requestList){
-			RequestDTO newRequestDTO = new RequestDTO();
-			newRequestDTO.setAccountId(request.getAccount().getAccountId());
-			newRequestDTO.setEventDateTime(request.getEvent_date_time().getTime());
-			newRequestDTO.setPlaceFrom(request.getPlace_from());
-			newRequestDTO.setPlaceTo(request.getPlace_to());
-			newRequestDTO.setRequestId(request.getRequest_id());
-			newRequestDTO.setDetails(request.getDetails());
-			newRequestDTO.setRequestStatus(RequestStatus.valueFor(request.getRequest_status()));
-			
-			requestDTOs.add(newRequestDTO);
-		}
-		
-		return requestDTOs;
-	}
-	
-	@Override
 	public List<RequestDTO> getPendingRequestListTaxi(RequestDTO requestDTO) {
 		// TODO Auto-generated method stub
-		List<Request> requestList = requestRepository.getPendingRequestListTaxi(requestDTO.getRequestStatus().getValue());
+		String taxiAddress = accountRepository.findByAccountId(requestDTO.getAccountId()).getAddress();
 		
-		List<RequestDTO> requestDTOs = new ArrayList<>();
+		List<Request> requestList = requestRepository.getRequestByStatusForTaxi(requestDTO.getRequestStatus().getValue());
+		Account account = accountRepository.findByAccountId(requestDTO.getAccountId());
+		List<ManageRequest> manageRequestList = manageRequestRepository.getManageRequestForTaxi(account);
 		
-		for(Request request : requestList){
+		
+		List<Request> sameAddressRequestList = new ArrayList<>();
+		if(requestList != null && requestList.size() >0){
+			for(Request r : requestList){
+				if(r.getPlace_from().equalsIgnoreCase(taxiAddress))
+					sameAddressRequestList.add(r);
+			}
+		}
+		
+		
+		List<Request> filteredRequestList = new ArrayList<>();
+		if(manageRequestList != null && manageRequestList.size() >0 && sameAddressRequestList != null && sameAddressRequestList.size()>0){
+			for(ManageRequest m : manageRequestList ){
+				boolean found = false;
+				Request newRequest = new Request();
+				
+				innerLoop:
+				for(Request request : sameAddressRequestList){
+					if(m.getRequest().getRequest_id().equals(request.getRequest_id())){
+						newRequest = request;
+						found = true;
+						break innerLoop;
+					}
+				}
+				
+				if(!found){
+					filteredRequestList.add(newRequest);
+				}
+			}
+		}
+		
+		if(manageRequestList == null || manageRequestList.size() >1)
+			filteredRequestList = sameAddressRequestList;
+		
+		List<RequestDTO> finalRequestList = new ArrayList<>();
+		for(Request request : filteredRequestList){
 			RequestDTO newRequestDTO = new RequestDTO();
 			newRequestDTO.setAccountId(request.getAccount().getAccountId());
 			newRequestDTO.setEventDateTime(request.getEvent_date_time().getTime());
@@ -135,10 +154,10 @@ public class RequestServiceImp implements RequestService{
 			newRequestDTO.setDetails(request.getDetails());
 			newRequestDTO.setRequestStatus(RequestStatus.valueFor(request.getRequest_status()));
 			
-			requestDTOs.add(newRequestDTO);
+			finalRequestList.add(newRequestDTO);
 		}
 		
-		return requestDTOs;
+		return finalRequestList;
 	}
 
 }
