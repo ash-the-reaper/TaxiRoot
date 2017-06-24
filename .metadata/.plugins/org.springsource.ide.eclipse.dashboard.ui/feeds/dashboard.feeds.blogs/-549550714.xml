@@ -5,7 +5,42 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2017-06-20T13:16:00Z</updated>
+  <updated>2017-06-23T12:38:00Z</updated>
+  <entry>
+    <title>Spring for Apache Hadoop 2.5.0.RC1 released</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/06/23/spring-for-apache-hadoop-2-5-0-rc1-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Thomas Risberg</name>
+    </author>
+    <id>tag:spring.io,2017-06-23:2960</id>
+    <updated>2017-06-23T12:38:00Z</updated>
+    <content type="html">&lt;h2&gt;&lt;a href="#new-release-candidate-for-spring-for-apache-hadoop-2-5" class="anchor" name="new-release-candidate-for-spring-for-apache-hadoop-2-5"&gt;&lt;/a&gt;New release candidate for Spring for Apache Hadoop 2.5&lt;/h2&gt;
+&lt;p&gt;We are pleased to announce the Spring for Apache Hadoop 2.5 release candidate release.&lt;/p&gt;
+&lt;p&gt;We continue to provide version specific artifacts with their respective transitive dependencies in the Spring IO milestone repository:&lt;/p&gt;
+&lt;p&gt;The 2.5 version is primarily a bug fix and version upgrade release.&lt;/p&gt;
+&lt;p&gt;See the release &lt;a href="http://docs.spring.io/spring-hadoop/docs/2.5.0.RC1/changelog.txt"&gt;changelog&lt;/a&gt; for details.&lt;/p&gt;
+&lt;p&gt;We continue to provide version specific artifacts with their respective transitive dependencies in the Spring IO milestone repository:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;2.5.0.RC1 (default - Apache Hadoop stable 2.7.3)&lt;/li&gt;
+  &lt;li&gt;2.5.0.RC1-cdh5 (Cloudera CDH 5.10)&lt;/li&gt;
+  &lt;li&gt;2.5.0.RC1-hdp26 (Hortonworks HDP 2.6)&lt;/li&gt;
+&lt;/ul&gt;&lt;h2&gt;&lt;a href="#spring-for-apache-hadoop-future" class="anchor" name="spring-for-apache-hadoop-future"&gt;&lt;/a&gt;Spring for Apache Hadoop Future&lt;/h2&gt;
+&lt;p&gt;The Hadoop ecosystem is shifting and we think it is time to adapt the Spring for Apache Hadoop (SHDP) project to these shifting trends. We will maintain the SHDP 2.x version with bug fixes and version upgrades but we don’t plan on adding features. All new development will go into version 3.0 of SHDP.&lt;/p&gt;
+&lt;p&gt;Spring for Apache Hadoop 3.0 will be a rewrite based on the existing code but we will only port over some parts of the code base. We will rely on Spring Boot configuration in Java code and will no longer support the XML namespace. We will focus on HDFS readers and writers, Apache Spark integration and Spring Batch support. The Hive, Pig, HBase and MapReduce code will have much lower priority and will initially not be included. If there is strong demand we&amp;rsquo;ll consider adding this code back in future releases.&lt;/p&gt;
+&lt;p&gt;We will initially focus on the following areas:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Java 8 minimum requirement&lt;/li&gt;
+  &lt;li&gt;Hadoop 3.0 support&lt;/li&gt;
+  &lt;li&gt;Spring Boot 2.0 support&lt;/li&gt;
+  &lt;li&gt;HDFS readers and writers&lt;/li&gt;
+  &lt;li&gt;Spark 2.0 integration&lt;/li&gt;
+  &lt;li&gt;Spring Batch 4.0 item readers and writers plus builders&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We hope that the code based on the plain Apache Hadoop dependencies will work across different distros so we are not planning on releasing Cloudera and Hortonworks specific versions. If this assumption proves problematic we&amp;rsquo;ll revisit this decision.&lt;/p&gt;
+&lt;p&gt;Please provide feedback so we can prioritize the work on new features scheduled for 3.0. You can use JIRA issues or GitHub issues (see project page for links).&lt;/p&gt;
+&lt;p&gt;The project page is at - &lt;a href="http://projects.spring.io/spring-hadoop/"&gt;http://projects.spring.io/spring-hadoop/&lt;/a&gt;&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>A preview on Spring Data Kay</title>
     <link rel="alternate" href="https://spring.io/blog/2017/06/20/a-preview-on-spring-data-kay" />
@@ -1405,18 +1440,5 @@ Spring Boot users can update to &lt;a href="https://spring.io/blog/2017/06/08/sp
 &lt;p&gt;We expect Spring Boot &lt;code&gt;1.4.7&lt;/code&gt; to be the last maintenance release in the &lt;code&gt;1.4&lt;/code&gt; line. If you haven&amp;rsquo;t upgraded to &lt;code&gt;1.5.x&lt;/code&gt; yet, we advise you to do so as soon as possible.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
 &lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="http://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="http://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://projects.spring.io/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/1.4.7.RELEASE/reference/htmlsingle"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Framework 4.3.9 available now</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/06/07/spring-framework-4-3-9-available-now" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Stéphane Nicoll</name>
-    </author>
-    <id>tag:spring.io,2017-06-07:2940</id>
-    <updated>2017-06-07T20:19:22Z</updated>
-    <content type="html">&lt;p&gt;On behalf of the team, I am pleased to announce that Spring Framework &lt;a href="https://jira.spring.io/jira/secure/ReleaseNote.jspa?projectId=10000&amp;version=15928"&gt;4.3.9&lt;/a&gt; &lt;a href="http://projects.spring.io/spring-framework"&gt;is available now&lt;/a&gt;. &lt;/p&gt;
-&lt;p&gt;This maintenance release is the base for the upcoming Spring Boot 1.4.7 and 1.5.4 maintenance releases and includes 30 fixes and selected improvements.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://projects.spring.io/spring-framework/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-framework"&gt;GitHub&lt;/a&gt; | &lt;a href="https://jira.spring.io/browse/SPR"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/"&gt;Documentation&lt;/a&gt;&lt;/p&gt;</content>
   </entry>
 </feed>

@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 
 import static android.R.attr.fragment;
@@ -86,10 +87,18 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     editor.commit();
 
                     if(userRole == UserRole.USER) {
-                        fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.details, new ViewRequestActivity())
-                                .commit();
+                        if(requestDTO.getRequestStatus().equals(RequestStatus.REQUEST_PENDING)) {
+                            fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.details, new ViewRequestActivity())
+                                    .commit();
+                        }
+                        else if(requestDTO.getRequestStatus().equals(RequestStatus.TAXI_DRIVER_ACCEPTED)){
+                            fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.details, new ViewRequestFromTaxiActivity())
+                                    .commit();
+                        }
                     }
                     else{
                         fragmentManager

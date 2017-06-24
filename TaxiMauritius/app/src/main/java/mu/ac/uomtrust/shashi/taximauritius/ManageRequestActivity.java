@@ -83,22 +83,25 @@ public class ManageRequestActivity extends Fragment {
         spinnerRequestType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 if(userRole == UserRole.USER) {
                     if (position == 0 && requestDTO != null && requestDTO.getRequestId() != null) {
                         requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
-                        new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
-                    } else if (requestDTO != null && requestDTO.getRequestId() != null) {
+                    }
+                    else if (position == 1 && requestDTO != null && requestDTO.getRequestId() != null) {
                         requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
-                        new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
+                    }
+                    else if (position == 2 && requestDTO != null && requestDTO.getRequestId() != null) {
+                        requestDTO.setRequestStatus(RequestStatus.CLIENT_ACCEPTED);
                     }
                 }
                 else{
                     if (position == 0) {
                         requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
-                    } else if (position == 1) {
+                    }
+                    else if (position == 1) {
                         requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
-                    }else if (position == 2) {
+                    }
+                    else if (position == 2) {
                         requestDTO.setRequestStatus(RequestStatus.CLIENT_ACCEPTED);
                     }
                     else if (position == 3) {
@@ -107,8 +110,8 @@ public class ManageRequestActivity extends Fragment {
                     else{
                         requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_REJECTED);
                     }
-                    new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
                 }
+                new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
             }
 
             @Override

@@ -43,11 +43,15 @@ public class RequestServiceImp implements RequestService{
 		
 		request.setAccount(account);
 		
-		calendar.setTimeInMillis(requestDTO.getDateCreated());
-		request.setDate_created(calendar.getTime());
+		if(requestDTO.getDateCreated() != null){
+			calendar.setTimeInMillis(requestDTO.getDateCreated());
+			request.setDate_created(calendar.getTime());
+		}
 		
-		calendar.setTimeInMillis(requestDTO.getDateUpdated());
-		request.setDate_updated(calendar.getTime());	
+		if(requestDTO.getDateUpdated() != null){
+			calendar.setTimeInMillis(requestDTO.getDateUpdated());
+			request.setDate_updated(calendar.getTime());	
+		}
 		
 		calendar.setTimeInMillis(requestDTO.getEventDateTime());
 		request.setEvent_date_time(calendar.getTime());

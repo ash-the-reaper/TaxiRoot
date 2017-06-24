@@ -74,7 +74,7 @@ public class AsyncCreateOrUpdateRequest extends AsyncTask<RequestDTO, Void ,Requ
             postData.put("eventDateTime", requestDTO.getEvenDateTime().getTime());
             postData.put("details", requestDTO.getDetails());
 
-            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_UPDATE_REQUEST).openConnection();
+            httpURLConnection = (HttpURLConnection) new URL(WebService.USER_API_CREATE_UPDATE_REQUEST).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             httpURLConnection.setRequestProperty("Accept", "application/json;charset=UTF-8");

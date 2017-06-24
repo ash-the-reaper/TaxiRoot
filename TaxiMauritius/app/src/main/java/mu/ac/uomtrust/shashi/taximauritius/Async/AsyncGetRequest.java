@@ -64,14 +64,20 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
                 postData.put("accountId", requestDTO.getAccountId());
             }
 
-            String url = WebService.API_GET_REQUEST_LIST_USER;
+            String url;
 
             UserRole userRole = new AccountDAO(context).getAccountById(requestDTO.getAccountId()).getRole();
             if(userRole == UserRole.TAXI_DRIVER) {
                 if(requestDTO.getRequestStatus().equals(RequestStatus.REQUEST_PENDING))
-                    url = WebService.API_GET_PENDING_REQUEST_LIST_TAXI;
+                    url = WebService.TAXI_API_GET_PENDING_REQUEST_LIST;
                 else
-                    url = WebService.API_OTHER_REQUEST_LIST_TAXI;
+                    url = WebService.TAXI_API_OTHER_REQUEST_LIST;
+            }
+            else{
+                if(requestDTO.getRequestStatus().equals(RequestStatus.REQUEST_PENDING))
+                    url = WebService.USER_API_GET_PENDING_REQUEST_LIST;
+                else
+                    url = WebService.USER_API_OTHER_REQUEST_LIST;
             }
 
             httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
@@ -107,11 +113,21 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
                 RequestDTO newRequestDTO = new RequestDTO();
 
                 newRequestDTO.setAccountId(jsonObject.getInt("accountId"));
+                newRequestDTO.setRequestStatus(Utils.setRequestStatus(jsonObject.getString("requestStatus")));
                 newRequestDTO.setDetails(jsonObject.getString("details"));
                 newRequestDTO.setRequestId(jsonObject.getInt("requestId"));
                 newRequestDTO.setEvenDateTime(new Date(jsonObject.getLong("eventDateTime")));
                 newRequestDTO.setPlaceFrom(jsonObject.getString("placeFrom"));
                 newRequestDTO.setPlaceTo(jsonObject.getString("placeTo"));
+
+                if(newRequestDTO.getRequestStatus() != RequestStatus.REQUEST_PENDING && userRole.equals(UserRole.USER)) {
+                    if (jsonObject.getString("driverName") != null)
+                        newRequestDTO.setDriverName(jsonObject.getString("driverName"));
+
+                    if (jsonObject.get("price") != null)
+                        newRequestDTO.setPrice(jsonObject.getInt("price"));
+                }
+
                 newRequestDTOList.add(newRequestDTO);
             }
 

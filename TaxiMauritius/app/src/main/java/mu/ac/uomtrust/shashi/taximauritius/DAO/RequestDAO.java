@@ -141,8 +141,13 @@ public class RequestDAO {
 
         values.put("request_id", requestDTO.getRequestId());
         values.put("account_id", requestDTO.getAccountId());
-        values.put("date_updated", requestDTO.getDateUpdated().getTime());
-        values.put("date_created", requestDTO.getDateCreated().getTime());
+
+        if(requestDTO.getDateUpdated() != null)
+            values.put("date_updated", requestDTO.getDateUpdated().getTime());
+
+        if(requestDTO.getDateCreated() != null)
+            values.put("date_created", requestDTO.getDateCreated().getTime());
+
         values.put("event_date_time", requestDTO.getEvenDateTime().getTime());
         values.put("place_from", requestDTO.getPlaceFrom());
         values.put("place_to", requestDTO.getPlaceTo());

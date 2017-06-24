@@ -96,6 +96,7 @@
     <string name="fragment_create_request_date">Date:</string>
 
     <string name="fragment_view_request_taxi">Price</string>
+    <string name="fragment_view_request_taxi_driver_name">Driver Name:</string>
 
 
     <string name="error_server">An error has occured please try again later</string>

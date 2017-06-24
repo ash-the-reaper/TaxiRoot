@@ -29,36 +29,42 @@ public class RequestController {
 	private ManageRequestService manageRequestService;
     
     @CrossOrigin(origins = "http://localhost:8081")
-	@RequestMapping(value = "/createUpdateRequest", method = RequestMethod.POST)
-	public RequestDTO createUpdateRequest(@RequestBody RequestDTO requestDTO) {    	
+	@RequestMapping(value = "/userCreateUpdateRequest", method = RequestMethod.POST)
+	public RequestDTO userCreateUpdateRequest(@RequestBody RequestDTO requestDTO) {    	
 		return requestService.save(requestDTO);
 	}
     
     @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/deleteRequest", method = RequestMethod.POST)
-   	public Boolean deleteRequest(@RequestBody RequestDTO requestDTO) {    	    	
+   	@RequestMapping(value = "/userDeleteRequest", method = RequestMethod.POST)
+   	public Boolean userDeleteRequest(@RequestBody RequestDTO requestDTO) {    	    	
     	return requestService.delete(requestDTO.getRequestId());
    	}
     
     
     @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/getRequestListUser", method = RequestMethod.POST)
-   	public List<RequestDTO> getRequestListUser(@RequestBody RequestDTO requestDTO) {    	    	
+   	@RequestMapping(value = "/userGetPendingRequestList", method = RequestMethod.POST)
+   	public List<RequestDTO> userGetPendingRequestList(@RequestBody RequestDTO requestDTO) {    	    	
     	return requestService.getRequestByUserIdAndRequestStatus(requestDTO);
    	}
     
     
     //Taxi
     @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/getPendingRequestListTaxi", method = RequestMethod.POST)
-   	public List<RequestDTO> getPendingRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
+   	@RequestMapping(value = "/taxiGetPendingRequestList", method = RequestMethod.POST)
+   	public List<RequestDTO> taxiGetPendingRequestList(@RequestBody RequestDTO requestDTO) {    	    	
     	return requestService.getPendingRequestListTaxi(requestDTO);
    	}
    
     
     @CrossOrigin(origins = "http://localhost:8081")
-   	@RequestMapping(value = "/getOtherRequestListTaxi", method = RequestMethod.POST)
-   	public List<RequestDTO> getOtherRequestListTaxi(@RequestBody RequestDTO requestDTO) {    	    	
+   	@RequestMapping(value = "/taxiGetOtherRequestList", method = RequestMethod.POST)
+   	public List<RequestDTO> taxiGetOtherRequestList(@RequestBody RequestDTO requestDTO) {    	    	
     	return manageRequestService.getManageRequestByStatusForTaxi(requestDTO.getRequestStatus().getValue(), requestDTO.getAccountId());
+   	}
+    
+    @CrossOrigin(origins = "http://localhost:8081")
+   	@RequestMapping(value = "/userGetOtherRequestList", method = RequestMethod.POST)
+   	public List<RequestDTO> userGetOtherRequestList(@RequestBody RequestDTO requestDTO) {    	    	
+    	return manageRequestService.getManageRequestByStatusForUser(requestDTO.getRequestStatus().getValue(), requestDTO.getAccountId());
    	}
 }

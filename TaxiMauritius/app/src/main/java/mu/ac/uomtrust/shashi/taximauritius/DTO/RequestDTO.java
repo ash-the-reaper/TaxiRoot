@@ -21,6 +21,15 @@ public class RequestDTO implements Serializable {
     private Integer price;
     private RequestStatus requestStatus;
     private Integer accountId;
+    private String driverName;
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
 
     public Integer getRequestId() {
         return requestId;

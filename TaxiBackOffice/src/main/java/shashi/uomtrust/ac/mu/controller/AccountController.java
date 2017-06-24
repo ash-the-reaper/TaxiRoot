@@ -68,8 +68,8 @@ public class AccountController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8081")
-	@RequestMapping(value = "/createCarDetails", method = RequestMethod.POST)
-	public CarDetailsDTO createCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
+	@RequestMapping(value = "/taxiCreateCarDetails", method = RequestMethod.POST)
+	public CarDetailsDTO taxiCreateCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
 		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){	
 			
 			if(carDetailsDTO.getPicture1() != null){

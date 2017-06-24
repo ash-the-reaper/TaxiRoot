@@ -56,7 +56,7 @@ public class AsyncDeleteRequest extends AsyncTask<RequestDTO, Void ,Boolean > {
         try{
             postData.put("requestId", requestDTO.getRequestId());
 
-            httpURLConnection = (HttpURLConnection) new URL(WebService.API_DELETE_REQUEST).openConnection();
+            httpURLConnection = (HttpURLConnection) new URL(WebService.USER_API_DELETE_REQUEST).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             httpURLConnection.setRequestProperty("Accept", "application/json;charset=UTF-8");

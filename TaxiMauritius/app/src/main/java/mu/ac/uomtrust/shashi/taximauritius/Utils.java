@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
+
 /**
  * Created by Ashwin on 28-May-17.
  */
@@ -106,5 +108,24 @@ public class Utils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static RequestStatus setRequestStatus(String requestStatus){
+        if(requestStatus.equalsIgnoreCase("REQUEST_PENDING"))
+            return RequestStatus.REQUEST_PENDING;
+        else if(requestStatus.equalsIgnoreCase("REQUEST_CANCEL"))
+            return RequestStatus.REQUEST_CANCEL;
+        else if(requestStatus.equalsIgnoreCase("CLIENT_ACCEPTED"))
+            return RequestStatus.CLIENT_ACCEPTED;
+        else if(requestStatus.equalsIgnoreCase("CLIENT_REJECTED"))
+            return RequestStatus.CLIENT_REJECTED;
+        else if(requestStatus.equalsIgnoreCase("TAXI_DRIVER_ACCEPTED"))
+            return RequestStatus.TAXI_DRIVER_ACCEPTED;
+        else if(requestStatus.equalsIgnoreCase("TAXI_DRIVER_REJECTED"))
+            return RequestStatus.TAXI_DRIVER_REJECTED;
+        else if(requestStatus.equalsIgnoreCase("PAID"))
+            return RequestStatus.PAID;
+        else
+            return null;
     }
 }

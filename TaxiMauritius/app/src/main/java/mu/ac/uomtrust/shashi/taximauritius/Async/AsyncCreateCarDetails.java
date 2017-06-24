@@ -67,7 +67,7 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
 
             postData.put("accountId", carDetailsDTO.getAccountId());
 
-            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_CAR_DETAILS).openConnection();
+            httpURLConnection = (HttpURLConnection) new URL(WebService.TAXI_API_CREATE_CAR_DETAILS).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             httpURLConnection.setRequestProperty("Accept", "application/json; charset=utf-8");

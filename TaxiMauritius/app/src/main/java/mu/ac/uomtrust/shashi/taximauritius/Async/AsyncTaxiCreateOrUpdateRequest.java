@@ -15,9 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import mu.ac.uomtrust.shashi.taximauritius.DAO.ManageRequestDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DAO.RequestDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.ManageRequestDTO;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.ManageRequestActivity;
 import mu.ac.uomtrust.shashi.taximauritius.R;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
@@ -70,7 +68,7 @@ public class AsyncTaxiCreateOrUpdateRequest extends AsyncTask<ManageRequestDTO, 
             postData.put("accountId", manageRequestDTO.getAccountId());
 
 
-            httpURLConnection = (HttpURLConnection) new URL(WebService.API_CREATE_UPDATE_REQUEST).openConnection();
+            httpURLConnection = (HttpURLConnection) new URL(WebService.USER_API_CREATE_UPDATE_REQUEST).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             httpURLConnection.setRequestProperty("Accept", "application/json;charset=UTF-8");
