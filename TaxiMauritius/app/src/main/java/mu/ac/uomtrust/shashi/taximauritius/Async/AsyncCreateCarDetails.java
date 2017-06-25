@@ -54,16 +54,17 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
             postData.put("plateNum", carDetailsDTO.getPlateNum());
 
             if(carDetailsDTO.getPicture1() != null)
-                postData.put("picture1", Base64.encodeToString(carDetailsDTO.getPicture1(), Base64.DEFAULT));
+                postData.put("sPicture1", Base64.encodeToString(carDetailsDTO.getPicture1(), Base64.DEFAULT));
 
             if(carDetailsDTO.getPicture2() != null)
-                postData.put("picture2", Base64.encodeToString(carDetailsDTO.getPicture2(), Base64.DEFAULT));
+                postData.put("sPicture2",Base64.encodeToString(carDetailsDTO.getPicture2(), Base64.DEFAULT));
 
             if(carDetailsDTO.getPicture3() != null)
-                postData.put("picture3", Base64.encodeToString(carDetailsDTO.getPicture3(), Base64.DEFAULT));
+                postData.put("sPicture3", Base64.encodeToString(carDetailsDTO.getPicture3(), Base64.DEFAULT));
 
             if(carDetailsDTO.getPicture4() != null)
-                postData.put("picture4", Base64.encodeToString(carDetailsDTO.getPicture4(), Base64.DEFAULT));
+                postData.put("sPicture4", Base64.encodeToString(carDetailsDTO.getPicture4(), Base64.DEFAULT));
+
 
             postData.put("accountId", carDetailsDTO.getAccountId());
 
@@ -92,6 +93,11 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
 
             JSONObject jsonObject = new JSONObject(builder.toString());
             carDetailsDTO.setCarId(jsonObject.getInt("carId"));
+            carDetailsDTO.setYear(jsonObject.getInt("year"));
+            carDetailsDTO.setAccountId(jsonObject.getInt("accountId"));
+            carDetailsDTO.setMake(jsonObject.getString("make"));
+            carDetailsDTO.setPlateNum(jsonObject.getString("plateNum"));
+            carDetailsDTO.setNumOfPassenger(jsonObject.getInt("numOfPassenger"));
 
             return carDetailsDTO.getCarId();
 
@@ -124,4 +130,5 @@ public class AsyncCreateCarDetails extends AsyncTask<CarDetailsDTO, Void ,Intege
             Utils.showToast(context, context.getString(R.string.error_server));
         }
     }
+
 }

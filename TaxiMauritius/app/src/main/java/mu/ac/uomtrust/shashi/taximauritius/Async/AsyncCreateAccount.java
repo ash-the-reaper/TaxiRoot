@@ -114,7 +114,6 @@ public class AsyncCreateAccount extends AsyncTask<AccountDTO, Void ,AccountDTO >
 
         if(accountDTO != null && accountDTO.getAccountId() > 0) {
             new AccountDAO(context).updateAccountIdFromWS(accountDTO.getAccountId());
-            //new AccountDAO(context).saveOrUpdateAccount(accountDTO);
 
             SharedPreferences.Editor editor = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE).edit();
             editor.putBoolean("login", true);

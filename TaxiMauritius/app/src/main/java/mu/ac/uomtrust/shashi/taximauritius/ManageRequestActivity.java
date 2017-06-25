@@ -84,13 +84,13 @@ public class ManageRequestActivity extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(userRole == UserRole.USER) {
-                    if (position == 0 && requestDTO != null && requestDTO.getRequestId() != null) {
+                    if (position == 0) {
                         requestDTO.setRequestStatus(RequestStatus.REQUEST_PENDING);
                     }
-                    else if (position == 1 && requestDTO != null && requestDTO.getRequestId() != null) {
+                    else if (position == 1) {
                         requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
                     }
-                    else if (position == 2 && requestDTO != null && requestDTO.getRequestId() != null) {
+                    else if (position == 2 /*&& requestDTO != null && requestDTO.getRequestId() != null*/) {
                         requestDTO.setRequestStatus(RequestStatus.CLIENT_ACCEPTED);
                     }
                 }

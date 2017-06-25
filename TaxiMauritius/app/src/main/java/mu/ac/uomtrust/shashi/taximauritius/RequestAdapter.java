@@ -114,7 +114,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return requestDTOList.size();
+        return requestDTOList != null? requestDTOList.size():0;
     }
 
 

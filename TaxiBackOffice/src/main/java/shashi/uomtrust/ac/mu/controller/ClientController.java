@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import shashi.uomtrust.ac.mu.dto.RequestDTO;
+import shashi.uomtrust.ac.mu.dto.CarDetailsDTO;
 import shashi.uomtrust.ac.mu.dto.UsersDetails;
 import shashi.uomtrust.ac.mu.entity.Account;
-import shashi.uomtrust.ac.mu.entity.Request;
+import shashi.uomtrust.ac.mu.entity.CarDetails;
 import shashi.uomtrust.ac.mu.enums.UserRole;
-import shashi.uomtrust.ac.mu.service.AccountService;
+import shashi.uomtrust.ac.mu.service.CarDetailsService;
 import shashi.uomtrust.ac.mu.service.ClientService;
-import shashi.uomtrust.ac.mu.service.RequestService;
 
 @RestController
 @RequestMapping("/api/client")
@@ -25,6 +24,9 @@ public class ClientController {
 	
 	@Autowired
 	private ClientService clientService;
+	
+	@Autowired
+	private CarDetailsService carDetailsService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -58,5 +60,11 @@ public class ClientController {
 	@RequestMapping(value = "/getAllClientByStatus", method = RequestMethod.POST)
 	public List<Account> getAllClientByStatus(@RequestBody UsersDetails usersDetails) {
 		return clientService.getAllClientByStatus(usersDetails.getUserStatus(), usersDetails.getUserRole());
+	}
+    
+    @CrossOrigin(origins = "http://localhost:8081")
+	@RequestMapping(value = "/taxiGetCarDetails", method = RequestMethod.POST)
+	public CarDetailsDTO taxiGetCarDetails(@RequestBody CarDetails carDetails) {
+		return carDetailsService.findByCarId(carDetails.getCarId());
 	}
 }

@@ -73,7 +73,7 @@ public class ViewRequestTaxiActivity extends Fragment {
             public void onClick(View v) {
                 if(validForm()){
                    //new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager(), false).execute(requestDTO);
-                    Utils.showToast(getActivity(), "Test");
+                    Utils.showToast(getActivity(), "Testing");
                 }
             }
         });

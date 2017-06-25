@@ -1,0 +1,73 @@
+package shashi.uomtrust.ac.mu.utils;
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Iterator;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+
+
+
+public class Utils {
+
+	public static final String imageDirectory= "D:/UOM/Dissertation/pic";
+	
+	public static void writeImage(byte[] bytes){
+				
+		//FileUtils.writeByteArrayToFile(new File("C:/Users/Ashwin/Pictures").mkdirs(), bytes);
+		
+		FileOutputStream fos;
+		try {
+			new File("D:/UOM/Dissertation").mkdirs();
+			fos = new FileOutputStream("D:/UOM/Dissertation");
+			fos.write(bytes);
+			fos.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public static void writeImage2(byte[] bytes){
+		try {
+			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+	        Iterator<?> readers = ImageIO.getImageReadersByFormatName("jpg");
+	 
+	        //ImageIO is a class containing static methods for locating ImageReaders
+	        //and ImageWriters, and performing simple encoding and decoding. 
+	 
+	        ImageReader reader = (ImageReader) readers.next();
+	        Object source = bis; 
+	        ImageInputStream iis = ImageIO.createImageInputStream(source); 
+	        reader.setInput(iis, true);
+	        ImageReadParam param = reader.getDefaultReadParam();
+	 
+	        Image image = reader.read(0, param);
+	        //got an image file
+	 
+	        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+	        //bufferedImage is the RenderedImage to be written
+	 
+	        Graphics2D g2 = bufferedImage.createGraphics();
+	        g2.drawImage(image, null, null);
+	 
+	        File imageFile = new File("D:/UOM/Dissertation");
+	        ImageIO.write(bufferedImage, "jpg", imageFile);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+	}
+	
+
+}

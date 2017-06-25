@@ -1,0 +1,139 @@
+package shashi.uomtrust.ac.mu.utils;
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.Locale;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+
+import com.dropbox.core.DbxAppInfo;
+import com.dropbox.core.DbxAuthFinish;
+import com.dropbox.core.DbxClient;
+import com.dropbox.core.DbxEntry;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWriteMode;
+
+
+public class Utils {
+
+	public static void writeImage(byte[] bytes){
+				
+		//FileUtils.writeByteArrayToFile(new File("C:/Users/Ashwin/Pictures").mkdirs(), bytes);
+		
+		FileOutputStream fos;
+		try {
+			new File("D:/UOM/Dissertation").mkdirs();
+			fos = new FileOutputStream("D:/UOM/Dissertation");
+			fos.write(bytes);
+			fos.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public static void writeImage2(byte[] bytes){
+		try {
+			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+	        Iterator<?> readers = ImageIO.getImageReadersByFormatName("jpg");
+	 
+	        //ImageIO is a class containing static methods for locating ImageReaders
+	        //and ImageWriters, and performing simple encoding and decoding. 
+	 
+	        ImageReader reader = (ImageReader) readers.next();
+	        Object source = bis; 
+	        ImageInputStream iis = ImageIO.createImageInputStream(source); 
+	        reader.setInput(iis, true);
+	        ImageReadParam param = reader.getDefaultReadParam();
+	 
+	        Image image = reader.read(0, param);
+	        //got an image file
+	 
+	        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+	        //bufferedImage is the RenderedImage to be written
+	 
+	        Graphics2D g2 = bufferedImage.createGraphics();
+	        g2.drawImage(image, null, null);
+	 
+	        File imageFile = new File("D:/UOM/Dissertation");
+	        ImageIO.write(bufferedImage, "jpg", imageFile);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+	}
+	
+	public static void uploadTodropbox(){
+		final String APP_KEY = "z6iw7stkub0xxej";
+        final String APP_SECRET = "7x5v6sbh9k7u5hu";
+
+        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
+        DbxRequestConfig config = new DbxRequestConfig("TaxiMauritius", Locale.getDefault().toString());
+        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+        
+        // Have the user sign in and authorize your app.
+        String authorizeUrl = webAuth.start();
+        String code = null;
+		try {
+			code = new BufferedReader(new InputStreamReader(System.in)).readLine().trim();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        // This will fail if the user enters an invalid authorization code.
+        DbxAuthFinish authFinish = null;
+		try {
+			authFinish = webAuth.finish(code);
+		} catch (DbxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        String accessToken = authFinish.accessToken;
+
+        DbxClient client = new DbxClient(config, accessToken);
+        
+        File inputFile = new File("1.jpg");
+        FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(inputFile);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        try {
+            DbxEntry.File uploadedFile = null;
+			try {
+				uploadedFile = client.uploadFile("/1.jpg", DbxWriteMode.add(), inputFile.length(), inputStream);
+			} catch (DbxException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        } finally {
+            try {
+				inputStream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+	}
+}

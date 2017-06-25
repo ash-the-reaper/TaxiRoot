@@ -33,7 +33,16 @@ public class RequestDTO implements Serializable {
     private String details;
     
     private String driverName;
-   
+    
+    private Integer carId;   
+
+	public Integer getCarId() {
+		return carId;
+	}
+
+	public void setCarId(Integer carId) {
+		this.carId = carId;
+	}
 
 	public String getDriverName() {
 		return driverName;

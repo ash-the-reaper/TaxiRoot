@@ -1,0 +1,50 @@
+package shashi.uomtrust.ac.mu.utils;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import shashi.uomtrust.ac.mu.dto.CarDetailsDTO;
+
+
+
+public class Utils {
+
+	private static final String imageDirectory= "D:/UOM/Dissertation/pic";
+	
+	
+	public static void saveImageToServer(CarDetailsDTO carDetailsDTO){
+		try {
+			byte [] pic2 = Base64.decodeBase64(carDetailsDTO.getsPicture1());
+			InputStream in = new ByteArrayInputStream(pic2);					
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			ImageIO.write(bImageFromConvert, "jpg", new File(Utils.imageDirectory));
+			
+			byte [] pic2 = Base64.decodeBase64(carDetailsDTO.getsPicture1());
+			InputStream in2 = new ByteArrayInputStream(pic2);					
+			BufferedImage bImageFromConvert2 = ImageIO.read(in2);
+			ImageIO.write(bImageFromConvert2, "jpg", new File(Utils.imageDirectory));
+			
+			byte [] pic3 = Base64.decodeBase64(carDetailsDTO.getsPicture1());
+			InputStream in3 = new ByteArrayInputStream(pic3);					
+			BufferedImage bImageFromConvert3 = ImageIO.read(in3);
+			ImageIO.write(bImageFromConvert3, "jpg", new File(Utils.imageDirectory));
+			
+			byte [] pic4 = Base64.decodeBase64(carDetailsDTO.getsPicture1());
+			InputStream in4 = new ByteArrayInputStream(pic4);					
+			BufferedImage bImageFromConvert4 = ImageIO.read(4);
+			ImageIO.write(bImageFromConvert4, "jpg", new File(Utils.imageDirectory));
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

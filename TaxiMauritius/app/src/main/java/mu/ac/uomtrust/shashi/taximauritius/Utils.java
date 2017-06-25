@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -15,16 +16,27 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
+import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
 
 /**
  * Created by Ashwin on 28-May-17.
  */
+
+
 
 public class Utils {
 
@@ -49,16 +61,11 @@ public class Utils {
         file.delete();
     }
 
-    public static byte[] convertToBlob(File file) {
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        return bos.toByteArray();
-    }
+
 
     public static byte[] convertBitmapToBlob(Bitmap bitmap) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 55, bos);
         return bos.toByteArray();
     }
 

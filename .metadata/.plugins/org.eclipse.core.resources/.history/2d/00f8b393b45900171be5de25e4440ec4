@@ -1,0 +1,35 @@
+package shashi.uomtrust.ac.mu.utils;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import shashi.uomtrust.ac.mu.dto.CarDetailsDTO;
+
+
+
+public class Utils {
+
+	private static final String imageDirectory= "D:/UOM/Dissertation/pic";
+	
+	
+	public static void saveImageToServer(CarDetailsDTO carDetailsDTO){
+		try {
+			byte [] pic = Base64.decodeBase64(carDetailsDTO.getsPicture1());
+			InputStream in = new ByteArrayInputStream(pic);					
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			ImageIO.write(bImageFromConvert, "jpg", new File(Utils.imageDirectory));
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

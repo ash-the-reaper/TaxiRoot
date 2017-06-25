@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncGetCarDetails;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
+import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.ManageRequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
@@ -72,6 +74,15 @@ public class ViewRequestFromTaxiActivity extends Fragment {
             }
         });
 
+        Button btnDriverDetails = (Button)view.findViewById(R.id.btnDriverDetails);
+        btnDriverDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CarDetailsDTO carDetailsDTO = new CarDetailsDTO();
+                carDetailsDTO.setCarId(requestDTO.getCarId());
+                new AsyncGetCarDetails(getActivity()).execute(carDetailsDTO);
+            }
+        });
 
        SharedPreferences prefs = getActivity().getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
 

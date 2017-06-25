@@ -6,4 +6,6 @@ public interface CarDetailsService {
 
 	public CarDetailsDTO saveCardetails(CarDetailsDTO carDetailsDTO);
 
+	public CarDetailsDTO findByCarId(Integer carId);
+
 }

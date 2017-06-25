@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="userGetOtherRequestList" key="selection"/>
+		<item value="taxiGetCarDetails" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="taxiGetCarDetails"/>
+			<item value="taxiCreateCarDetails"/>
 			<item value="userGetOtherRequestList"/>
+			<item value="taxiGetOtherRequestList"/>
 			<item value="createUpdateRequest"/>
 			<item value="getRequestListTaxi"/>
 			<item value="getRequestByUserIdAndRequestStatus"/>
 			<item value="role"/>
-			<item value="vehicle"/>
-			<item value="taxi"/>
-			<item value="car"/>
 		</list>
 		<list key="replacehistory">
 		</list>

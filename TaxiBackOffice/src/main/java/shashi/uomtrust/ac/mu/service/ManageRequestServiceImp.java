@@ -100,6 +100,7 @@ public class ManageRequestServiceImp implements ManageRequestService{
 				newRequestDTO.setRequestId(request.getRequest_id());
 				newRequestDTO.setDetails(request.getDetails());
 				newRequestDTO.setRequestStatus(RequestStatus.valueFor(request.getRequest_status()));
+				newRequestDTO.setCarId(manageRequest.getCarDetails().getCarId());
 				
 				finalRequestList.add(newRequestDTO);
 			}
@@ -128,7 +129,8 @@ public class ManageRequestServiceImp implements ManageRequestService{
 				newRequestDTO.setDetails(request.getDetails());
 				newRequestDTO.setRequestStatus(RequestStatus.valueFor(manageRequest.getRequest_status()));
 				newRequestDTO.setPrice(manageRequest.getPrice());
-				
+				newRequestDTO.setCarId(manageRequest.getCarDetails().getCarId());
+
 				String firstName = manageRequest.getCarDetails().getAccount().getFirstName();
 				String lastName = manageRequest.getCarDetails().getAccount().getLastName();
 				

@@ -1,5 +1,19 @@
 package shashi.uomtrust.ac.mu.controller;
 
+
+
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +28,7 @@ import shashi.uomtrust.ac.mu.entity.Account;
 import shashi.uomtrust.ac.mu.service.AccountService;
 import shashi.uomtrust.ac.mu.service.CarDetailsService;
 import shashi.uomtrust.ac.mu.service.ClientService;
+import shashi.uomtrust.ac.mu.utils.Utils;
 
 @RestController
 @RequestMapping("/api/account")
@@ -70,27 +85,24 @@ public class AccountController {
 	@CrossOrigin(origins = "http://localhost:8081")
 	@RequestMapping(value = "/taxiCreateCarDetails", method = RequestMethod.POST)
 	public CarDetailsDTO taxiCreateCarDetails(@RequestBody CarDetailsDTO carDetailsDTO){
-		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){	
+		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){
 			
-			if(carDetailsDTO.getPicture1() != null){
-				carDetailsDTO.setPicture1(Base64.decodeBase64(carDetailsDTO.getPicture1()));
-			}
-			
-			if(carDetailsDTO.getPicture2() != null){
-				carDetailsDTO.setPicture2(Base64.decodeBase64(carDetailsDTO.getPicture2()));
-			}
-			
-			if(carDetailsDTO.getPicture3() != null){
-				carDetailsDTO.setPicture3(Base64.decodeBase64(carDetailsDTO.getPicture3()));
-			}
-			
-			if(carDetailsDTO.getPicture4() != null){
-				carDetailsDTO.setPicture4(Base64.decodeBase64(carDetailsDTO.getPicture4()));
-			}
-			
-			
+			Utils.saveImageToServer(carDetailsDTO);
 			return carDetailsService.saveCardetails(carDetailsDTO);
 		}
 		return null;
 	}
+	
+	
+	/*@CrossOrigin(origins = "http://localhost:8081")
+	@RequestMapping(value = "/getCarImage", method = RequestMethod.POST)
+	public CarDetailsDTO getCarImage(@RequestBody CarDetailsDTO carDetailsDTO){
+		
+		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){			
+			return Utils.getImage(carDetailsDTO);
+		}
+		return null;
+	}
+	*/
+	 
 }

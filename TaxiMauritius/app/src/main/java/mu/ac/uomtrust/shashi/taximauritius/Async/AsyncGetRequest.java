@@ -126,6 +126,9 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
 
                     if (jsonObject.get("price") != null)
                         newRequestDTO.setPrice(jsonObject.getInt("price"));
+
+                    if(jsonObject.get("carId") != null)
+                        newRequestDTO.setCarId(jsonObject.getInt("carId"));
                 }
 
                 newRequestDTOList.add(newRequestDTO);
