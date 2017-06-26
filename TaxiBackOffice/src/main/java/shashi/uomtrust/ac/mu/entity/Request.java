@@ -27,9 +27,6 @@ public class Request implements Serializable{
 	private Integer request_id;
 	
     private Integer request_status;
-    
-	@Column(nullable = true)
-    private Integer price;
 	
     private String place_from;
     private String place_to;
@@ -60,14 +57,6 @@ public class Request implements Serializable{
 
 	public void setRequest_status(Integer request_status) {
 		this.request_status = request_status;
-	}
-
-	public Integer getPrice() {
-		return price;
-	}
-
-	public void setPrice(Integer price) {
-		this.price = price;
 	}
 
 	public String getPlace_from() {

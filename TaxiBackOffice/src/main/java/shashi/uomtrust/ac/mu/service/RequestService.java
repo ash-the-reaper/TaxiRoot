@@ -15,6 +15,7 @@ public interface RequestService {
 	public List<RequestDTO> getRequestByUserIdAndRequestStatus(RequestDTO requestDTO);
 	public List<RequestDTO> getOtherRequestByUserIdAndRequestStatus(RequestDTO requestDTO);
 	public List<RequestDTO> getPendingRequestListTaxi(RequestDTO requestDTO);
-
+	public RequestDTO acceptOrRejectRequestTaxi(RequestDTO requestDTO);
+	public RequestDTO acceptOrRejectRequestUser(RequestDTO requestDTO);
 
 }

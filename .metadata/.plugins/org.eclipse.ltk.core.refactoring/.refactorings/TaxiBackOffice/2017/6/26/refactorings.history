@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;shashi.uomtrust.ac.mu.service.RequestService.acceptRequestTaxi(...)&apos; to &apos;acceptOrRejectRequestTaxi&apos;&#x0D;&#x0A;- Original project: &apos;TaxiBackOffice&apos;&#x0D;&#x0A;- Original element: &apos;shashi.uomtrust.ac.mu.service.RequestService.acceptRequestTaxi(...)&apos;&#x0D;&#x0A;- Renamed element: &apos;shashi.uomtrust.ac.mu.service.RequestService.acceptOrRejectRequestTaxi(...)&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;acceptRequestTaxi&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src\/main\/java&lt;shashi.uomtrust.ac.mu.service{RequestService.java[RequestService~acceptRequestTaxi~QRequestDTO;" name="acceptOrRejectRequestTaxi" references="true" stamp="1498418839465" version="1.0"/>
+</session>

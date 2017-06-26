@@ -1,9 +1,7 @@
 package mu.ac.uomtrust.shashi.taximauritius;
 
 
-import android.app.DatePickerDialog;
 import android.app.Fragment;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,26 +10,18 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.gson.Gson;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncCreateOrUpdateRequest;
-import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncDeleteRequest;
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncAcceptOrRejectRequestTaxi;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
-import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.ManageRequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.RequestDTO;
 import mu.ac.uomtrust.shashi.taximauritius.Enums.RequestStatus;
@@ -72,8 +62,10 @@ public class ViewRequestTaxiActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 if(validForm()){
-                   //new AsyncCreateOrUpdateRequest(getActivity(), getFragmentManager(), false).execute(requestDTO);
-                    Utils.showToast(getActivity(), "Testing");
+                    requestDTO.setDateUpdated(new Date());
+                    requestDTO.setDateCreated(new Date());
+                    requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
+                    new AsyncAcceptOrRejectRequestTaxi(getActivity(), getFragmentManager(), false).execute(requestDTO);
                 }
             }
         });
@@ -82,7 +74,16 @@ public class ViewRequestTaxiActivity extends Fragment {
         btnRejectRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDelete();
+                if(requestDTO.getRequestStatus() != RequestStatus.TAXI_DRIVER_REJECTED) {
+                    alertDelete();
+                }
+                else{
+                    requestDTO.setDateUpdated(new Date());
+                    requestDTO.setDateCreated(new Date());
+                    requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_REJECTED);
+
+                    new AsyncAcceptOrRejectRequestTaxi(getActivity(), getFragmentManager(), false).execute(requestDTO);
+                }
             }
         });
 
@@ -115,6 +116,20 @@ public class ViewRequestTaxiActivity extends Fragment {
             txtDetails.setText(requestDTO.getDetails());
 
             requestDateTime.setTime(requestDTO.getEvenDateTime());
+
+            if(requestDTO.getPrice() != null)
+                editTextPrice.setText(String.valueOf(requestDTO.getPrice()));
+
+            if(requestDTO.getRequestStatus() == RequestStatus.CLIENT_ACCEPTED){
+                btnAcceptRequest.setEnabled(false);
+                btnAcceptRequest.setVisibility(View.INVISIBLE);
+            }
+            else if(requestDTO.getRequestStatus() == RequestStatus.TAXI_DRIVER_ACCEPTED){
+                btnAcceptRequest.setText("UPDATE");
+            }
+            else if(requestDTO.getRequestStatus() == RequestStatus.TAXI_DRIVER_REJECTED){
+                btnRejectRequest.setText("CANCEL");
+            }
         }
 
         return view;
@@ -133,7 +148,11 @@ public class ViewRequestTaxiActivity extends Fragment {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
 
-                //new AsyncDeleteRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+                requestDTO.setDateUpdated(new Date());
+                requestDTO.setDateCreated(new Date());
+                requestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_REJECTED);
+
+                new AsyncAcceptOrRejectRequestTaxi(getActivity(), getFragmentManager(), false).execute(requestDTO);
 
                 dialog.cancel();
             }
@@ -158,20 +177,8 @@ public class ViewRequestTaxiActivity extends Fragment {
             Utils.showToast(this.getActivity(), getResources().getString(R.string.create_request_activity_validation_autocomplete_price));
             validForm = false;
         }
-        else{
-            manageRequestDTO.setRequestId(requestDTO.getRequestId());
-            manageRequestDTO.setAccountId(requestDTO.getAccountId());
-            manageRequestDTO.setRequestStatus(RequestStatus.TAXI_DRIVER_ACCEPTED);
-            manageRequestDTO.setPrice(Integer.parseInt(editTextPrice.getText().toString()));
-
-            Integer carId = new CarDetailsDAO(getActivity()).getCarDetailsByAccountID(requestDTO.getAccountId()).getCarId();
-
-            manageRequestDTO.setCarId(carId);
-
-            Date date = new Date();
-            manageRequestDTO.setDateCreated(date);
-            manageRequestDTO.setDateUpdated(date);
-        }
+        else
+            requestDTO.setPrice(Integer.parseInt(editTextPrice.getText().toString()));
 
         return validForm;
     }

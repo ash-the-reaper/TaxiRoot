@@ -99,6 +99,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     .replace(R.id.details, new ViewRequestFromTaxiActivity())
                                     .commit();
                         }
+
+                        else if(requestDTO.getRequestStatus().equals(RequestStatus.CLIENT_ACCEPTED)){
+                            fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.details, new ViewRequestFromTaxiActivity())
+                                    .commit();
+                        }
                     }
                     else{
                         fragmentManager

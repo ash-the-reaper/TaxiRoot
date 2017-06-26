@@ -24,6 +24,7 @@ public class WebService {
     public static final String USER_API_DELETE_REQUEST = API_REQUEST +"userDeleteRequest";
     public static final String USER_API_GET_PENDING_REQUEST_LIST = API_REQUEST +"userGetPendingRequestList";
     public static final String USER_API_OTHER_REQUEST_LIST = API_REQUEST +"userGetOtherRequestList";
+    public static final String USER_API_ACCEPT_OR_REJECT_REQUEST = API_REQUEST +"acceptOrRejectRequestUser";
 
 
     //TAXI
@@ -31,6 +32,7 @@ public class WebService {
     public static final String TAXI_API_GET_PENDING_REQUEST_LIST = API_REQUEST +"taxiGetPendingRequestList";
     public static final String TAXI_API_OTHER_REQUEST_LIST = API_REQUEST +"taxiGetOtherRequestList";
     public static final String TAXI_API_GET_CAR_DETAILS = API_CLIENT +"taxiGetCarDetails";
+    public static final String TAXI_API_ACCEPT_OR_REJECT_REQUEST = API_REQUEST +"acceptOrRejectRequestTaxi";
 
 
 

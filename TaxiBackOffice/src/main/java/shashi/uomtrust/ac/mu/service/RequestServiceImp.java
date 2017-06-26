@@ -2,6 +2,7 @@ package shashi.uomtrust.ac.mu.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import shashi.uomtrust.ac.mu.dto.RequestDTO;
 import shashi.uomtrust.ac.mu.entity.Account;
+import shashi.uomtrust.ac.mu.entity.CarDetails;
 import shashi.uomtrust.ac.mu.entity.ManageRequest;
 import shashi.uomtrust.ac.mu.entity.Request;
 import shashi.uomtrust.ac.mu.enums.RequestStatus;
 import shashi.uomtrust.ac.mu.repository.AccountRepository;
+import shashi.uomtrust.ac.mu.repository.CarDetailsRepository;
 import shashi.uomtrust.ac.mu.repository.ManageRequestRepository;
 import shashi.uomtrust.ac.mu.repository.RequestRepository;
 
@@ -27,6 +30,9 @@ public class RequestServiceImp implements RequestService{
 	
 	@Autowired
 	private ManageRequestRepository manageRequestRepository;
+	
+	@Autowired
+	private CarDetailsRepository carDetailsRepository;
 	
 	private ManageRequestService manageRequestService;
 
@@ -120,7 +126,9 @@ public class RequestServiceImp implements RequestService{
 		
 		List<Request> requestList = requestRepository.getRequestByStatusForTaxi(requestDTO.getRequestStatus().getValue());
 		Account account = accountRepository.findByAccountId(requestDTO.getAccountId());
-		List<ManageRequest> manageRequestList = manageRequestRepository.getManageRequestForTaxi(account);
+		CarDetails carDetails = carDetailsRepository.getCarByAccountId(account.getAccountId());
+		
+		List<ManageRequest> manageRequestList = manageRequestRepository.getManageRequestForTaxi(carDetails.getCarId());
 		
 		
 		List<Request> sameAddressRequestList = new ArrayList<>();
@@ -138,12 +146,10 @@ public class RequestServiceImp implements RequestService{
 				boolean found = false;
 				Request newRequest = new Request();
 				
-				innerLoop:
 				for(Request request : sameAddressRequestList){
 					if(m.getRequest().getRequest_id().equals(request.getRequest_id())){
 						newRequest = request;
 						found = true;
-						break innerLoop;
 					}
 				}
 				
@@ -153,7 +159,7 @@ public class RequestServiceImp implements RequestService{
 			}
 		}
 		
-		if(manageRequestList == null || manageRequestList.size() >1)
+		if(manageRequestList == null || manageRequestList.size() <1)
 			filteredRequestList = sameAddressRequestList;
 		
 		List<RequestDTO> finalRequestList = new ArrayList<>();
@@ -171,6 +177,69 @@ public class RequestServiceImp implements RequestService{
 		}
 		
 		return finalRequestList;
+	}
+
+	@Override
+	public RequestDTO acceptOrRejectRequestTaxi(RequestDTO requestDTO) {
+		// TODO Auto-generated method stub
+		Request request = requestRepository.getRequestById(requestDTO.getRequestId());
+		CarDetails carDetails = carDetailsRepository.getCarById(requestDTO.getCarId());
+		
+		ManageRequest manageRequest = manageRequestRepository.getManageRequestForTaxiByRequestId(requestDTO.getRequestId(), carDetails);
+		
+		if(manageRequest == null || manageRequest.getManage_request_id() == null)
+			manageRequest= new ManageRequest();
+		
+		manageRequest.setCarDetails(carDetails);
+		manageRequest.setRequest(request);
+		
+		if(requestDTO.getPrice() != null)
+			manageRequest.setPrice(requestDTO.getPrice());
+		
+		manageRequest.setUserAccount(request.getAccount());
+		
+		manageRequest.setDate_created(new Date());
+		manageRequest.setDate_updated(new Date());
+		manageRequest.setPrice(requestDTO.getPrice());
+		manageRequest.setRequest_status(requestDTO.getRequestStatus().getValue());
+		
+		manageRequestRepository.save(manageRequest);
+		
+		return requestDTO;
+	}
+
+	@Override
+	public RequestDTO acceptOrRejectRequestUser(RequestDTO requestDTO) {
+		// TODO Auto-generated method stub
+		Request request = requestRepository.getRequestById(requestDTO.getRequestId());
+		CarDetails carDetails = carDetailsRepository.getCarById(requestDTO.getCarId());
+		
+		ManageRequest manageRequest = manageRequestRepository.getManageRequestForTaxiByRequestId(requestDTO.getRequestId(), carDetails);
+		
+		if(manageRequest == null || manageRequest.getManage_request_id() == null)
+			manageRequest= new ManageRequest();
+		
+		manageRequest.setCarDetails(carDetails);
+		manageRequest.setRequest(request);
+		
+		if(requestDTO.getPrice() != null)
+			manageRequest.setPrice(requestDTO.getPrice());
+		
+		manageRequest.setUserAccount(request.getAccount());
+		
+		manageRequest.setDate_created(new Date());
+		manageRequest.setDate_updated(new Date());
+		manageRequest.setPrice(requestDTO.getPrice());
+		manageRequest.setRequest_status(requestDTO.getRequestStatus().getValue());
+		
+		manageRequestRepository.save(manageRequest);
+		
+		if(requestDTO.getRequestStatus() == RequestStatus.CLIENT_ACCEPTED){
+			request.setRequest_status(RequestStatus.CLIENT_ACCEPTED.getValue());
+			requestRepository.save(request);
+		}
+		
+		return requestDTO;
 	}
 
 }

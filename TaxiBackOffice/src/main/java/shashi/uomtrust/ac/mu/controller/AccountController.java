@@ -91,18 +91,5 @@ public class AccountController {
 			return carDetailsService.saveCardetails(carDetailsDTO);
 		}
 		return null;
-	}
-	
-	
-	/*@CrossOrigin(origins = "http://localhost:8081")
-	@RequestMapping(value = "/getCarImage", method = RequestMethod.POST)
-	public CarDetailsDTO getCarImage(@RequestBody CarDetailsDTO carDetailsDTO){
-		
-		if(carDetailsDTO != null && carDetailsDTO.getAccountId() != null ){			
-			return Utils.getImage(carDetailsDTO);
-		}
-		return null;
-	}
-	*/
-	 
+	}	 
 }

@@ -63,7 +63,8 @@ public class CarDetailsImp implements CarDetailsService{
 		newCarDetailsDTO.setAccountId(newCardetails.getAccount().getAccountId());
 		newCarDetailsDTO.setMake(newCardetails.getMake());
 		newCarDetailsDTO.setNumOfPassenger(newCardetails.getNumOfPassenger());	
-		
+		newCarDetailsDTO.setPlateNum(newCardetails.getPlateNum());	
+
 		Utils.getImage(newCarDetailsDTO);
 		
 		return newCarDetailsDTO;

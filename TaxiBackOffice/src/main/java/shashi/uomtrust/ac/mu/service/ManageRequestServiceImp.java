@@ -83,8 +83,10 @@ public class ManageRequestServiceImp implements ManageRequestService{
 	@Override
 	public List<RequestDTO> getManageRequestByStatusForTaxi(Integer request_status, Integer account_id) {
 		// TODO Auto-generated method stub
+		
 		Account account = accountRepository.findByAccountId(account_id);
-		List<ManageRequest> manageRequestList = manageRequestRepository.getManageRequestByStatusForTaxi(request_status, account);
+		CarDetails carDetails = carDetailsRepository.getCarByAccountId(account_id);
+		List<ManageRequest> manageRequestList = manageRequestRepository.getManageRequestByStatusForTaxi(request_status, carDetails);
 		
 		List<RequestDTO> finalRequestList = new ArrayList();
 		
@@ -99,8 +101,11 @@ public class ManageRequestServiceImp implements ManageRequestService{
 				newRequestDTO.setPlaceTo(request.getPlace_to());
 				newRequestDTO.setRequestId(request.getRequest_id());
 				newRequestDTO.setDetails(request.getDetails());
-				newRequestDTO.setRequestStatus(RequestStatus.valueFor(request.getRequest_status()));
+				newRequestDTO.setRequestStatus(RequestStatus.valueFor(manageRequest.getRequest_status()));
 				newRequestDTO.setCarId(manageRequest.getCarDetails().getCarId());
+				
+				newRequestDTO.setPrice(manageRequest.getPrice());
+
 				
 				finalRequestList.add(newRequestDTO);
 			}

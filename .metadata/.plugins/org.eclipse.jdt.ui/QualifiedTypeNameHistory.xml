@@ -31,17 +31,11 @@
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.AccountService"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.RequestDTO"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.CarDetailsRepository"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.AccountRepository"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Account"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.Request"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.ManageRequest"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.ManageRequestDTO"/>
-<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.RequestStatus"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.service.ManageRequestService"/>
-<fullyQualifiedTypeName name="jnr.ffi.types.caddr_t"/>
 <fullyQualifiedTypeName name="scala.annotation.meta.field"/>
 <fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.dto.CarDetailsDTO"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
@@ -60,4 +54,10 @@
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.ManageRequest"/>
+<fullyQualifiedTypeName name="jnr.ffi.types.caddr_t"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.entity.CarDetails"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.repository.CarDetailsRepository"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="shashi.uomtrust.ac.mu.enums.RequestStatus"/>
 </qualifiedTypeNameHistroy>

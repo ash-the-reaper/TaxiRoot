@@ -61,10 +61,7 @@ public class RequestHistoryActivity extends Fragment {
         RequestDTO requestDTO = new RequestDAO(getActivity()).getOneRequest();
         requestDTO.setRequestStatus(RequestStatus.PAID);
 
-        if(requestDTO.getAccountId() == null){
-
-            requestDTO.setAccountId(accountId);
-        }
+        requestDTO.setAccountId(accountId);
 
         new AsyncGetRequest(getActivity(), requestAdapter).execute(requestDTO);
 

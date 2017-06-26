@@ -79,17 +79,11 @@ public class MapActivity extends Fragment implements
                 googleMap.setMyLocationEnabled(true);
                 // For dropping a marker at a point on the Map
 
-                //only for emulator
-                if( mLat == null){
-                    mLat = 20.54;
-                    mLng = 57.5;
-                }
-
-                LatLng sydney = new LatLng(mLat, mLng);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                LatLng latLng = new LatLng(mLat, mLng);
+                googleMap.addMarker(new MarkerOptions().position(latLng).title("Marker Title").snippet("Marker Description"));
 
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(12).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             }
@@ -163,8 +157,8 @@ public class MapActivity extends Fragment implements
                 mLng = locationClient.getLastLocation().getLongitude();
             }
             else{
-                //mLat = -20.241749;
-                //mLng = 57.489728;
+                mLat = -20.241749;
+                mLng = 57.489728;
                 locationClient.requestLocationUpdates(locationRequest, this);
             }
         }

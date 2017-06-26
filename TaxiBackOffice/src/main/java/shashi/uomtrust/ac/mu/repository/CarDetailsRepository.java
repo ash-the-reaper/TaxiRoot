@@ -16,5 +16,8 @@ public interface CarDetailsRepository extends JpaRepository<CarDetails, Long> {
 	
 	@Query("select c from CarDetails c where c.carId =:car_id")
 	public CarDetails getCarById(@Param("car_id") Integer car_id);
+	
+	@Query("select c from CarDetails c join c.account a where a.accountId =:accountId")
+	public CarDetails getCarByAccountId(@Param("accountId") Integer accountId);
 		
 }

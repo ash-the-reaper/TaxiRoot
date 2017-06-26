@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncAcceptOrRejectRequestUser;
 import mu.ac.uomtrust.shashi.taximauritius.Async.AsyncGetCarDetails;
 import mu.ac.uomtrust.shashi.taximauritius.DAO.CarDetailsDAO;
 import mu.ac.uomtrust.shashi.taximauritius.DTO.CarDetailsDTO;
@@ -42,8 +43,6 @@ public class ViewRequestFromTaxiActivity extends Fragment {
 
     private Calendar requestDateTime = Calendar.getInstance();
     private RequestDTO requestDTO = new RequestDTO();
-    private ManageRequestDTO manageRequestDTO = new ManageRequestDTO();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -62,7 +61,14 @@ public class ViewRequestFromTaxiActivity extends Fragment {
         btnAcceptRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(requestDTO.getRequestStatus() != RequestStatus.CLIENT_ACCEPTED) {
+                    requestDTO.setRequestStatus(RequestStatus.CLIENT_ACCEPTED);
+                    new AsyncAcceptOrRejectRequestUser(getActivity(), getFragmentManager(), true).execute(requestDTO);
+                }
+                else{
+                    requestDTO.setRequestStatus(RequestStatus.PAID);
+                    new AsyncAcceptOrRejectRequestUser(getActivity(), getFragmentManager(), true).execute(requestDTO);
+                }
             }
         });
 
@@ -70,7 +76,13 @@ public class ViewRequestFromTaxiActivity extends Fragment {
         btnRejectRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDelete();
+                if(requestDTO.getRequestStatus() != RequestStatus.CLIENT_REJECTED) {
+                    alertDelete();
+                }
+                else{
+                    requestDTO.setRequestStatus(RequestStatus.CLIENT_REJECTED);
+                    new AsyncAcceptOrRejectRequestUser(getActivity(), getFragmentManager(), true).execute(requestDTO);
+                }
             }
         });
 
@@ -114,6 +126,19 @@ public class ViewRequestFromTaxiActivity extends Fragment {
             txtDetails.setText(requestDTO.getDetails());
 
             requestDateTime.setTime(requestDTO.getEvenDateTime());
+
+            if(requestDTO.getPrice() != null)
+                txtPrice.setText(String.valueOf(requestDTO.getPrice()));
+
+            if(requestDTO.getRequestStatus() == RequestStatus.CLIENT_ACCEPTED){
+               /* btnAcceptRequest.setEnabled(false);
+                btnAcceptRequest.setVisibility(View.GONE);*/
+
+               btnAcceptRequest.setText("PAID");
+            }
+            else if(requestDTO.getRequestStatus() == RequestStatus.CLIENT_REJECTED){
+                btnRejectRequest.setText("CANCEL");
+            }
         }
 
         return view;
@@ -132,7 +157,8 @@ public class ViewRequestFromTaxiActivity extends Fragment {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
 
-                //new AsyncDeleteRequest(getActivity(), getFragmentManager()).execute(requestDTO);
+                requestDTO.setRequestStatus(RequestStatus.CLIENT_REJECTED);
+                new AsyncAcceptOrRejectRequestUser(getActivity(), getFragmentManager(), true).execute(requestDTO);
 
                 dialog.cancel();
             }

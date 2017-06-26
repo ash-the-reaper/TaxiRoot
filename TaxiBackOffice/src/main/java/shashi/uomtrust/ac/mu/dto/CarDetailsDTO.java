@@ -13,14 +13,11 @@ public class CarDetailsDTO {
     private Integer numOfPassenger;
     private String plateNum;
     private Integer accountId; 
-    
-    
+
     private String sPicture1;
     private String sPicture2;
     private String sPicture3;
     private String sPicture4;
-    
-    
     
 	public String getsPicture3() {
 		return sPicture3;

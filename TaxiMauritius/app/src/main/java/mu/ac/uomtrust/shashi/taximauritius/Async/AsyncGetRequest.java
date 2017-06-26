@@ -2,6 +2,7 @@ package mu.ac.uomtrust.shashi.taximauritius.Async;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -24,6 +25,8 @@ import mu.ac.uomtrust.shashi.taximauritius.Enums.UserRole;
 import mu.ac.uomtrust.shashi.taximauritius.RequestAdapter;
 import mu.ac.uomtrust.shashi.taximauritius.Utils;
 import mu.ac.uomtrust.shashi.taximauritius.WebService;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ashwin on 03-Jun-17.
@@ -58,15 +61,18 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
 
         try{
 
+            SharedPreferences prefs = context.getSharedPreferences("TaxiMauritius", MODE_PRIVATE);
+            int userId = prefs.getInt("accountId", 1);
+
             RequestDTO requestDTO = params[0];
             if(requestDTO != null) {
                 postData.put("requestStatus", requestDTO.getRequestStatus().getValue());
-                postData.put("accountId", requestDTO.getAccountId());
+                postData.put("accountId", userId);
             }
 
             String url;
 
-            UserRole userRole = new AccountDAO(context).getAccountById(requestDTO.getAccountId()).getRole();
+            UserRole userRole = new AccountDAO(context).getAccountById(userId).getRole();
             if(userRole == UserRole.TAXI_DRIVER) {
                 if(requestDTO.getRequestStatus().equals(RequestStatus.REQUEST_PENDING))
                     url = WebService.TAXI_API_GET_PENDING_REQUEST_LIST;
@@ -120,16 +126,15 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
                 newRequestDTO.setPlaceFrom(jsonObject.getString("placeFrom"));
                 newRequestDTO.setPlaceTo(jsonObject.getString("placeTo"));
 
-                if(newRequestDTO.getRequestStatus() != RequestStatus.REQUEST_PENDING && userRole.equals(UserRole.USER)) {
-                    if (jsonObject.getString("driverName") != null)
-                        newRequestDTO.setDriverName(jsonObject.getString("driverName"));
+                if (jsonObject.get("price") != null && !jsonObject.get("price").equals("null") && !jsonObject.getString("price").equals("null"))
+                    newRequestDTO.setPrice(jsonObject.getInt("price"));
 
-                    if (jsonObject.get("price") != null)
-                        newRequestDTO.setPrice(jsonObject.getInt("price"));
+                if (jsonObject.getString("driverName") != null && !jsonObject.getString("driverName").equals("null") )
+                    newRequestDTO.setDriverName(jsonObject.getString("driverName"));
 
-                    if(jsonObject.get("carId") != null)
-                        newRequestDTO.setCarId(jsonObject.getInt("carId"));
-                }
+                if(jsonObject.get("carId") != null && !jsonObject.get("carId").equals("null") && !jsonObject.getString("carId").equals("null"))
+                    newRequestDTO.setCarId(jsonObject.getInt("carId"));
+
 
                 newRequestDTOList.add(newRequestDTO);
             }
@@ -154,14 +159,7 @@ public class AsyncGetRequest extends AsyncTask<RequestDTO, Void ,List<RequestDTO
     protected void onPostExecute(List<RequestDTO> requestDTOList){
         super.onPostExecute(requestDTOList);
 
-        if(requestDTOList != null && requestDTOList.size() > 0) {
-            requestAdapter.setRequestDTOList(requestDTOList);
-            requestAdapter.notifyDataSetChanged();
-        }
-        else{
-            //Utils.showToast(context, context.getString(R.string.error_server));
-            requestAdapter.setRequestDTOList(requestDTOList);
-            requestAdapter.notifyDataSetChanged();
-        }
+        requestAdapter.setRequestDTOList(requestDTOList);
+        requestAdapter.notifyDataSetChanged();
     }
 }

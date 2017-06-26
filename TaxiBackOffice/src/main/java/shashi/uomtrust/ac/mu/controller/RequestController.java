@@ -48,7 +48,6 @@ public class RequestController {
    	}
     
     
-    //Taxi
     @CrossOrigin(origins = "http://localhost:8081")
    	@RequestMapping(value = "/taxiGetPendingRequestList", method = RequestMethod.POST)
    	public List<RequestDTO> taxiGetPendingRequestList(@RequestBody RequestDTO requestDTO) {    	    	
@@ -66,5 +65,17 @@ public class RequestController {
    	@RequestMapping(value = "/userGetOtherRequestList", method = RequestMethod.POST)
    	public List<RequestDTO> userGetOtherRequestList(@RequestBody RequestDTO requestDTO) {    	    	
     	return manageRequestService.getManageRequestByStatusForUser(requestDTO.getRequestStatus().getValue(), requestDTO.getAccountId());
+   	}
+    
+    @CrossOrigin(origins = "http://localhost:8081")
+   	@RequestMapping(value = "/acceptOrRejectRequestTaxi", method = RequestMethod.POST)
+   	public RequestDTO acceptOrRejectRequestTaxi(@RequestBody RequestDTO requestDTO) {    	    	
+    	return requestService.acceptOrRejectRequestTaxi(requestDTO);
+   	}
+    
+    @CrossOrigin(origins = "http://localhost:8081")
+   	@RequestMapping(value = "/acceptOrRejectRequestUser", method = RequestMethod.POST)
+   	public RequestDTO acceptOrRejectRequestUser(@RequestBody RequestDTO requestDTO) {    	    	
+    	return requestService.acceptOrRejectRequestUser(requestDTO);
    	}
 }
